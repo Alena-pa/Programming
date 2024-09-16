@@ -1,10 +1,8 @@
 #include <stdio.h>
-#include <stdlib.h>
-#include <math.h>
 
 int answer(int firstNumber, int secondNumber)
 {
-    if (abs(firstNumber) >= abs(secondNumber) && secondNumber != 0)
+    if (secondNumber != 0)
     {
         if (firstNumber > 0)
         {
@@ -12,7 +10,6 @@ int answer(int firstNumber, int secondNumber)
             {
                 int count = divine(firstNumber, secondNumber);
                 int remainNumber = remain(firstNumber, secondNumber);
-                printf("Div %d, remain %d", count, remainNumber);
             }
             else
             {
@@ -20,7 +17,6 @@ int answer(int firstNumber, int secondNumber)
                 int count = divine(firstNumber, secondNumber);
                 count *= (-1);
                 int remainNumber = remain(firstNumber, secondNumber);
-                printf("Div %d, remain %d", count, remainNumber);
             }
         }
         else
@@ -32,7 +28,6 @@ int answer(int firstNumber, int secondNumber)
                 count *= (-1);
                 int remainNumber = remain(firstNumber, secondNumber);
                 remainNumber *= (-1);
-                printf("Div %d, remain %d", count, remainNumber);
             }
             else
             {
@@ -41,9 +36,9 @@ int answer(int firstNumber, int secondNumber)
                 int count = divine(firstNumber, secondNumber);
                 int remainNumber = remain(firstNumber, secondNumber);
                 remainNumber *= (-1);
-                printf("Div %d, remain %d", count, remainNumber);
             }
         }
+        printf("Div %d, remain %d", count, remainNumber);
     }
     else
     {
