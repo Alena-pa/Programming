@@ -1,4 +1,4 @@
-include <stdio.h>
+#include <stdio.h>
 
 int counter()
 {
@@ -7,20 +7,12 @@ int counter()
 	{
 		int index = i;
 		int summ = 0;
-		if (i > 99)
+		for (int j = 0; index > 0; j++)
 		{
-			for (int j = 0; j < 3; j++)
-			{
-				summ += index % 10;
-				index /= 10;
-			}
+			summ += index % 10;
+			index /= 10;
 		}
-		else 
-		{
-			summ += i;
-
-		}
-		list[summ - 1] = list[summ - 1] + 1;
+		list[summ] = list[summ] + 1;
 	}
 	int answer = 0;
 	for (int i = 0; i < 29; i++)
