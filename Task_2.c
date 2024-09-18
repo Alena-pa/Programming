@@ -2,9 +2,16 @@
 
 void swap(int* left, int* right)
 {
-    *left ^= *right;
-    *right ^= *left;
-    *left ^= *right;
+    if (left != right)
+    {
+        *left ^= *right;
+        *right ^= *left;
+        *left ^= *right;
+    }
+    else
+    {
+        prinf("Incorrect condition!!! They are the same!");
+    }
 }
 
 int main()
