@@ -1,5 +1,6 @@
 #include <stdio.h>
 #include <stdlib.h>
+#include <time.h>
 
 void swap(int* left, int* right)
 {
@@ -103,6 +104,7 @@ void Test1()
         printf("Smth Went Wrong =(\n");
         printArray(arrayOfIntegesSortedByCountSort, 5);
     }
+    printf("time of the CountSort = % ld\n", clock());
     int arrayOfIntegesSortedByBubbleSort[5] = { 0, 1, 5, 2, 3 };
     bubbleSort(arrayOfIntegesSortedByBubbleSort, 5);
     int justAnotherCheckingVar = check(arrayOfIntegesSortedByBubbleSort, sortedArrayOfIntegers, 5);
@@ -111,6 +113,7 @@ void Test1()
         printf("Smth Went Wrong\n");
         printArray(arrayOfIntegesSortedByBubbleSort, 5);
     }
+    printf("time of the BubbleSort = % ld\n", clock());
 }
 
 void Test2()
@@ -124,6 +127,7 @@ void Test2()
         printf("All Good =)\n");
         printArray(arrayOfIntegesSortedByCountSort, 5);
     }
+    printf("time of the CountSort = % ld\n", clock());
     int arrayOfIntegesSortedByBubbleSort[5] = { 0, 1, 5, 2, 3 };
     bubbleSort(arrayOfIntegesSortedByBubbleSort, 5);
     int justAnotherCheckingVar = check(arrayOfIntegesSortedByBubbleSort, sortedArrayOfIntegers, 5);
@@ -132,6 +136,7 @@ void Test2()
         printf("All Good =)\n");
         printArray(arrayOfIntegesSortedByBubbleSort, 5);
     }
+    printf("time of the BubbleSort = % ld\n", clock());
 }
 int main()
 {
