@@ -1,5 +1,6 @@
 #include <stdio.h>
 #include <stdlib.h>
+#include <stdbool.h>
 
 int maxArray(int* arrayOfIntegers, int lenghtOfArray)
 {
@@ -36,9 +37,17 @@ int mostCommonElement(int* arrayOfIntegers, int lenghtOfArray)
     return maxCommonNum;
 }
 
+bool Test()
+{
+    int arrayOfIntegers[5] = { 1, 2, 2, 3, 4 };
+    int anotherArrayOfIntegers[5] = { 0, 0, 2, 3, 3 };
+    return (mostCommonElement(arrayOfIntegers, 5) == 2 && (mostCommonElement(anotherArrayOfIntegers, 5) == 0 || mostCommonElement(anotherArrayOfIntegers, 5) == 3));
+}
+
 int main()
 {
-    int arrayOfIntegers[5] = { 1, 1, 2, 3, 4 };
-    int most = mostCommonElement(arrayOfIntegers, 5);
-    printf("%d", most);
+    if (!Test)
+    {
+        printf("Snth Went Wrong!!!!!!!!!!!");
+    }
 }
