@@ -9,6 +9,8 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "search", "search\search.vcx
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "QuickSort", "QuickSort\QuickSort.vcxproj", "{63BF2155-EF1E-4C28-9355-648A586C0933}"
 EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "SmartQsort", "SmartQsort\SmartQsort.vcxproj", "{9E0F5B05-909C-4051-89DB-8A0875213FF0}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|x64 = Debug|x64
@@ -41,6 +43,14 @@ Global
 		{63BF2155-EF1E-4C28-9355-648A586C0933}.Release|x64.Build.0 = Release|x64
 		{63BF2155-EF1E-4C28-9355-648A586C0933}.Release|x86.ActiveCfg = Release|Win32
 		{63BF2155-EF1E-4C28-9355-648A586C0933}.Release|x86.Build.0 = Release|Win32
+		{9E0F5B05-909C-4051-89DB-8A0875213FF0}.Debug|x64.ActiveCfg = Debug|x64
+		{9E0F5B05-909C-4051-89DB-8A0875213FF0}.Debug|x64.Build.0 = Debug|x64
+		{9E0F5B05-909C-4051-89DB-8A0875213FF0}.Debug|x86.ActiveCfg = Debug|Win32
+		{9E0F5B05-909C-4051-89DB-8A0875213FF0}.Debug|x86.Build.0 = Debug|Win32
+		{9E0F5B05-909C-4051-89DB-8A0875213FF0}.Release|x64.ActiveCfg = Release|x64
+		{9E0F5B05-909C-4051-89DB-8A0875213FF0}.Release|x64.Build.0 = Release|x64
+		{9E0F5B05-909C-4051-89DB-8A0875213FF0}.Release|x86.ActiveCfg = Release|Win32
+		{9E0F5B05-909C-4051-89DB-8A0875213FF0}.Release|x86.Build.0 = Release|Win32
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
