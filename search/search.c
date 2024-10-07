@@ -10,6 +10,42 @@ void randomNumbersAtArray(int* array, int lenghtOfArray)
     }
 }
 
+void swap(int* left, int* right)
+{
+    int justVar = *right;
+    if (left != right)
+    {
+        *right = *left;
+        *left = justVar;
+    }
+}
+
+int partition(int arrayOfIntegers[], int firstIndex, int lastIndex)
+{
+    int pivot = arrayOfIntegers[lastIndex];
+    int i = (firstIndex - 1);
+    for (int j = firstIndex; j <= lastIndex - 1; j++)
+    {
+        if (arrayOfIntegers[j] <= pivot)
+        {
+            i++;
+            swap(&arrayOfIntegers[i], &arrayOfIntegers[j]);
+        }
+    }
+    swap(&arrayOfIntegers[i + 1], &arrayOfIntegers[lastIndex]);
+    return (i + 1);
+}
+
+void quickSort(int arrayOfIntegers[], int firstIndex, int lastIndex)
+{
+    if (firstIndex < lastIndex)
+    {
+        int indexOfPivot = partition(arrayOfIntegers, firstIndex, lastIndex);
+        quickSort(arrayOfIntegers, firstIndex, indexOfPivot - 1);
+        quickSort(arrayOfIntegers, indexOfPivot + 1, lastIndex);
+    }
+}
+
 void printArray(int arrayOfIntegers[], int lenghtOfArray)
 {
     for (int i = 0; i < lenghtOfArray; i++)
@@ -30,11 +66,11 @@ bool search(int arrayOfIntegers[], int lenghtOfArray, int searchNumber)
         }
         else if (arrayOfIntegers[middle] > searchNumber)
         {
-            right -= (lenghtOfArray - 1) / 2;
+            right = middle - 1;
         }
         else if (arrayOfIntegers[middle] < searchNumber)
         {
-            left += (lenghtOfArray - 1) / 2;
+            left = middle + 1;
         }
     }
     return false;
@@ -53,18 +89,24 @@ void main()
     {
         printf("Test Failed!\n");
     }
+    
     int n = 0;
     int k = 0;
     printf("Enter number 'n'\n");
     scanf("%d", &n);
     printf("Enter number 'k'\n");
     scanf("%d", &k);
+    
     int* arrayOfIntegersLenghtIsN = (int*)calloc(n, sizeof(int));
     randomNumbersAtArray(arrayOfIntegersLenghtIsN, n);
     printArray(arrayOfIntegersLenghtIsN, n);
+    quickSort(arrayOfIntegersLenghtIsN,0 , n - 1);
+    printArray(arrayOfIntegersLenghtIsN, n);
+    
     int* arrayOfIntegersK = (int*)calloc(k , sizeof(int));
     randomNumbersAtArray(arrayOfIntegersK, k);
     printArray(arrayOfIntegersK, k);
+    
     for (int i = 0; i < k; i++)
     {
         if (search(arrayOfIntegersLenghtIsN, n, arrayOfIntegersK[i]))
