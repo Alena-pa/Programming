@@ -2,34 +2,54 @@
 #include <stdlib.h>
 #include <stdbool.h>
 
-char* reverse(char *arrayOfWords)
+void removeSpaces(char *arrayOfWords) 
 {
-    int lenghtOfArray = strlen(arrayOfWords);
-    char* reversedArrayOfWords = (char*)malloc(sizeof(char) * (lenghtOfArray + 1));
-    for (int i = 0; i < lenghtOfArray; i++)
+    int i, j = 0;
+    for (i = 0; arrayOfWords[i] != '\0'; i++)
     {
-        reversedArrayOfWords[i] = arrayOfWords[lenghtOfArray - i - 1];
+        if (arrayOfWords[i] != ' ')
+        {
+            arrayOfWords[j] = arrayOfWords[i];
+            j++;
+        }
     }
-    reversedArrayOfWords[lenghtOfArray] = '\0';
-    return reversedArrayOfWords;
+    arrayOfWords[j] = '\0';
+}
+
+void reverse(char *arrayOfWords)
+{
+    int firstIndex = 0;
+    int lastIndex = strlen(arrayOfWords) - 1;
+    char letter;
+    while (firstIndex < lastIndex)
+    {
+        letter = arrayOfWords[firstIndex];
+        arrayOfWords[firstIndex] = arrayOfWords[lastIndex];
+        arrayOfWords[lastIndex] = letter;
+        
+        firstIndex++;
+        lastIndex--;
+    }
 }
 
 bool check(char *arrayOfWords)
 {
-    char *reversedArrayOfWords = reverse(arrayOfWords);
-    if (strcmp(arrayOfWords, reversedArrayOfWords) == 0)
+    removeSpaces(arrayOfWords);
+    char *reversedArrayOfWords = arrayOfWords;
+    reverse(reversedArrayOfWords);
+    for (int i = 0; i < strlen(arrayOfWords); i++)
     {
-        return true;
+        if (arrayOfWords[i] != reversedArrayOfWords[i])
+        {
+            return false;
+        }
     }
-    else
-    {
-        return false;
-    }
+    return true;
 }
 
 bool test()
 {
-    char string[] = "AB bA";
+    char string[] = "Ab bA";
     check(string);
     if (!check)
     {
