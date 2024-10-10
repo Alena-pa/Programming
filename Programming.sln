@@ -11,6 +11,8 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "QuickSort", "QuickSort\Quic
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "SmartQsort", "SmartQsort\SmartQsort.vcxproj", "{9E0F5B05-909C-4051-89DB-8A0875213FF0}"
 EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "binary representation", "binary representation\binary representation.vcxproj", "{25056B91-70D7-482A-A108-72881E51A310}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|x64 = Debug|x64
@@ -51,6 +53,14 @@ Global
 		{9E0F5B05-909C-4051-89DB-8A0875213FF0}.Release|x64.Build.0 = Release|x64
 		{9E0F5B05-909C-4051-89DB-8A0875213FF0}.Release|x86.ActiveCfg = Release|Win32
 		{9E0F5B05-909C-4051-89DB-8A0875213FF0}.Release|x86.Build.0 = Release|Win32
+		{25056B91-70D7-482A-A108-72881E51A310}.Debug|x64.ActiveCfg = Debug|x64
+		{25056B91-70D7-482A-A108-72881E51A310}.Debug|x64.Build.0 = Debug|x64
+		{25056B91-70D7-482A-A108-72881E51A310}.Debug|x86.ActiveCfg = Debug|Win32
+		{25056B91-70D7-482A-A108-72881E51A310}.Debug|x86.Build.0 = Debug|Win32
+		{25056B91-70D7-482A-A108-72881E51A310}.Release|x64.ActiveCfg = Release|x64
+		{25056B91-70D7-482A-A108-72881E51A310}.Release|x64.Build.0 = Release|x64
+		{25056B91-70D7-482A-A108-72881E51A310}.Release|x86.ActiveCfg = Release|Win32
+		{25056B91-70D7-482A-A108-72881E51A310}.Release|x86.Build.0 = Release|Win32
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
