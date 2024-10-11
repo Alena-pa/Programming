@@ -1,74 +1,111 @@
 #include <stdio.h>
 #include <string.h>
-#include <math.h>
 #include <stdlib.h>
+#include <stdbool.h>
 
-void reverse(char* string)
+void printArray(int arrayOfIntegers[], int lenghtOfArray)
 {
-    int firstIndex = 0;
-    int lastIndex = strlen(string) - 1;
-    char letter;
-    while (firstIndex < lastIndex)
-    {
-        letter = string[firstIndex];
-        string[firstIndex] = string[lastIndex];
-        string[lastIndex] = letter;
-        firstIndex++;
-        lastIndex--;
+    for (int i = 0; i < lenghtOfArray; i++)
+        printf("%d", arrayOfIntegers[i]);
+    printf("\n");
+}
+
+void numberToBinaryFromDecimal(int *array, int number)
+{
+    int mask = 1;
+    for (int i = 32 - 1; i >= 0; i--) {
+        if ((number & mask) == 0)
+        {
+            array[i] = 0;
+        }
+        else
+        {
+            array[i] = 1;
+        }
+        mask = mask << 1;
     }
 }
 
-int numberToBinaryFromDecimal(int number)
-{
-    int binaryNum[32];
-    for (int i = 0; number > 0; i++)
-    {
-        binaryNum[i] = number % 2;
-        number /= 2;
-    }
-    reverse(binaryNum);
-    return binaryNum;
-}
-
-int numberFromBinaryToDecimal(char *binaryNumber)
+int numberFromBinaryToDecimal(int *binaryNumber)
 {
     int decimalNumber = 0;
     int power = 0;
-    for (int i = strlen(binaryNumber) - 1; i >= 0; i--)
+    int mask = 1;
+    for (int i = 32 - 1; i >= 0; i--)
     {
-        if (binaryNumber[i] == '1')
+        if (binaryNumber[i] == 1)
         {
-            decimalNumber += pow(2, power);
+            decimalNumber += mask;
         }
-        power++;
+        mask = mask << 1;
     }
     return decimalNumber;
 }
 
-int addingBinaryNumbers(char *firstNumber, char *secondNumber)
+void addingbinarynumbers(int* firstnumber, int* secondnumber, int* sumOfBinaryNumbers)
 {
     int carry = 0;
-    int sumOfBinaryNumber[64];
-    for (int i = strlen(firstNumber) - 1; i >= 0; i--)
+    for (int i = 32 - 1; i >= 0; i--)
     {
-        if (atoi(firstNumber[i]) + atoi(secondNumber[i] > 1))
+        if (firstnumber[i] + secondnumber[i] + carry == 3)
         {
-            
+            sumOfBinaryNumbers[i] = 1;
+            carry = 1;
+        }
+        else if (firstnumber[i] + secondnumber[i] + carry == 2)
+        {
+            sumOfBinaryNumbers[i] = 0;
+            carry = 1;
+        }
+        else if (firstnumber[i] + secondnumber[i] + carry == 1)
+        {
+            sumOfBinaryNumbers[i] = 1;
+            carry = 0;
+        }
+        else if (firstnumber[i] + secondnumber[i] + carry == 0)
+        {
+            sumOfBinaryNumbers[i] = 0;
+            carry = 0;
         }
     }
-    
+    if (carry == 1)
+    {
+        
+    }
 }
 
-void answer(int firstNumber, int *secondNumber)
+bool test()
 {
-    prinf("first number: %d\nsecond number: %d", firstNumber, secondNumber);
-    char FirstBinaryNumber = numberToBinaryFromDecimal(firstNumber);
-    char SecondBinaryNumber = numberToBinaryFromDecimal(secondNumber);
-    printf("first binary Number: %s\nsecond binary Number: %s\n", FirstBinaryNumber, SecondBinaryNumber);
-    char sumOfBinaryNumbers = addingBinaryNumbers(FirstBinaryNumber, )
+    int firstNumber = 1;
+    int secondNumber = 2;
+    int firstBinaryNumber[32] = { 0 };
+    int secondBinaryNumber[32] = { 0 };
+
+}
+
+void answer(int firstNumber, int secondNumber)
+{
+    int firstBinaryNumber[32] = { 0 };
+    int secondBinaryNumber[33] = { 0 };
+
+    numberToBinaryFromDecimal(firstBinaryNumber, firstNumber);
+    numberToBinaryFromDecimal(secondBinaryNumber, secondNumber);
+    printf("First Binary Number: ");
+    printArray(firstBinaryNumber, 32);
+    printf("Second Binary Number: ");
+    printArray(secondBinaryNumber, 32);
+
+    int sumOfBinaryNUmbers[32] = { 0 };
+    addingbinarynumbers(firstBinaryNumber, secondBinaryNumber, sumOfBinaryNUmbers);
+    printf("Sum of binary numbers: ");
+    printArray(sumOfBinaryNUmbers, 32);
+
+    int sumOfBinaryNumbersAsDecimal = numberFromBinaryToDecimal(sumOfBinaryNUmbers);
+    printf("sum of Numbers %d\n", sumOfBinaryNumbersAsDecimal);
 }
 
 int main()
 {
-    
+    answer(5, 1);
+    answer(4, 8);
 }
