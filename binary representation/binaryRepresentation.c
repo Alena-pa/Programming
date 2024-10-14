@@ -74,16 +74,8 @@ void addingbinarynumbers(int* firstnumber, int* secondnumber, int* sumOfBinaryNu
     }
 }
 
-bool test()
-{
-    int firstNumber = 1;
-    int secondNumber = 2;
-    int firstBinaryNumber[32] = { 0 };
-    int secondBinaryNumber[32] = { 0 };
 
-}
-
-void answer(int firstNumber, int secondNumber)
+int answer(int firstNumber, int secondNumber)
 {
     int firstBinaryNumber[32] = { 0 };
     int secondBinaryNumber[33] = { 0 };
@@ -102,10 +94,21 @@ void answer(int firstNumber, int secondNumber)
 
     int sumOfBinaryNumbersAsDecimal = numberFromBinaryToDecimal(sumOfBinaryNUmbers);
     printf("sum of Numbers %d\n", sumOfBinaryNumbersAsDecimal);
+    return sumOfBinaryNumbersAsDecimal;
+}
+
+bool test()
+{
+    return (answer(1, 5) != 6 && answer(0, 0) != 0 && answer(1, 0) != 1 && answer(5, 5) != 10);
 }
 
 int main()
 {
+    if (!test())
+    {
+        printf("Test Failed");
+    }
+
     answer(5, 1);
     answer(4, 8);
 }
