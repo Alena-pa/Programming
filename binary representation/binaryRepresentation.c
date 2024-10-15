@@ -1,7 +1,8 @@
-#include <stdio.h>
+﻿#include <stdio.h>
 #include <string.h>
 #include <stdlib.h>
 #include <stdbool.h>
+#include <locale.h>
 
 void printArray(int arrayOfIntegers[], int lenghtOfArray)
 {
@@ -77,36 +78,39 @@ void addingbinarynumbers(int* firstnumber, int* secondnumber, int* sumOfBinaryNu
 
 int answer(int firstNumber, int secondNumber)
 {
+    setlocale(LC_ALL, "Rus");
     int firstBinaryNumber[32] = { 0 };
     int secondBinaryNumber[33] = { 0 };
 
     numberToBinaryFromDecimal(firstBinaryNumber, firstNumber);
     numberToBinaryFromDecimal(secondBinaryNumber, secondNumber);
-    printf("First Binary Number: ");
+    printf("Первое двочиное число: ");
     printArray(firstBinaryNumber, 32);
-    printf("Second Binary Number: ");
+    printf("Второе двочиное число: ");
     printArray(secondBinaryNumber, 32);
 
     int sumOfBinaryNUmbers[32] = { 0 };
     addingbinarynumbers(firstBinaryNumber, secondBinaryNumber, sumOfBinaryNUmbers);
-    printf("Sum of binary numbers: ");
+    printf("Сумма двоичных чисел: ");
     printArray(sumOfBinaryNUmbers, 32);
 
     int sumOfBinaryNumbersAsDecimal = numberFromBinaryToDecimal(sumOfBinaryNUmbers);
-    printf("sum of Numbers %d\n", sumOfBinaryNumbersAsDecimal);
+    printf("Сумма двоичных чисел в десятичной системе: %d\n", sumOfBinaryNumbersAsDecimal);
     return sumOfBinaryNumbersAsDecimal;
 }
 
 bool test()
 {
-    return (answer(1, 5) != 6 && answer(0, 0) != 0 && answer(1, 0) != 1 && answer(5, 5) != 10);
+    return (answer(1, 5) == 6 && answer(0, 0) == 0 && answer(1, 0) == 1 && answer(5, 5) == 10);
 }
 
 int main()
 {
+
     if (!test())
     {
-        printf("Test Failed");
+        printf("Тест Завален!!!");
+        return -1;
     }
 
     answer(5, 1);

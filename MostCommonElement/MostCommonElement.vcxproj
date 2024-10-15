@@ -127,9 +127,13 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="MostCommonElement.c">
+    <ClCompile Include="MostCommonElementFunction.c" />
+    <ClCompile Include="MostCommonElementTask.c">
       <PreprocessorDefinitions Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">_CRT_SECURE_NO_WARNINGS</PreprocessorDefinitions>
     </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="MostCommonElement.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
