@@ -1,4 +1,6 @@
 #include <stdio.h>
+#include <stdbool.h>
+#include <string.h>
 
 typedef struct
 {
@@ -20,6 +22,51 @@ void printAllRecords(Record *record, int numberOfRecords)
         printf("Name: %s\nPhone: %s\n", record[i].name, record[i].phone);
     }
     return;
+}
+
+
+int appendNameAndPhone(Record **record, int numberOfRecords, bool *ifDataChangedOrNot)
+{
+    if (!*ifDataChangedOrNot)
+    {
+        return 2;
+    }
+    FILE* database = fopen("database.txt", "w");
+    if (database == NULL) {
+        printf("File not found!\n");
+        return 1;
+    }
+    for (int i = 0; i < numberOfRecords; i++)
+    {
+        fprintf(database, "%s %s\n", record[i]->name, record[i]->phone);
+    }
+    fclose(database);
+    *ifDataChangedOrNot = false;
+    return 0;
+}
+
+char* findPhoneByName(Record **record, int numerOfRecords, char *nameToFound)
+{
+    for (int i = 0; i < numerOfRecords; i++)
+    {
+        if (!strcmp(nameToFound, record[i]->name))
+        {
+            return record[i]->phone;
+        }
+    }
+    return "Nothing found";
+}
+
+char* findNameByPhone(Record **record, int numberOfRecords, char *phoneToFound)
+{
+    for (int i = 0; i < numberOfRecords; i++)
+    {
+        if (!strcmp(phoneToFound, record[i]->phone))
+        {
+            return record[i]->name;
+        }
+    }
+    return "Nothing found";
 }
 
 int main()
