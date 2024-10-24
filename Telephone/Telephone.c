@@ -8,13 +8,52 @@ typedef struct
     char phone[20];
 } Record;
 
-void printArray(int* arrayOfIntegers, int lenghtOfArray)
+int readFromFile(Record **record, int *numberOfRecords)
 {
-    for (int i = 0; i < lenghtOfArray; i++)
-        printf("%s ", arrayOfIntegers[i]);
-    printf("\n");
+    FILE* database = fopen("database.txt", "r");
+    int howMuchLinesRead = 0;
+    while (howMuchLinesRead < 100)
+    {
+        char* buffer = malloc(sizeof(char) * 100);
+        if (buffer == NULL)
+        {
+            printf("Not enough memory");
+            return 1;
+        }
+        
+        if (fgets(buffer, 100, database) == NULL)
+        {
+            free(buffer);
+            break;
+        }
+        else
+        {
+            buffer[strcspn(buffer, "\n")] = 0;
+            Record* tempMemory = malloc(sizeof(Record));
+            if (tempMemory == NULL)
+            {
+                printf("Not enough memory");
+                return 1;
+            }
+            size_t indexOfTheSpace = strcspn(buffer, " ");
+            for (int i = 0; i < indexOfTheSpace; i++)
+            {
+                tempMemory->name[i] = buffer[i];
+            }
+            int i = 0;
+            for (int j = indexOfTheSpace + 1; j < strlen(buffer); j++)
+            {
+                tempMemory->phone[i] = buffer[j];
+                j++;
+            }
+            record[howMuchLinesRead] = tempMemory;
+            howMuchLinesRead++;
+        }
+    }
+    fclose(database);
+    *numberOfRecords = howMuchLinesRead;
+    return 0;
 }
-
 void printAllRecords(Record *record, int numberOfRecords)
 {
     for (int i = 0; i < numberOfRecords; i++)
@@ -39,6 +78,7 @@ int appendNameAndPhone(Record **record, int numberOfRecords, bool *ifDataChanged
     for (int i = 0; i < numberOfRecords; i++)
     {
         fprintf(database, "%s %s\n", record[i]->name, record[i]->phone);
+        numberOfRecords++;
     }
     fclose(database);
     *ifDataChangedOrNot = false;
@@ -54,7 +94,7 @@ char* findPhoneByName(Record **record, int numerOfRecords, char *nameToFound)
             return record[i]->phone;
         }
     }
-    return "Nothing found";
+    return NULL;
 }
 
 char* findNameByPhone(Record **record, int numberOfRecords, char *phoneToFound)
@@ -66,18 +106,21 @@ char* findNameByPhone(Record **record, int numberOfRecords, char *phoneToFound)
             return record[i]->name;
         }
     }
-    return "Nothing found";
+    return NULL;
 }
 
 int main()
 {
 	int operationNumber = -1;
+    int numberOfRecords = 0;
     FILE* database = fopen("database.txt", "a+");
     if (database == NULL)
     {
         printf("can`t open the file\n");
         return 1;
     }
+    Record* record[100];
+    bool ifDataChangedOrNot = false;
 	while (operationNumber != 0)
 	{
 		printf("Print number of operation: ");
@@ -85,22 +128,51 @@ int main()
 		switch (operationNumber)
 		{
 		case 0: 
-			break;
+            for (int i = 0; i < numberOfRecords; i++)
+            {
+                free(record[i]);
+            }
+            printf("This is the end of the programm!\n");
+            return 0;
 		case 1:
-			printf("1\n");
-			break;
+            if (numberOfRecords >= 100)
+            {
+                printf("Too many names and numbers");
+            }
+            else
+            {
+                Record* tempMemory = malloc(sizeof(Record));
+                if (tempMemory == NULL)
+                {
+                    printf("Not enough memory");
+                    return 1;
+                }
+                printf("Enter name: ");
+                scanf_s("%s", tempMemory->name, 80);
+                printf("Enter phone number: ");
+                scanf_s("%s", tempMemory->phone, 20);
+                record[numberOfRecords] = tempMemory;
+                numberOfRecords++;
+                ifDataChangedOrNot = true;
+            }
 		case 2:
-			printf("2\n");
-			break;
+            printAllRecords(record, numberOfRecords);
 		case 3:
-			printf("3\n");
-			break;
+            char nameToFound[80];
+            printf("Enter the name whose phone number you want to find: ");
+            scanf_s("%s", nameToFound, 80);
+            findPhoneByName(record, numberOfRecords, nameToFound);
 		case 4:
-			printf("4\n");
-			break;
+            char phoneToFound[20];
+            printf("Enter the phone number by which you want to find the name: ");
+            scanf_s("%s", phoneToFound, 20);
+            findNameByPhone(record, numberOfRecords, phoneToFound);
 		case 5:
-			printf("5\n");
-			break;
+            if (!writeToFile(database, database, numberOfRecords, &ifDataChangedOrNot)) {
+                printf("Data saved\n");
+            }
+            else {
+                printf("First you need to add some data\n");
 		default:
 			printf("Incorrect number of operation =(\nenter number from 0 to 5 =)\n");
 		}
