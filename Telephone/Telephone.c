@@ -14,50 +14,66 @@ typedef struct
     char phone[MAX_SIZE_OF_PHONE + 1];
 } Record;
 
-int readFromFile(Record *record)
+int readFromFile(Record* records)
 {
     FILE* database = fopen("database.txt", "r");
-    int line;
-    char buffer[BUFSIZE];
-    for (line = 0; line < MAX_NUM_OF_RECORDS; line++)
+    if (database == NULL)
     {
-        memset(record[line].name, 0, sizeof(record[line].name));
-        memset(record[line].phone, 0, sizeof(record[line].phone));
+        printf("Enable to open file");
+        return -1;
+    }
+    char name[MAX_SIZE_OF_NAME];
+    char phone[MAX_SIZE_OF_PHONE];
+    int numRecords = 0;
+    for (int line = 0; line < MAX_NUM_OF_RECORDS; line++)
+    {
         //Read name
-        int words_read = fscanf(database, "%s", buffer);
+        int words_read = fscanf(database, "%80s", name);
         if (words_read == EOF)
         {
             break;
         }
-        strncpy(record[line].name, buffer, MAX_SIZE_OF_NAME);
-        
         //Read phone
-        words_read = fscanf(database, "%s", buffer);
+        words_read = fscanf(database, "%20s", phone);
         if (words_read == EOF)
         {
             break;
         }
-        strncpy(record[line].phone, buffer, MAX_SIZE_OF_PHONE);
-        printf("Name: %s Phone: %s\n", record[line].name, record[line].phone);
+        printf("%d", line);
+        printf("Name: %s Phone: %s\n", name, phone);
+        numRecords++;
+        strncpy(records[line].name, name, sizeof(records[line].name));
+        strncpy(records[line].phone, phone, sizeof(records[line].phone));
+        printf("Name: %s Phone: %s\n", records[line].name, records[line].phone);
     }
     fclose(database);
-    return line;
+    return numRecords;
 }
-void printAllRecords(Record *record, int numberOfRecords)
+void printAllRecords(Record *records, int numberOfRecords)
 {
     for (int i = 0; i < numberOfRecords; i++)
     {
-        printf("Name: %s Phone: %s\n", record[i].name, record[i].phone);
+        printf("Name: %s Phone: %s\n", records[i].name, records[i].phone);
     }
     return;
 }
 
-int SaveNameAndPhone(Record *record, int numberOfRecords, bool *ifDataChangedOrNot)
+void writeToRecord(Record* records, int *numberOfRecords)
 {
-    if (!*ifDataChangedOrNot)
+    if (*numberOfRecords >= 100)
     {
-        return 2;
+        printf("Too many names and numbers\n");
+        return;
     }
+    printf("Enter name: ");
+    scanf("%80s", records[*numberOfRecords].name);
+    printf("Enter phone number: ");
+    scanf("%20s", records[*numberOfRecords].phone);
+    (*numberOfRecords)++;
+}
+
+int SaveNameAndPhone(Record *records, int numberOfRecords)
+{
     FILE* database = fopen("database.txt", "w");
     if (database == NULL) {
         printf("File not found!\n");
@@ -65,38 +81,36 @@ int SaveNameAndPhone(Record *record, int numberOfRecords, bool *ifDataChangedOrN
     }
     for (int i = 0; i < numberOfRecords; i++)
     {
-        fprintf(database, "%s %s\n", record[i].name, record[i].phone);
-        numberOfRecords++;
+        fprintf(database, "%s %s\n", records[i].name, records[i].phone);
     }
     fclose(database);
-    *ifDataChangedOrNot = false;
     return 0;
 }
 
-void findPhoneByName(Record *record, int numerOfRecords)
+void findPhoneByName(Record *records, int numerOfRecords)
 {
     char nameToFind[80];
     printf("Enter the name whose phone number you want to find: ");
     scanf_s("%s", nameToFind, 80);
     for (int i = 0; i < numerOfRecords; i++)
     {
-        if (!strcmp(nameToFind, record[i].name))
+        if (!strcmp(nameToFind, records[i].name))
         {
-            printf("Phone: %s\n", record[i].phone);
+            printf("Phone: %s\n", records[i].phone);
         }
     }
 }
 
-char* findNameByPhone(Record *record, int numberOfRecords)
+char* findNameByPhone(Record *records, int numberOfRecords)
 {
     char phoneToFind[20];
     printf("Enter the phone number by which you want to find the name: ");
     scanf_s("%s", phoneToFind, 20);
     for (int i = 0; i < numberOfRecords; i++)
     {
-        if (!strcmp(phoneToFind, record[i].phone))
+        if (!strcmp(phoneToFind, records[i].phone))
         {
-            printf("Name: %s\n", record[i].name);
+            printf("Name: %s\n", records[i].name);
         }
     }
 }
@@ -115,9 +129,12 @@ void printInstructionToProgram()
 int main()
 {
 	int operationNumber = -1;
-    Record* record[100];
-    int numberOfRecords = readFromFile(record);
-    bool ifDataChangedOrNot = false;
+    Record records[MAX_NUM_OF_RECORDS];
+    int numberOfRecords = readFromFile(records);
+    if (numberOfRecords == -1)
+    {
+        return 1;
+    }
     printInstructionToProgram();
 	while (operationNumber != 0)
 	{
@@ -126,46 +143,22 @@ int main()
 		switch (operationNumber)
 		{
 		case 0: 
-            for (int i = 0; i < numberOfRecords; i++)
-            {
-                free(record[i]);
-            }
             printf("This is the end of the programm!\n");
             break;
 		case 1:
-            if (numberOfRecords >= 100)
-            {
-                printf("Too many names and numbers");
-                break;
-            }
-            else
-            {
-                Record* tempMemory = malloc(sizeof(Record));
-                if (tempMemory == NULL)
-                {
-                    printf("Not enough memory");
-                    return 1;
-                }
-                printf("Enter name: ");
-                scanf_s("%s", tempMemory->name, 80);
-                printf("Enter phone number: ");
-                scanf_s("%s", tempMemory->phone, 20);
-                record[numberOfRecords] = tempMemory;
-                numberOfRecords++;
-                ifDataChangedOrNot = true;
-                break;
-            }
+            writeToRecord(records, &numberOfRecords);
+            break;
 		case 2:
-            printAllRecords(record, numberOfRecords);
+            printAllRecords(records, numberOfRecords);
             break;
 		case 3:
-            findPhoneByName(record, numberOfRecords);
+            findPhoneByName(records, numberOfRecords);
             break;
 		case 4:
-            findNameByPhone(record, numberOfRecords);
+            findNameByPhone(records, numberOfRecords);
             break;
 		case 5:
-            if (!SaveNameAndPhone(record, numberOfRecords, &ifDataChangedOrNot))
+            if (!SaveNameAndPhone(records, numberOfRecords))
             {
                 printf("Data saved\n");
             }
