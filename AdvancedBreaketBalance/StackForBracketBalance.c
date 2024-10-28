@@ -1,7 +1,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 
-#include "stack.h"
+#include "StackForBracketBalance.h"
 
 typedef struct StackElement {
     int value;
@@ -11,6 +11,11 @@ typedef struct StackElement {
 struct Stack {
     StackElement* head;
 };
+
+Stack* createStack()
+{
+    return (Stack*)calloc(1, sizeof(Stack));
+}
 
 void push(Stack* stack, int value) {
     StackElement* element = malloc(sizeof(StackElement));
@@ -26,10 +31,11 @@ void pop(Stack* stack) {
     free(tmp);
 }
 
-Stack* createStack() {
-    return (Stack*)calloc(1, sizeof(Stack));
-}
-int main(void) {
-    Stack* stack = createStack();
-    push(stack, 1);
+int theLastElementOfStack(Stack* stack)
+{
+    if (stack->head == NULL)
+    {
+        return 1;
+    }
+    return stack->head->value;
 }
