@@ -49,6 +49,7 @@ int readFromFile(Record* records)
     fclose(database);
     return numRecords;
 }
+
 void printAllRecords(Record *records, int numberOfRecords)
 {
     for (int i = 0; i < numberOfRecords; i++)
