@@ -24,6 +24,7 @@
     <ProjectGuid>{d9eef208-d2f4-4a39-a819-1d9b103a4030}</ProjectGuid>
     <RootNamespace>PostfixCalculator</RootNamespace>
     <WindowsTargetPlatformVersion>10.0</WindowsTargetPlatformVersion>
+    <ProjectName>PostfixCalculator</ProjectName>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
