@@ -1,96 +1,114 @@
-#include <stdio.h>
+﻿#include <stdio.h>
 #include <string.h>
-#include <math.h>
 #include <stdlib.h>
+#include <stdbool.h>
+#include <locale.h>
 
-void reverse(char* string)
+void printArray(int arrayOfIntegers[], int lenghtOfArray)
 {
-    int firstIndex = 0;
-    int lastIndex = strlen(string) - 1;
-    char letter;
-    while (firstIndex < lastIndex)
-    {
-        letter = string[firstIndex];
-        string[firstIndex] = string[lastIndex];
-        string[lastIndex] = letter;
-        firstIndex++;
-        lastIndex--;
+    for (int i = 0; i < lenghtOfArray; i++)
+        printf("%d", arrayOfIntegers[i]);
+    printf("\n");
+}
+
+void numberToBinaryFromDecimal(int *array, int number)
+{
+    int mask = 1;
+    for (int i = 32 - 1; i >= 0; i--) {
+        if ((number & mask) == 0)
+        {
+            array[i] = 0;
+        }
+        else
+        {
+            array[i] = 1;
+        }
+        mask = mask << 1;
     }
 }
 
-int* numberToBinaryFromDecimal(int number)
-{
-    char* binaryNum = (char*)malloc(32);
-    for (int i = 0; number > 0; i++)
-    {
-        binaryNum[i] = number % 2;
-        number /= 2;
-    }
-    reverse(binaryNum);
-    return binaryNum;
-}
-
-int numberFromBinaryToDecimal(char *binaryNumber)
+int numberFromBinaryToDecimal(int *binaryNumber)
 {
     int decimalNumber = 0;
     int power = 0;
-    for (int i = strlen(binaryNumber) - 1; i >= 0; i--)
+    int mask = 1;
+    for (int i = 32 - 1; i >= 0; i--)
     {
-        if (binaryNumber[i] == '1')
+        if (binaryNumber[i] == 1)
         {
-            decimalNumber += pow(2, power);
+            decimalNumber += mask;
         }
-        power++;
+        mask = mask << 1;
     }
     return decimalNumber;
 }
 
-int* addingBinaryNumbers(char *firstNumber, char *secondNumber)
+void addingbinarynumbers(int* firstnumber, int* secondnumber, int* sumOfBinaryNumbers)
 {
     int carry = 0;
-    char sumOfBinaryNumber = (char*)malloc(64);
-    int lenght = max(strlen(firstNumber), strlen(secondNumber));
-    for (int i = lenght - 1; i >= 0; i--)
+    for (int i = 32 - 1; i >= 0; i--)
     {
-        int firstDigit = firstNumber[i] - '0';
-        int secondDigit = secondNumber[i] - '0';
-        sumOfBinaryNumber[i] = (firstDigit + secondDigit + carry) % 2;
-        carry = (firstDigit + secondDigit + carry) / 2;
+        if (firstnumber[i] + secondnumber[i] + carry == 3)
+        {
+            sumOfBinaryNumbers[i] = 1;
+            carry = 1;
+        }
+        else if (firstnumber[i] + secondnumber[i] + carry == 2)
+        {
+            sumOfBinaryNumbers[i] = 0;
+            carry = 1;
+        }
+        else if (firstnumber[i] + secondnumber[i] + carry == 1)
+        {
+            sumOfBinaryNumbers[i] = 1;
+            carry = 0;
+        }
+        else if (firstnumber[i] + secondnumber[i] + carry == 0)
+        {
+            sumOfBinaryNumbers[i] = 0;
+            carry = 0;
+        }
     }
-    if (carry == 1)
-    {
-        sumOfBinaryNumber[0] = 1;
-    }
-    return sumOfBinaryNumber;
 }
 
-void printArray(char arrayOfIntegers[], int lenghtOfArray)
+
+int answer(int firstNumber, int secondNumber)
 {
-    for (int i = 0; i < lenghtOfArray; i++)
-        printf("%c", arrayOfIntegers[i]);
-    printf("\n");
+    setlocale(LC_ALL, "Rus");
+    int firstBinaryNumber[32] = { 0 };
+    int secondBinaryNumber[33] = { 0 };
+
+    numberToBinaryFromDecimal(firstBinaryNumber, firstNumber);
+    numberToBinaryFromDecimal(secondBinaryNumber, secondNumber);
+    printf("Первое двочиное число: ");
+    printArray(firstBinaryNumber, 32);
+    printf("Второе двочиное число: ");
+    printArray(secondBinaryNumber, 32);
+
+    int sumOfBinaryNUmbers[32] = { 0 };
+    addingbinarynumbers(firstBinaryNumber, secondBinaryNumber, sumOfBinaryNUmbers);
+    printf("Сумма двоичных чисел: ");
+    printArray(sumOfBinaryNUmbers, 32);
+
+    int sumOfBinaryNumbersAsDecimal = numberFromBinaryToDecimal(sumOfBinaryNUmbers);
+    printf("Сумма двоичных чисел в десятичной системе: %d\n", sumOfBinaryNumbersAsDecimal);
+    return sumOfBinaryNumbersAsDecimal;
 }
 
-void answer(int firstNumber, int secondNumber)
+bool test()
 {
-    printf("first number: %d\nsecond number: %d", firstNumber, secondNumber);
-    char FirstBinaryNumber = numberToBinaryFromDecimal(firstNumber);
-    char SecondBinaryNumber = numberToBinaryFromDecimal(secondNumber);
-    printf("first binary number: ");
-    printArray(FirstBinaryNumber, strlen(FirstBinaryNumber));
-    printf("second binary number: ");
-    printArray(SecondBinaryNumber, strlen(SecondBinaryNumber));
-    char sumOfBinaryNumbers = addingBinaryNumbers(FirstBinaryNumber, SecondBinaryNumber);
-    printf("Sum of Binary numbers: ");
-    printArray(sumOfBinaryNumbers, strlen(sumOfBinaryNumbers));
-    int firstDecimalNumber = numberFromBinaryToDecimal(FirstBinaryNumber);
-    int secondDecimalNumber = numberFromBinaryToDecimal(SecondBinaryNumber);
-    printf("first Decimal number: %d\nsecond Decimal number: %d\n", firstDecimalNumber, secondDecimalNumber);
-    int sumOfBinaryNumbersInDecimal = numberFromBinaryToDecimal(sumOfBinaryNumbers);
-    prinf("Sum of Binary Numbers in decimal: %d\n Sum of decimal numbers: %d\n", sumOfBinaryNumbersInDecimal, firstDecimalNumber + secondDecimalNumber);
+    return (answer(1, 5) == 6 && answer(0, 0) == 0 && answer(1, 0) == 1 && answer(5, 5) == 10);
 }
 
 int main()
 {
-    answer(5, 4);
-} 
+
+    if (!test())
+    {
+        printf("Тест Завален!!!");
+        return -1;
+    }
+
+    answer(5, 1);
+    answer(4, 8);
+}

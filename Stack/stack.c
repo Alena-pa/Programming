@@ -34,4 +34,6 @@ int main()
 {
 	Element* head = NULL;
 	head = push(&head, 239);
+	head = push(&head, 240);
+	pop(head);
 }

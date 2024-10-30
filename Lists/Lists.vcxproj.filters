@@ -15,16 +15,8 @@
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="MostCommonElementTask.c">
+    <ClCompile Include="List.c">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="MostCommonElementFunction.c">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-  </ItemGroup>
-  <ItemGroup>
-    <ClInclude Include="MostCommonElement.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
   </ItemGroup>
 </Project>
