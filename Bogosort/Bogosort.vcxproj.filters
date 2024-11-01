@@ -15,7 +15,7 @@
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="Palindrome.c">
+    <ClCompile Include="Bogosort.c">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
