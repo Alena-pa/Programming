@@ -1,6 +1,7 @@
 #include <stdio.h>
 #include <stdbool.h>
 #include "stack.c"
+#include <string.h>
 
 #define MAXSIZE 100
 
@@ -22,9 +23,10 @@ int precedence(char element) {
     if (element == '+' || element == '-'){
          return 1;
     }
-    if (element == '*' || element == '/'){
+    else if (element == '*' || element == '/'){
         return 2;
     }
+    return 0;
 }
 
 void takeLasttwoElementsFromTheStack(Stack* stack, int* firstNumber, int* secondNumber){
@@ -34,28 +36,83 @@ void takeLasttwoElementsFromTheStack(Stack* stack, int* firstNumber, int* second
     pop(stack);
 }
 
-char* convertStringFromInfixToPostfixNotation(char* stringToConvert, char* outputString){
+void convertStringFromInfixToPostfixNotation(const char* stringToConvert, char* outputString){
     Stack* stack = createStack();
     int elementsRead = 0;
     int indexOfOutputString = 0;
-    while (stringToConvert[elementsRead] != EOF){
+    while (stringToConvert[elementsRead] != '\0'){
         if (isDigit(stringToConvert[elementsRead])){
             outputString[indexOfOutputString] = stringToConvert[elementsRead];
+            indexOfOutputString++;
+        }
+        else if (isOperation(stringToConvert[elementsRead])){
+            while (!isEmpty(stack) && precedence(stringToConvert[elementsRead]) < precedence(theLastElementOfStack(stack))){
+                outputString[indexOfOutputString] = theLastElementOfStack(stack);
+                pop(stack);
+                indexOfOutputString++;
+            }
+            push(stack, stringToConvert[elementsRead]);
         }
         switch (stringToConvert[elementsRead]){
             case '(':
                 push(stack, stringToConvert[elementsRead]);
+                break;
             case ')':
-                
+                while (!isEmpty(stack) && theLastElementOfStack(stack) != '('){
+                    outputString[indexOfOutputString] = theLastElementOfStack(stack);
+                    pop(stack);
+                    indexOfOutputString++;
+                }
+                pop(stack);
+                break;
         }
+        elementsRead++;
     }
+    while (!isEmpty(stack)){
+        outputString[indexOfOutputString] = theLastElementOfStack(stack);
+        pop(stack);
+    }
+    outputString[indexOfOutputString] = '\0';
+}
+
+bool firstTest(){
+    const char* firstString = {"(1 + 2) * 3"};
+    char firstOutputString[MAXSIZE];
+    convertStringFromInfixToPostfixNotation(firstString, firstOutputString);
+    const char* expectedResultOfFirstString = {"12+3*"};
+    if (strcmp(firstOutputString, expectedResultOfFirstString) != 0){
+        printf("first test failed! Expected output string 12+3* , but actual output string %s\n", firstOutputString);
+        return false;
+    }
+    return true;
+}
+
+bool secondTest(){
+    const char* secondString = {"1 + 2 * 3"};
+    char secondOutputString[MAXSIZE];
+    convertStringFromInfixToPostfixNotation(secondString, secondOutputString);
+    const char* expectedResultOfSecondString = {"23*1+"};
+    if (strcmp(secondOutputString, expectedResultOfSecondString) != 0){
+        printf("second test failed! Expected output string 23*1+ , but actual output string %s\n", secondOutputString);
+        return false;
+    }
+    return true;
+}
+
+bool thirdTest(){
+    const char* thirdString = {"(1 + 2) - (1 + 1)"};
+    char thirdOutputString[MAXSIZE];
+    convertStringFromInfixToPostfixNotation(thirdString, thirdOutputString);
+    const char* expextedResultOfThirdString = {"12+11+-"};
+    if (strcmp(thirdOutputString, expextedResultOfThirdString) != 0){
+        printf("third test failed! Expected output string 12+11+- , but actual output string %s\n", thirdOutputString);
+        return false;
+    }
+    return true;
 }
 
 bool test(){
-    char firstString = {"(1 + 2) * 3"};
-    char secondString = {"1 + 2 * 3"};
-    char thirdString = {"(1 + 2) - (1 + 1)"};
-    if (firstString != "1 2 + 3 *" || secondString != "2 3 * 1 +" || thirdString != "1 2 + 1 1 + -"){
+    if (!firstTest && !secondTest && !thirdTest){
         return false;
     }
     return true;
@@ -63,8 +120,7 @@ bool test(){
 
 int main(void){
     if (!test()){
-        printf("Test failed!");
         return 1;
     }
-    char output[MAXSIZE];
+    return 0;
 }

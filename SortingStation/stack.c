@@ -30,9 +30,13 @@ Stack* createStack() {
     return (Stack*)calloc(1, sizeof(Stack));
 }
 
+int isEmpty(Stack* stack){
+    return stack->head == NULL;
+}
+
 int theLastElementOfStack(Stack* stack)
 {
-    if (stack->head == NULL)
+    if (!isEmpty(stack))
     {
         return 1;
     }
