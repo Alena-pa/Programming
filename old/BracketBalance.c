@@ -22,18 +22,18 @@ bool checkIfBracketBalanceComplete(const char *string){
 }
 
 bool test(){
-    return(checkIfBracketBalanceComplete("()()") && !checkIfBracketBalanceComplete(")()") && !checkIfBracketBalanceComplete("())(())"))
+    return(checkIfBracketBalanceComplete("()()") && !checkIfBracketBalanceComplete(")()") && !checkIfBracketBalanceComplete("())(())"));
 }
 
 int main()
 {
     if (!test()){
-        printf("test failed!")
+        printf("test failed!");
         return 1;
     }
     if (!checkIfBracketBalanceComplete(")()()()")){
         print("Bracket balance doesn`t complete :(");
-        retrun 1;
+        return 1;
     }
     printf("Bracket balance complete!");
     return 0;
