@@ -1,131 +1,47 @@
 #include <stdio.h>
+#include <math.h>
 
-int divide(int firstNumber, int secondNumber)
-{
+int divide(int firstNumber, int secondNumber){
     int count = 0;
-    while (firstNumber >= secondNumber)
-    {
+    while (firstNumber >= secondNumber){
         firstNumber = firstNumber - secondNumber;
         count++;
     }
     return count;
 }
 
-int remain(int firstNumber, int secondNumber)
-{
-    int count = 0;
-    while (firstNumber >= secondNumber)
-    {
-        firstNumber = firstNumber - secondNumber;
-        count++;
-    }
-    return firstNumber;
-}
+void incompleteQotient(int firstNumber, int secondNumber){
+    if (secondNumber != 0){
+        int signOfNumbers = 1;
+        if (firstNumber < 0 && secondNumber > 0 || firstNumber > 0 && secondNumber < 0){
+            signOfNumbers = -1;
+        }
+        int tempFirstNumber = firstNumber;
+        int tempSecondNumber = secondNumber;
+        if (firstNumber < 0){
+            tempFirstNumber = -firstNumber;
+        }
 
-int incompleteQuotientCount(int firstNumber, int secondNumber)
-{
-    if (secondNumber == 0)
-    {
-        return firstNumber;
+        if (secondNumber < 0){
+            tempSecondNumber = -secondNumber;
+        }
+
+        int count = divide(tempFirstNumber, tempSecondNumber);
+        int remain = tempFirstNumber - tempSecondNumber * count;
+
+        if (secondNumber < 0 && remain != 0){
+            count += 1;
+        }
+
+        printf("Div = %d\nremain = %d\n", count * signOfNumbers, remain * signOfNumbers);
     }
-    else
-    {
-        if (firstNumber > 0)
-        {
-            if (secondNumber > 0)
-            {
-                int count = divide(firstNumber, secondNumber); 
-                return count;
-            }
-            else
-            {
-                secondNumber *= -1;
-                int count = divide(firstNumber, secondNumber);
-                count *= -1;   
-                return count;
-            }
-        }
-        else
-        {
-            if (secondNumber > 0)
-            {
-                firstNumber *= -1;
-                int count = divide(firstNumber, secondNumber);
-                count *= -1;
-                return count;
-            }
-            else
-            {
-                firstNumber *= -1;
-                secondNumber *= -1;
-                int count = divide(firstNumber, secondNumber);      
-                return count;
-            }
-        }
+    else{
+        printf("Incorrect condition! Division by zero!");
     }
 }
 
-int incompleteQuotientCountRemainNumber(int firstNumber, int secondNumber)
-{
-    if (secondNumber == 0)
-    {
-        return secondNumber;
-    }
-    else
-    {
-        if (firstNumber > 0)
-        {
-            if (secondNumber > 0)
-            {
-                int remainNumber = remain(firstNumber, secondNumber);
-                return remainNumber;
-            }
-            else
-            {
-                secondNumber *= -1;              
-                int remainNumber = remain(firstNumber, secondNumber);
-                return remainNumber;
-            }
-        }
-        else
-        {
-            if (secondNumber > 0)
-            {
-                firstNumber *= -1;
-                int remainNumber = remain(firstNumber, secondNumber);
-                remainNumber *= -1;
-                return remainNumber;
-            }
-            else
-            {
-                firstNumber *= -1;
-                secondNumber *= -1;
-                int remainNumber = remain(firstNumber, secondNumber);
-                remainNumber *= -1;
-                return remainNumber;
-            }
-        }
-    }
-}
-
-void incompleteQotient(int *firstNumber, int *secondNumber)
-{
-
-    int lastCount = incompleteQuotientCount(firstNumber, secondNumber);
-    int lastRemainNumber = incompleteQuotientCountRemainNumber(firstNumber, secondNumber);
-    if (lastCount != firstNumber & lastRemainNumber != secondNumber)
-    {
-        printf("Div = %d\nremain = %d\n", lastCount, lastRemainNumber);
-    }
-    else
-    {
-        printf("Incorrect condition!");
-    }
-}
-
-int main()
-{
-    int firstNumber = 100;
-    int secondNumber = -3;
+int main(){
+    int firstNumber = -12;
+    int secondNumber = 5;
     incompleteQotient(firstNumber, secondNumber);
 }
