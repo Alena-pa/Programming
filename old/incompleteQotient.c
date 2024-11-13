@@ -16,24 +16,24 @@ void incompleteQotient(int firstNumber, int secondNumber){
         if (firstNumber < 0 && secondNumber > 0 || firstNumber > 0 && secondNumber < 0){
             signOfNumbers = -1;
         }
-        int tempFirstNumber = firstNumber;
-        int tempSecondNumber = secondNumber;
+        int absFirstNumber = firstNumber;
+        int absSecondNumber = secondNumber;
         if (firstNumber < 0){
-            tempFirstNumber = -firstNumber;
+            absFirstNumber = -firstNumber;
         }
 
         if (secondNumber < 0){
-            tempSecondNumber = -secondNumber;
+            absSecondNumber = -secondNumber;
         }
 
-        int count = divide(tempFirstNumber, tempSecondNumber);
-        int remain = tempFirstNumber - tempSecondNumber * count;
+        int count = divide(absFirstNumber, absSecondNumber);
+        int remain = absFirstNumber - absSecondNumber * count;
 
-        if (secondNumber < 0 && remain != 0){
+        if (signOfNumbers == -1 && remain != 0){
             count += 1;
         }
 
-        printf("Div = %d\nremain = %d\n", count * signOfNumbers, remain * signOfNumbers);
+        printf("Div = %d\nremain = %d\n", count * signOfNumbers, remain);
     }
     else{
         printf("Incorrect condition! Division by zero!");
@@ -41,7 +41,7 @@ void incompleteQotient(int firstNumber, int secondNumber){
 }
 
 int main(){
-    int firstNumber = -12;
-    int secondNumber = 5;
+    int firstNumber = 59;
+    int secondNumber = 9;
     incompleteQotient(firstNumber, secondNumber);
 }
