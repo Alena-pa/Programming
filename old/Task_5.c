@@ -1,42 +1,40 @@
 #include <stdio.h>
+#include <stdbool.h>
 
-int check(char *string)
-{
-    int thisVarCheckingString = 0;
-    if (string[0] == ')')
-    {
-        return -1;
-    }
-    else
-    {
-        for (int i = 0; i < strlen(string); i++)
-        {
-            if (string[i] == '(')
-            {
-                thisVarCheckingString++;
+bool checkIfBracketBalanceComplete(const char *string){
+    int countOfOpeningBrackets = 0;
+    int countOfClosingBrackets = 0;
+
+    for (int i = 0; i < strlen(string); i++){
+            if (countOfClosingBrackets <= countOfOpeningBrackets){
+            if (string[i] == '('){
+                countOfOpeningBrackets++;
             }
-            if (string[i] == ')')
-            {
-                thisVarCheckingString --;
+            if (string[i] == ')'){
+                countOfClosingBrackets++;
             }
         }
-        return thisVarCheckingString;
     }
+    if (countOfOpeningBrackets == countOfClosingBrackets){
+        return true;
+    }
+    return false;
 }
 
-int answer(int thisVarCheckingString)
-{
-    if (thisVarCheckingString == 0)
-    {
-        printf("Yep");
-    }
-    else
-    {
-        printf("Nope");
-    }
+bool test(){
+    return(checkIfBracketBalanceComplete("()()") && !checkIfBracketBalanceComplete(")()") && !checkIfBracketBalanceComplete("())(())"))
 }
+
 int main()
 {
-    char string[] = ")()()(";
-    answer(check(string));
+    if (!test()){
+        printf("test failed!")
+        return 1;
+    }
+    if (!checkIfBracketBalanceComplete(")()()()")){
+        print("Bracket balance doesn`t complete :(");
+        retrun 1;
+    }
+    printf("Bracket balance complete!");
+    return 0;
 }
