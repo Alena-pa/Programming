@@ -6,12 +6,13 @@
 #include "Tree.h"
 
 bool testCreateNode() {
-    Node *node = createNode(1, "value");
+    NodeValue value = createValue(1, "test");
+    Node *node = createNode(value);
     return node != NULL && node->value.key == 1 && strcmp(node->value.value, "test") == 0;
 }
 
 bool testAddElement() {
-    NodeValue value = { "test", 1 };
+    NodeValue value = createValue(1, "test");
     Node *node = createNode(value);
 
     NodeValue newValue = { "newValue", 2 };

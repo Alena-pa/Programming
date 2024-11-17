@@ -1,18 +1,19 @@
 #pragma once
 
-typedef struct {
+typedef struct NodeValue {
     char *value;
     int key;
 } NodeValue;
 
-typedef struct {
+typedef struct Node {
     NodeValue value;
-    Node *leftChild;
-    Node *rightChild;
+    struct Node *leftChild;
+    struct Node *rightChild;
 } Node;
 
-// Node *createNode(NodeValue value);
-Node *createNode(int key, const char *value);
+NodeValue createValue(int key, const char* value);
+
+Node *createNode(NodeValue value);
 
 void addLeftChild(Node *node, Node *child);
 
@@ -24,7 +25,7 @@ Node *getLeftChild(Node *node);
 
 Node *getRightChild(Node *node);
 
-Node *getElementByKey(Node* node, int key);
+Node * findNodeByKey(Node* node, int key);
 
 NodeValue getValue(Node *node);
 
@@ -32,4 +33,4 @@ int existenceOfElementByKey(Node* node, int key);
 
 void deleteElementByKey(Node* node, int key);
 
-Node* minValueNode(Node* node);
+Node* minElement(Node* node);

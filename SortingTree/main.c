@@ -11,8 +11,7 @@ int main(void) {
         return 1;
     }
 
-    NodeValue firstValue = { "", 1 };
-    Node *node = createNode(firstValue);
+    Node *root = NULL;
 
     printf("Instruction to  the programm:\n");
     printf("End the programm: 0\n");
@@ -21,7 +20,7 @@ int main(void) {
     printf("Check the presence of a given key in the dictionary: 3\n");
     printf("Remove a given key and its associated value from a dictionary: 4\n");
 
-    int operationNumber;
+    int operationNumber = 5;
     int key;
     char value[100];
     while (operationNumber != 0) {
@@ -36,16 +35,21 @@ int main(void) {
             printf("Enter key: ");
             scanf_s("%d", &key);
             printf("Enter value: ");
-            scanf_s("%s", value);
-            NodeValue newValue = { value, key };
-            addElement(node, newValue);
+            scanf_s("%s", &value);
+            NodeValue newValue = createValue(key, value);
+            if (!root) {
+                root = createNode(newValue);
+            }
+            else {
+                addElement(root, newValue);
+            }
             printf("Value added\n");
             break;
         }
         case 2: {
             printf("Enter search key: ");
             scanf_s("%d", &key);
-            Node *resultOfSearching = getElementByKey(node, key);
+            Node *resultOfSearching = findNodeByKey(root, key);
             if (resultOfSearching) {
                 printf("Value: %s\n", resultOfSearching);
             }
@@ -57,7 +61,7 @@ int main(void) {
         case 3:
             printf("Enter your verification key: ");
             scanf_s("%d", &key);
-            if (existenceOfElementByKey(node, key) == 0) {
+            if (existenceOfElementByKey(root, key) == 0) {
                 printf("Value exists\n");
             }
             else {
@@ -67,7 +71,7 @@ int main(void) {
         case 4:
             printf("Enter the key to delete: ");
             scanf_s("%d", &key);
-            deleteElementByKey(node, key);
+            deleteElementByKey(root, key);
             printf("Value deleted\n");
             break;
         default:

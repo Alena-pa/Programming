@@ -4,12 +4,18 @@
 
 #include "Tree.h"
 
-Node *createNode(int key, const char* value) {
+NodeValue createValue(int key, const char* value) {
+    char* newValue = malloc(strlen(value));
+    if (newValue != '\0') {
+        strcpy(newValue, value);
+    }
+    NodeValue nodeValue = { .key = key, .value = newValue };
+    return nodeValue;
+}
+
+Node *createNode(NodeValue value) {
     Node *node = calloc(1, sizeof(Node));
-    node->value.key = key;
-    char *newValue = malloc(strlen(value));
-    strcpy(newValue, value);
-    node->value.value = newValue;
+    node->value = value;
     return node;
 }
 
@@ -146,5 +152,4 @@ void deleteElementByKey(Node* node, int key) {
         free(element->value.value);
         free(element);
     }
-    return node;
 }
