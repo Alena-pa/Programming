@@ -2,11 +2,11 @@
 #include <stdbool.h>
 #include <string.h>
 
-#include "Tree.c"
+#include "Tests.h"
+#include "Tree.h"
 
 bool testCreateNode() {
-    NodeValue value = { "test", 1 };
-    Node *node = createNode(value);
+    Node *node = createNode(1, "value");
     return node != NULL && node->value.key == 1 && strcmp(node->value.value, "test") == 0;
 }
 

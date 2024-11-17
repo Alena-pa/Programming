@@ -1,20 +1,15 @@
 #include <stdio.h>
 #include <stdlib.h>
+#include <string.h>
 
-typedef struct {
-  char *value;
-  int key;
-} NodeValue;
+#include "Tree.h"
 
-typedef struct {
-    NodeValue value;
-    struct Node *leftChild;
-    struct Node *rightChild;
-} Node;
-
-Node *createNode(NodeValue value) {
+Node *createNode(int key, const char* value) {
     Node *node = calloc(1, sizeof(Node));
-    node->value = value;
+    node->value.key = key;
+    char *newValue = malloc(strlen(value));
+    strcpy(newValue, value);
+    node->value.value = newValue;
     return node;
 }
 
@@ -95,7 +90,7 @@ NodeValue getValue(Node *node) {
 
 
 
-Node *minElement(struct Node* node) {
+Node *minElement(Node* node) {
     Node* minimalElement = node->rightChild;
     while (minimalElement->leftChild != NULL) {
         minimalElement = minimalElement->leftChild;

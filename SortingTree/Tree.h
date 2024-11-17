@@ -1,13 +1,18 @@
 #pragma once
 
 typedef struct {
-    char value;
+    char *value;
     int key;
 } NodeValue;
 
-typedef struct Node Node;
+typedef struct {
+    NodeValue value;
+    Node *leftChild;
+    Node *rightChild;
+} Node;
 
-Node *createNode(NodeValue value);
+// Node *createNode(NodeValue value);
+Node *createNode(int key, const char *value);
 
 void addLeftChild(Node *node, Node *child);
 
