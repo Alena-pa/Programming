@@ -35,7 +35,7 @@ int main(void) {
             printf("Enter key: ");
             scanf_s("%d", &key);
             printf("Enter value: ");
-            scanf_s("%s", &value);
+            scanf_s("%s", &value, sizeof(value));
             NodeValue newValue = createValue(key, value);
             if (!root) {
                 root = createNode(newValue);
@@ -49,30 +49,45 @@ int main(void) {
         case 2: {
             printf("Enter search key: ");
             scanf_s("%d", &key);
-            Node *resultOfSearching = findNodeByKey(root, key);
-            if (resultOfSearching) {
-                printf("Value: %s\n", resultOfSearching);
+            if (root) {
+                Node* resultOfSearching = findNodeByKey(root, key);
+                if (resultOfSearching) {
+                    printf("Value: %s\n", resultOfSearching->value.value);
+                }
+                else {
+                    printf("Value not found");
+                }
             }
             else {
-                printf("Value not found");
+                printf("Tree is empty, press 1 to add smth\n");
             }
             break;
         }
         case 3:
             printf("Enter your verification key: ");
             scanf_s("%d", &key);
-            if (existenceOfElementByKey(root, key) == 0) {
-                printf("Value exists\n");
+            if (root) {
+                if (existenceOfElementByKey(root, key) == 0) {
+                    printf("Value exists\n");
+                }
+                else {
+                    printf("Value doesn`t exists");
+                }
             }
             else {
-                printf("Value doesn`t exists");
+                printf("Tree is empty, press 2 to add smth\n");
             }
             break;
         case 4:
             printf("Enter the key to delete: ");
             scanf_s("%d", &key);
-            deleteElementByKey(root, key);
-            printf("Value deleted\n");
+            if (root) {
+                deleteElementByKey(root, key);
+                printf("Value deleted\n");
+            }
+            else {
+                printf("Tree is empty, press 1 to add smth\n");
+            }
             break;
         default:
             printf("Incorrect operation number. Try again\n");

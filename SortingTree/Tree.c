@@ -5,8 +5,8 @@
 #include "Tree.h"
 
 NodeValue createValue(int key, const char* value) {
-    char* newValue = malloc(strlen(value));
-    if (newValue != '\0') {
+    char* newValue = malloc(strlen(value) + 1);
+    if (newValue != NULL) {
         strcpy(newValue, value);
     }
     NodeValue nodeValue = { .key = key, .value = newValue };
@@ -31,19 +31,23 @@ void addElement(Node* node, NodeValue value) {
     if (node->value.key == value.key) {
         node->value = value;
     }
-    else if (node->value.key > value.key && node->leftChild == NULL) {
-        Node* element = createNode(value);
-        addLeftChild(node, element);
-    }
-    else if (node->value.key < value.key && node->rightChild == NULL) {
-        Node* element = createNode(value);
-        addRightChild(node, element);
-    }
     else if (node->value.key > value.key) {
-        addElement(node->leftChild, value);
+        if (node->leftChild == NULL) {
+            Node* element = createNode(value);
+            addLeftChild(node, element);
+        }
+        else {
+            addElement(node->leftChild, value);
+        }
     }
     else if (node->value.key < value.key) {
-        addElement(node->rightChild, value);
+        if (node->rightChild == NULL) {
+            Node* element = createNode(value);
+            addRightChild(node, element);
+        }
+        else {
+            addElement(node->rightChild, value);
+        }
     }
 }
 
