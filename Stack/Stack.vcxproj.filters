@@ -15,7 +15,7 @@
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="MostCommonElement.c">
+    <ClCompile Include="stack.c">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
