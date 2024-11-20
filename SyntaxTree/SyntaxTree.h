@@ -1,9 +1,7 @@
 #pragma once
 
-#include <stdio.h>
-
 typedef struct NodeValue {
-    char* value;
+    const char* value;
 } NodeValue;
 
 typedef struct Node {
@@ -20,7 +18,9 @@ void addLeftChild(Node* node, Node* child);
 
 void addRightChild(Node* node, Node* child);
 
-Node* buildTreeFromFile(FILE* file);
+void skipWhitespaceAndBrackets(const char* string, int* index);
+
+Node* modifyString(const char* value);
 
 void printTree(Node* node);
 
