@@ -20,14 +20,6 @@ Node* createNode(NodeValue *value) {
     return node;
 }
 
-void addLeftChild(Node* node, Node* child) {
-    node->leftChild = child;
-}
-
-void addRightChild(Node* node, Node* child) {
-    node->rightChild = child;
-}
-
 void skipWhitespaceAndBrackets(const char* string, int* index) {
     while (string[*index] == '(' || string[*index] == ')' || string[*index] == ' ') {
         (*index)++;
@@ -35,11 +27,15 @@ void skipWhitespaceAndBrackets(const char* string, int* index) {
 }
 
 char* readNumber(const char* string, int* indexOfString) {
-    char number[20];
+    char* number = malloc(20 * sizeof(char));
+    if (!number) {
+        return NULL;
+    }
     int indexOfNumber = 0;
     while (isdigit(string[*indexOfString])) {
         number[indexOfNumber] = string[*indexOfString];
         (*indexOfString)++;
+        indexOfNumber++;
     }
     number[indexOfNumber] = '\0';
     return number;
@@ -50,8 +46,13 @@ Node* modifyString(const char* string, int* indexOfString) {
         return NULL;
     }
 
+    skipWhitespaceAndBrackets(string, indexOfString);
+
     if (isdigit(string[*indexOfString])) {
         char* number = readNumber(string, indexOfString);
+        if (number == NULL) {
+            return NULL;
+        }
         return createNode(number);
     }
 
@@ -81,9 +82,8 @@ int calculation(Node* node) {
         return atoi(node->value.value);
     }
 
-    int indexOfString = 0;
-    int leftValue = modifyString(node->leftChild, indexOfString);
-    int rightValue = modifyString(node->rightChild, indexOfString);
+    int leftValue = calculation(node->leftChild);
+    int rightValue = calculation(node->rightChild);
 
     switch (node->value.value[0]) {
         case '+':

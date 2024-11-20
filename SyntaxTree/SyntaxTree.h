@@ -14,13 +14,9 @@ NodeValue createValue(const char* value);
 
 Node* createNode(NodeValue value);
 
-void addLeftChild(Node* node, Node* child);
-
-void addRightChild(Node* node, Node* child);
-
 void skipWhitespaceAndBrackets(const char* string, int* index);
 
-Node* modifyString(const char* value);
+Node* modifyString(const char* value, int* index);
 
 void printTree(Node* node);
 
