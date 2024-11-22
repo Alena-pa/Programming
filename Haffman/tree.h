@@ -1,4 +1,4 @@
-﻿﻿#pragma once
+﻿#pragma once
 
 typedef struct {
     char value;
@@ -7,29 +7,18 @@ typedef struct {
 
 typedef struct Node Node;
 
-// Create a node
-Node* createNode(NodeValue value);
+Node* createNode(NodeValue value, bool* errorCode);
 
-// Add left child
-void addLeftChild(Node* node, Node* child);
+void addLeftChild(Node* node, Node* child, bool* errorCode);
 
-// Add right child
-void addRightChild(Node* node, Node* child);
+void addRightChild(Node* node, Node* child, bool* errorCode);
 
-// Get left child
-Node* getLeftChild(Node* node);
+Node* getLeftChild(Node* node, bool* errorCode);
 
-// Get right child
-Node* getRightChild(Node* node);
+Node* getRightChild(Node* node, bool* errorCode);
 
-// Get value from node
-NodeValue getValue(Node* node);
+NodeValue getValue(Node* node, bool* errorCode);
 
-// Add values ​​to node
-void setValue(Node* node, NodeValue value);
+void setValue(Node* node, NodeValue value, bool* errorCode);
 
-// Find the minimum element of the right subtree
-Node* getTheMinimumElementOfTheRightNode(Node* node);
-
-// Remove tree
-void deleteTree(Node* node);
+void disposeNode(Node* node, bool* errorCode);

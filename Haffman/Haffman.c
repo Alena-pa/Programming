@@ -1,60 +1,79 @@
-#include <stdio.h>
 #include <stdlib.h>
 #include <stdbool.h>
+
 #include "tree.h"
 
 typedef struct Node {
     NodeValue value;
-    Node* leftChild;
-    Node* rightChild;
+    struct Node* leftChild;
+    struct Node* rightChild;
 } Node;
 
-Node* createNode(NodeValue value) {
+Node* createNode(NodeValue value, bool* errorCode) {
     Node* node = calloc(1, sizeof(Node));
     if (node == NULL) {
+        *errorCode = true;
         return NULL;
     }
     node->value = value;
     return node;
 }
 
-void addLeftChild(Node* node, Node* child) {
+void addLeftChild(Node* node, Node* child, bool* errorCode) {
+    if (node == NULL) {
+        *errorCode = true;
+        return;
+    }
     node->leftChild = child;
 }
 
-void addRightChild(Node* node, Node* child) {
+void addRightChild(Node* node, Node* child, bool* errorCode) {
+    if (node == NULL) {
+        *errorCode = true;
+        return;
+    }
     node->rightChild = child;
 }
 
-Node* getLeftChild(Node* node) {
+Node* getLeftChild(Node* node, bool* errorCode) {
+    if (node == NULL) {
+        *errorCode = true;
+        return NULL;
+    }
     return node->leftChild;
 }
 
-Node* getRightChild(Node* node) {
+Node* getRightChild(Node* node, bool* errorCode) {
+    if (node == NULL) {
+        *errorCode = true;
+        return NULL;
+    }
     return node->rightChild;
 }
 
-NodeValue getValue(Node* node) {
+NodeValue getValue(Node* node, bool* errorCode) {
+    if (node == NULL) {
+        NodeValue incorrectNodeValues = { .frequency = -1, .value = NULL };
+        *errorCode = true;
+        return incorrectNodeValues;
+    }
     return node->value;
 }
 
-void setValue(Node* node, NodeValue value) {
+void setValue(Node* node, NodeValue value, bool* errorCode) {
+    if (node == NULL) {
+        *errorCode = true;
+        return;
+    }
     node->value = value;
 }
 
-Node* getTheMinimumElementOfTheRightNode(Node* node) {
-    Node* minElement = node->rightChild;
-    while (minElement->leftChild != NULL) {
-        minElement = minElement->leftChild;
-    }
-    return minElement;
-}
-
-void deleteTree(Node* node) {
+void disposeNode(Node* node) {
     if (node == NULL) {
         return;
     }
-    deleteTree(node->leftChild);
-    deleteTree(node->rightChild);
+
+    disposeNode(node->leftChild);
+    disposeNode(node->rightChild);
     free(node);
 }
