@@ -228,13 +228,22 @@ char* decode(const char* filename) {
         }
         int bufferIndex = 0;
         while (bufferIndex < 8) {
-            if (bufferIndex[bufferIndex]) {
-
+            if (getLeftChild(currentNode, &errorCode) == NULL) {
+                printf("%c", getValue(currentNode, &errorCode).value);
+                --length;
+                currentNode = rootNode;
             }
+            if (buffer[bufferIndex]) {
+                currentNode = getRightChild(currentNode, &errorCode);
+            }
+            else {
+                currentNode = getLeftChild(currentNode, &errorCode);
+            }
+            bufferIndex++;
         }
     }
 }
 
 int main(void) {
-
+    decode("testFile.txt");
 }
