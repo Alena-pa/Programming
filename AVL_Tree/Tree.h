@@ -8,7 +8,7 @@ typedef struct Node {
     int height;
     struct Node* leftChild;
     struct Node* rightChild;
-};
+} Node;
 
 int getHeight(struct Node* node);
 

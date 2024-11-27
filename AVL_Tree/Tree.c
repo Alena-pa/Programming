@@ -1,4 +1,5 @@
 #include <stdio.h>
+#include <stdlib.h>
 #include "Tree.h"
 
 int getHeight(struct Node* node) {
@@ -16,10 +17,27 @@ int getBalance(struct Node* node) {
 }
 
 struct Node* createNode(const char* key, const char* value) {
-
+    Node* newNode = (Node*)malloc(sizeof(Node));
+    newNode->height = 1;
+    newNode->leftChild = NULL;
+    newNode->rightChild = NULL;
+    return newNode;
 }
 
-struct Node* rightRotate(struct Node* node);
+struct Node* rightRotate(struct Node* node) {
+    Node* leftChild = node->leftChild;
+    Node* subTree = leftChild->rightChild;
+
+    leftChild->rightChild = node;
+    node->leftChild = subTree;
+
+    if (getHeight(node->leftChild) > getHeight(node->rightChild)) {
+        node->height = 1 + getHeight(node->leftChild);
+    }
+    else {
+        node->height = 1 + getHeight(node->rightChild);
+    }
+}
 
 struct Node* leftRotate(struct Node* node);
 
