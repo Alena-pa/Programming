@@ -37,9 +37,40 @@ struct Node* rightRotate(struct Node* node) {
     else {
         node->height = 1 + getHeight(node->rightChild);
     }
+
+    if (getHeight(leftChild->leftChild) > getHeight(leftChild->rightChild)) {
+        leftChild->height = 1 + getHeight(leftChild->leftChild);
+    }
+    else {
+        leftChild->height = 1 + getHeight(leftChild->rightChild);
+    }
+
+    return leftChild;
 }
 
-struct Node* leftRotate(struct Node* node);
+struct Node* leftRotate(struct Node* node) {
+    Node* rightChild = node->rightChild;
+    Node* subTree = rightChild->leftChild;
+
+    rightChild->leftChild = node;
+    node->rightChild = subTree;
+
+    if (getHeight(node->leftChild) > getHeight(node->rightChild)) {
+        node->height = 1 + getHeight(node->leftChild);
+    }
+    else {
+        node->height = 1 + getHeight(node->rightChild);
+    }
+
+    if (getHeight(rightChild->leftChild) > getHeight(rightChild->rightChild)) {
+        rightChild->height = 1 + getHeight(rightChild->leftChild);
+    }
+    else {
+        rightChild->height = 1 + getHeight(rightChild->rightChild);
+    }
+
+    return rightChild;
+}
 
 struct Node* addNode(struct Node* root, const char* key, const char* value);
 
