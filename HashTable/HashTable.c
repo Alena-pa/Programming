@@ -36,7 +36,15 @@ void addWord(HashTable* table, char* word) {
     }
 }
 
-void printTable(HashTable* table);
+void printTable(HashTable* table) {
+    for (int i = 0; i < table->countOfSegments; i++) {
+        Node* current = table->segments[i];
+        while (current) {
+            printf("%s: %d\n", current->word, current->count);
+            current->next;
+        }
+    }
+}
 
 void analyzeTable(HashTable* table);
 
