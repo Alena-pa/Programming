@@ -1,4 +1,5 @@
 #include <stdio.h>
+#include <string.h>
 #include "HashTable.h"
 
 HashTable* createTable(int size) {
@@ -22,7 +23,18 @@ int hashFunction(char* word, int size) {
     return hash;
 }
 
-void addWord(HashTable* table, char* word);
+void addWord(HashTable* table, char* word) {
+    int indexOfWord = hashFunction(word, table->countOfSegments);
+    Node* current = table->segments[indexOfWord];
+
+    while (current) {
+        if (strcmp(current->word, word) == 0) {
+            current->count++;
+            return;
+        }
+        current = current->next;
+    }
+}
 
 void printTable(HashTable* table);
 
