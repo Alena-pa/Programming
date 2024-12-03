@@ -83,4 +83,17 @@ void analyzeTable(HashTable* table) {
     printf("Max list length: %d\n", maxLength);
 }
 
-void analyzeFile(HashTable* table, char* filename);
+void analyzeFile(HashTable* table, char* filename) {
+    FILE* file = fopen(filename, "r");
+    if (!file) {
+        printf("Unable to open file!");
+        return;
+    }
+
+    char word[256];
+    while (fscanf(file, "%255s", word) == 1) {
+        addWord(table, word);
+    }
+
+    fclose(file);
+}
