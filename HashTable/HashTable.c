@@ -46,6 +46,41 @@ void printTable(HashTable* table) {
     }
 }
 
-void analyzeTable(HashTable* table);
+void analyzeTable(HashTable* table) {
+    int filledSegments = 0;
+    int maxLength = 0;
+    int totalLength = 0;
+
+    double loadFactor = table->countOfElements / table->countOfSegments;
+    double averageLength;
+
+    for (int i = 0; i < table->countOfSegments; i++) {
+        int length = 0;
+        Node* current = table->segments[i];
+        while (current) {
+            length++;
+            current = current->next;
+        }
+
+        if (length > 0) {
+            filledSegments++;
+            totalLength += length;
+            if (length > maxLength) {
+                maxLength = length;
+            }
+        }
+    }
+
+    if (filledSegments) {
+        averageLength = totalLength / filledSegments;
+    }
+    else {
+        averageLength = 0;
+    }
+
+    printf("Load factor: %.2f\n", loadFactor);
+    printf("Average list length: %.2f\n", averageLength);
+    printf("Max list length: %d\n", maxLength);
+}
 
 void analyzeFile(HashTable* table, char* filename);
