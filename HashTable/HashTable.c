@@ -12,7 +12,15 @@ HashTable* createTable(int size) {
     return table;
 }
 
-int hashFunction(char* word, int size);
+int hashFunction(char* word, int size) {
+    int hash = 0;
+    while (*word) {
+        hash = (hash * 31 + *word) % size;
+        word++;
+    }
+
+    return hash;
+}
 
 void addWord(HashTable* table, char* word);
 
