@@ -5,6 +5,7 @@
 void createQueue(struct Queue* queue) {
     queue->head = -1;
     queue->tail = 0;
+    queue->length = 0;
 }
 
 // Function to check if the queue full
