@@ -4,7 +4,7 @@
 
 // Defining the Queue structure
 typedef struct Queue {
-    char array[MAX_SIZE];
+    int array[MAX_SIZE];
     int head;
     int tail;
     int length;
