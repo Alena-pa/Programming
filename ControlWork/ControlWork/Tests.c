@@ -20,7 +20,7 @@ bool testDequeue() {
     Queue queue;
     createQueue(&queue);
     enqueue(&queue, 1);
-    dequeue(&queue);
+    int removedElement = dequeue(&queue);
     if (!isFull) {
         return true;
     }

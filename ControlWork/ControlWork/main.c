@@ -9,7 +9,6 @@ int main(void) {
     }
     Queue queue;
     createQueue(&queue);
-    int lengthOfQueue = 0;
 
     enqueue(&queue, 1);
     printQueue(&queue);
@@ -20,6 +19,7 @@ int main(void) {
     enqueue(&queue, 3);
     printQueue(&queue);
 
-    dequeue(&queue);
+    int removedElement = dequeue(&queue);
+    printf("Removed element from queue: %d\n", removedElement);
     printQueue(&queue);
 }

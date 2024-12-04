@@ -3,7 +3,7 @@
 
 // Function to create queue
 void createQueue(struct Queue* queue) {
-    queue->head = -1;
+    queue->head = 0;
     queue->tail = 0;
     queue->length = 0;
 }
@@ -26,14 +26,17 @@ void incrementQueue(int *index) {
 }
 
 // Function to remove an element from the queue
-void dequeue(struct Queue* queue) {
+int dequeue(struct Queue* queue) {
     if (queue->length == 0) {
         printf("Queue is empty\n");
         return;
     }
+    int element = queue->array[queue->head];
     queue->head++;
     queue->length--;
+    return element;
 }
+
 // Function to add an element to the queue 
 void enqueue(struct Queue* queue, int value) {
     if (queue->length == MAX_SIZE) {

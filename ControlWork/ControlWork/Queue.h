@@ -16,7 +16,7 @@ void createQueue(struct Queue* queue);
 
 void incrementQueue(struct Queue* queue);
 
-void dequeue(struct Queue* queue);
+int dequeue(struct Queue* queue);
 
 void enqueue(struct Queue* queue, int value);
 
