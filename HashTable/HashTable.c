@@ -1,5 +1,7 @@
 #include <stdio.h>
 #include <string.h>
+#include <stdlib.h>
+#include <ctype.h>
 #include "HashTable.h"
 
 HashTable* createTable(int size) {
@@ -34,6 +36,15 @@ void addWord(HashTable* table, char* word) {
         }
         current = current->next;
     }
+
+    Node* newNode = malloc(sizeof(Node));
+    newNode->word = strdup(word);
+    newNode->count = 1;
+    newNode->next = table->segments[indexOfWord];
+    table->segments[indexOfWord] = newNode;
+
+    table->countOfElements++;
+    return;
 }
 
 void printTable(HashTable* table) {
@@ -41,18 +52,20 @@ void printTable(HashTable* table) {
         Node* current = table->segments[i];
         while (current) {
             printf("%s: %d\n", current->word, current->count);
-            current->next;
+            current = current->next;
         }
     }
 }
+double getLoadFactor(HashTable* table) {
+    if (table->countOfSegments == 0) {
+        return 0.0;
+    }
+    return (double)table->countOfElements / (double)table->countOfSegments;
+}
 
-void analyzeTable(HashTable* table) {
+double getAverageLength(HashTable* table) {
     int filledSegments = 0;
-    int maxLength = 0;
     int totalLength = 0;
-
-    double loadFactor = table->countOfElements / table->countOfSegments;
-    double averageLength;
 
     for (int i = 0; i < table->countOfSegments; i++) {
         int length = 0;
@@ -65,22 +78,53 @@ void analyzeTable(HashTable* table) {
         if (length > 0) {
             filledSegments++;
             totalLength += length;
-            if (length > maxLength) {
-                maxLength = length;
-            }
         }
     }
 
-    if (filledSegments) {
-        averageLength = totalLength / filledSegments;
+    if (filledSegments == 0) {
+        return 0.0;
     }
-    else {
-        averageLength = 0;
+
+    return (double)totalLength / (double)filledSegments;
+}
+
+int getMaxLength(HashTable* table) {
+    int maxLength = 0;
+
+    for (int i = 0; i < table->countOfSegments; i++) {
+        int length = 0;
+        Node* current = table->segments[i];
+        while (current) {
+            length++;
+            current = current->next;
+        }
+        if (length > maxLength) {
+            maxLength = length;
+        }
     }
+
+    return maxLength;
+}
+
+void analyzeTable(HashTable* table) {
+    double loadFactor = getLoadFactor(table);
+    double averageLength = getAverageLength(table);
+    int maxLength = getMaxLength(table);
 
     printf("Load factor: %.2f\n", loadFactor);
     printf("Average list length: %.2f\n", averageLength);
     printf("Max list length: %d\n", maxLength);
+}
+
+void cleanWord(char* word) {
+    int i = 0;
+    int j = 0;
+    while (word[i] != '\0') {
+        if (isalnum(word[i])) {
+            word[j++] = tolower(word[i]);
+        }
+        i++;
+    }
 }
 
 void analyzeFile(HashTable* table, char* filename) {
@@ -92,8 +136,31 @@ void analyzeFile(HashTable* table, char* filename) {
 
     char word[256];
     while (fscanf(file, "%255s", word) == 1) {
-        addWord(table, word);
+        cleanWord(word);
+        if (strlen(word) > 0) {
+            addWord(table, word);
+        }
+    }
+    fclose(file);
+}
+
+
+void deleteTable(HashTable* table) {
+    if (!table) {
+        return;
     }
 
-    fclose(file);
+    for (int i = 0; i < table->countOfSegments; i++) {
+        Node* current = table->segments[i];
+
+        while (current != NULL) {
+            Node* temp = current;
+            current = current->next;
+            free(temp->word);
+            free(temp);
+        }
+    }
+
+    free(table->segments);
+    free(table);
 }

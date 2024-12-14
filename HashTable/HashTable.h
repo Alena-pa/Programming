@@ -20,6 +20,16 @@ void addWord(HashTable* table, char* word);
 
 void printTable(HashTable* table);
 
+double getLoadFactor(HashTable* table);
+
+double getAverageLength(HashTable* table);
+
+int getMaxLength(HashTable* table);
+
 void analyzeTable(HashTable* table);
 
+void cleanWord(char* word);
+
 void analyzeFile(HashTable* table, char* filename);
+
+void deleteTable(HashTable* table);
