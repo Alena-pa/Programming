@@ -1,5 +1,13 @@
 #pragma once
 
+typedef ListNode ListNode;
+
+typedef List List;
+
+typedef Graph Graph;
+
+ListNode* newListNode(int city, int distance, int capital);
+
 Graph* createGraph(int numebrOfCities);
 
 void addEdge(Graph* graph, int from, int to, int distance);
