@@ -6,7 +6,7 @@ typedef List List;
 
 typedef Graph Graph;
 
-ListNode* newListNode(int city, int distance, int capital);
+ListNode* newListNode(int city, int distance);
 
 Graph* createGraph(int numebrOfCities);
 
