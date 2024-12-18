@@ -15,7 +15,8 @@ typedef struct List {
 
 typedef struct Graph {
     int numberOfCities;
-    List* states;
+    List* capitals;
+    int* ownership;
 } Graph;
 
 ListNode* newListNode(int city, int distance) {
@@ -32,9 +33,9 @@ ListNode* newListNode(int city, int distance) {
 Graph* createGraph(int numberOfCities) {
     Graph* graph = (Graph*)malloc(sizeof(Graph));
     graph->numberOfCities = numberOfCities;
-    graph->states = (List*)malloc(numberOfCities * sizeof(List));
+    graph->capitals = (List*)malloc(numberOfCities * sizeof(List));
     for (int i = 0; i < numberOfCities; i++) {
-        graph->states[i].head = NULL;
+        graph->capitals[i].head = NULL;
     }
 
     return graph;
@@ -42,12 +43,12 @@ Graph* createGraph(int numberOfCities) {
 
 void addEdge(Graph* graph, int from, int to, int distance) {
     ListNode* newEdge = newListNode(to, distance);
-    newEdge->next = graph->states[from].head;
-    graph->states[from].head = newEdge;
+    newEdge->next = graph->capitals[from].head;
+    graph->capitals[from].head = newEdge;
 
     ListNode* newEdge = newListNode(from, distance);
-    newEdge->next = graph->states[to].head;
-    graph->states[to].head = newEdge;
+    newEdge->next = graph->capitals[to].head;
+    graph->capitals[to].head = newEdge;
 }
 
 void deleteGraph(Graph* graph) {
@@ -56,7 +57,7 @@ void deleteGraph(Graph* graph) {
     }
 
     for (int i = 0; i < graph->numberOfCities; i++) {
-        ListNode* current = graph->states[i].head;
+        ListNode* current = graph->capitals[i].head;
         while (current != NULL) {
             ListNode* tmp = current;
             current = current->next;
@@ -64,7 +65,7 @@ void deleteGraph(Graph* graph) {
         }
     }
 
-    free(graph->states);
+    free(graph->capitals);
     free(graph);
 }
 
@@ -73,8 +74,8 @@ int nearestCity(Graph* graph, int indexOfCapital) {
     int minDistance = 10 ^ 10;
 
     for (int i = 0; i < graph->numberOfCities; i++) {
-        if (graph->states[i].head == NULL || graph->states[i].head->capital != indexOfCapital) {
-            ListNode* node = graph->states[i].head;
+        if (graph->capitals[i].head == NULL || graph->capitals[i].head->capitals != indexOfCapital) {
+            ListNode* node = graph->capitals[i].head;
             while (node != NULL) {
                 if (node->capital != indexOfCapital && node->distance < minDistance) {
                     minDistance = node->distance;
@@ -88,6 +89,62 @@ int nearestCity(Graph* graph, int indexOfCapital) {
     return nearestCity;
 }
 
-int addingACityToAState(Graph* graph, int indexOfCapital, int** states, int numberOfCities, int numberOfCapitals);
+void addingACityToAState(Graph* graph, int indexOfCapital) {
+    int nearest = nearestCity(graph, indexOfCapital);
+    if (nearestCity != -1) {
+        graph->ownership[nearest] = indexOfCapital;
+    }
+}
 
-void readFromFile(FILE* fileName, int* numberOfCities, int numberOfCapitals);
+void distributeCities(Graph* graph, int* capitals, int numberOfCapitals) {
+    for (int i = 0; i < numberOfCapitals; i++) {
+        graph->ownership[capitals[i]] = capitals[i];
+    }
+
+    int remainingCitites = graph->numberOfCities - numberOfCapitals;
+
+    while (remainingCitites > 0) {
+        for (int i = 0; i < numberOfCapitals; i++) {
+            int capital = capitals[i];
+            int city = nearestCity(graph, capital);
+            if (city != -1) {
+                graph->ownership[city] = capital;
+                remainingCitites--;
+            }
+        }
+    }
+}
+
+Graph* readFromFile(FILE* fileName, int** capitals, int* numberOfCapitals) {
+    int numberOfCities, numberOfRoads;
+    fscanf(fileName, "%d %d", &numberOfCities, &numberOfRoads);
+
+    Graph* graph = createGraph(numberOfCities);
+
+    for (int i = 0; i < numberOfRoads; i++) {
+        int from, to, distance;
+        fscanf(fileName, "%d %d %d", &from, &to, &distance);
+        addEdge(graph, from, to, distance);
+    }
+
+    fscanf(fileName, "%d", numberOfCapitals);
+    *capitals = (int*)malloc(*numberOfCapitals * sizeof(int));
+    for (int i = 0; i < *numberOfCapitals; i++) {
+        fscanf(fileName, "%d", &(*capitals)[i]);
+    }
+
+    return graph;
+}
+
+void printResults(Graph* graph, int numberOfCapitals, int* capitals) {
+    for (int i = 0; i < numberOfCapitals; i++) {
+        int capital = capitals[i];
+        printf("State %d\nCapital %d:\n    Cities: ", i + 1, capital);
+        for (int city = 0; city < graph->numberOfCities; city++) {
+            if (graph->ownership[city] == capital) {
+                printf("%d", city);
+            }
+        }
+        printf("\n");
+    }
+}

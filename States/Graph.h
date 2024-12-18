@@ -1,21 +1,24 @@
 #pragma once
+#include <stdio.h>
 
-typedef ListNode ListNode;
-
-typedef List List;
-
-typedef Graph Graph;
+typedef struct ListNode ListNode;
+typedef struct List List;
+typedef struct Graph Graph;
 
 ListNode* newListNode(int city, int distance);
 
-Graph* createGraph(int numebrOfCities);
+Graph* createGraph(int numberOfCities);
 
 void addEdge(Graph* graph, int from, int to, int distance);
 
 void deleteGraph(Graph* graph);
 
-int nearestCity(Graph* graph, int indexOfCapital, int** states, int numberOfCities, int numberOfCapitals);
+int nearestCity(Graph* graph, int indexOfCapital);
 
-int addingACityToAState(Graph* graph, int indexOfCapital, int** states, int numberOfCities, int numberOfCapitals);
+void addingACityToAState(Graph* graph, int indexOfCapital);
 
-void readFromFile(FILE* fileName, int* numberOfCities, int numberOfCapitals);
+void distributeCities(Graph* graph, int* capitals, int numberOfCapitals);
+
+Graph* readFromFile(FILE* fileName, int** capitals, int* numberOfCapitals);
+
+void printResults(Graph* graph, int numberOfCapitals, int* capitals);
