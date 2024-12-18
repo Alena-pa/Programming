@@ -160,7 +160,7 @@ bool distributeCities(Graph* graph, int* cities, int numberOfCapitals) {
     for (int i = 0; i < numberOfCapitals; i++) {
         
         if (cities[i] < 0 || cities[i] >= graph->numberOfCities) {
-            printf("Incorrect index!\n", cities[i]);
+            printf("Incorrect index!\n");
             return false;
         }
         graph->ownership[cities[i]] = cities[i];

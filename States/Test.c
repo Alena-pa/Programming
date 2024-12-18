@@ -106,6 +106,7 @@ bool testDistributeCities() {
     }
 
     if (graph->ownership[0] != 0 || graph->ownership[1] != 0 || graph->ownership[2] != 3 || graph->ownership[3] != 3 || graph->ownership[4] != 3) {
+        printf("error at third if");
         return false;
     }
 
