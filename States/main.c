@@ -13,10 +13,16 @@ int main(void) {
     int* capitals;
 
     Graph* graph = readFromFile(file, &numberOfCapitals, &capitals);
+    if (graph == NULL) {
+        return 2;
+    }
     fclose(file);
 
     distributeCities(graph, capitals, numberOfCapitals);
-    
+    if (!distributeCities) {
+        return 2;
+    }
+
     printResults(graph, numberOfCapitals, capitals);
 
     free(capitals);

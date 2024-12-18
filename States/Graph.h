@@ -1,5 +1,5 @@
 #pragma once
-#include <stdio.h>
+#include <stdbool.h>
 
 typedef struct ListNode ListNode;
 typedef struct List List;
@@ -17,7 +17,7 @@ int nearestCity(Graph* graph, int indexOfCapital);
 
 void addingACityToAState(Graph* graph, int indexOfCapital);
 
-void distributeCities(Graph* graph, int* capitals, int numberOfCapitals);
+bool distributeCities(Graph* graph, int* capitals, int numberOfCapitals);
 
 Graph* readFromFile(FILE* fileName, int** capitals, int* numberOfCapitals);
 
