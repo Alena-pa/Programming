@@ -41,13 +41,13 @@ Graph* createGraph(int numberOfCities) {
 }
 
 void addEdge(Graph* graph, int from, int to, int distance) {
-    ListNode* newNode = newListNode(to, distance);
-    newNode->next = graph->states[from].head;
-    graph->states[from].head = newNode;
+    ListNode* newEdge = newListNode(to, distance);
+    newEdge->next = graph->states[from].head;
+    graph->states[from].head = newEdge;
 
-    ListNode* newNode = newListNode(from, distance);
-    newNode->next = graph->states[to].head;
-    graph->states[to].head = newNode;
+    ListNode* newEdge = newListNode(from, distance);
+    newEdge->next = graph->states[to].head;
+    graph->states[to].head = newEdge;
 }
 
 void deleteGraph(Graph* graph) {
@@ -69,7 +69,23 @@ void deleteGraph(Graph* graph) {
 }
 
 int nearestCity(Graph* graph, int indexOfCapital) {
+    int nearestCity = -1;
+    int minDistance = 10 ^ 10;
 
+    for (int i = 0; i < graph->numberOfCities; i++) {
+        if (graph->states[i].head == NULL || graph->states[i].head->capital != indexOfCapital) {
+            ListNode* node = graph->states[i].head;
+            while (node != NULL) {
+                if (node->capital != indexOfCapital && node->distance < minDistance) {
+                    minDistance = node->distance;
+                    nearestCity = node->city;
+                }
+                node = node->next;
+            }
+        }
+    }
+
+    return nearestCity;
 }
 
 int addingACityToAState(Graph* graph, int indexOfCapital, int** states, int numberOfCities, int numberOfCapitals);
