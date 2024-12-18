@@ -1,8 +1,12 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include "Graph.h"
+#include "Tests.h"
 
 int main(void) {
+    if (!allTests()) {
+        return -1;
+    }
     FILE* file = fopen("input.txt", "r");
     if (file == NULL) {
         printf("error opening file!\n");
