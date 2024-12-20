@@ -16,7 +16,7 @@ typedef struct List {
 
 typedef struct Graph {
     int numberOfCities;
-    List* cities;
+    List* capitals;
     int* ownership;
 } Graph;
 
@@ -34,7 +34,7 @@ bool testCreateGraph() {
         if (graph->ownership[i] != -1) {
             return false;
         }
-        if (graph->cities[i].head != NULL) {
+        if (graph->capitals[i].head != NULL) {
             return false;
         }
     }
@@ -52,17 +52,17 @@ bool testAddEdge() {
     addEdge(graph, 0, 1, 10);
     addEdge(graph, 1, 2, 5);
 
-    if (graph->cities[0].head->city != 1 || graph->cities[0].head->distance != 10) {
+    if (graph->capitals[0].head->city != 1 || graph->capitals[0].head->distance != 10) {
         return false;
     }
-    if (graph->cities[1].head->city != 2 || graph->cities[1].head->distance != 5) {
+    if (graph->capitals[1].head->city != 2 || graph->capitals[1].head->distance != 5) {
         return false;
     }
 
-    if (graph->cities[1].head->city != 2 || graph->cities[1].head->distance != 5) {
+    if (graph->capitals[1].head->city != 2 || graph->capitals[1].head->distance != 5) {
         return false;
     }
-    if (graph->cities[2].head->city != 1 || graph->cities[2].head->distance != 5) {
+    if (graph->capitals[2].head->city != 1 || graph->capitals[2].head->distance != 5) {
         return false;
     }
 
@@ -106,7 +106,7 @@ bool testDistributeCities() {
     }
 
     if (graph->ownership[0] != 0 || graph->ownership[1] != 0 || graph->ownership[2] != 3 || graph->ownership[3] != 3 || graph->ownership[4] != 3) {
-        printf("error at third if");
+        printf("error at third if\n");
         return false;
     }
 
