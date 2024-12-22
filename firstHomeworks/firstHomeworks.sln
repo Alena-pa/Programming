@@ -3,7 +3,9 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.11.35303.130
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "firstHomeworks", "firstHomeworks.vcxproj", "{4D8CF154-6C28-4EEF-98D4-C4675065CA3B}"
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "primeNumbers", "firstHomeworks.vcxproj", "{4D8CF154-6C28-4EEF-98D4-C4675065CA3B}"
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "incompleteQotient", "..\incompleteQotient\incompleteQotient.vcxproj", "{B3B1A0E1-466E-42CB-9353-40903A9E7F67}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -21,6 +23,14 @@ Global
 		{4D8CF154-6C28-4EEF-98D4-C4675065CA3B}.Release|x64.Build.0 = Release|x64
 		{4D8CF154-6C28-4EEF-98D4-C4675065CA3B}.Release|x86.ActiveCfg = Release|Win32
 		{4D8CF154-6C28-4EEF-98D4-C4675065CA3B}.Release|x86.Build.0 = Release|Win32
+		{B3B1A0E1-466E-42CB-9353-40903A9E7F67}.Debug|x64.ActiveCfg = Debug|x64
+		{B3B1A0E1-466E-42CB-9353-40903A9E7F67}.Debug|x64.Build.0 = Debug|x64
+		{B3B1A0E1-466E-42CB-9353-40903A9E7F67}.Debug|x86.ActiveCfg = Debug|Win32
+		{B3B1A0E1-466E-42CB-9353-40903A9E7F67}.Debug|x86.Build.0 = Debug|Win32
+		{B3B1A0E1-466E-42CB-9353-40903A9E7F67}.Release|x64.ActiveCfg = Release|x64
+		{B3B1A0E1-466E-42CB-9353-40903A9E7F67}.Release|x64.Build.0 = Release|x64
+		{B3B1A0E1-466E-42CB-9353-40903A9E7F67}.Release|x86.ActiveCfg = Release|Win32
+		{B3B1A0E1-466E-42CB-9353-40903A9E7F67}.Release|x86.Build.0 = Release|Win32
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
