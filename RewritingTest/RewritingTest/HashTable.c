@@ -7,11 +7,11 @@
 #define TABLESIZE 100
 
 typedef struct HashNode {
-    char value;
+    char* value;
     bool isUsed;
 } HashNode;
 
-typedef HashNode* HashTable[TABLESIZE];
+typedef HashNode table[TABLESIZE];
 
 void initHashTable(HashTable* table) {
     for (int i = 0; i < TABLESIZE; i++) {
