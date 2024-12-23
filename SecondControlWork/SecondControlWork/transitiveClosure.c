@@ -1,24 +1,8 @@
 #include <stdio.h>
+#include <stdlib.h>
+#include "trasitiveClosure.h"
 
-void readInput(char* filename, int* n, int relation[*][*]) {
-    FILE* input = fopen(filename, "r");
-    if (input == NULL) {
-        printf("Error at opening file");
-        return;
-    }
-
-    fscanf(input, "%d", n);
-
-    for (int i = 0; i < *n; i++) {
-        for (int j = 0; j < *n; j++) {
-            fscanf(input, "%d", &relation[i][j]);
-        }
-    }
-
-    fclose(input);
-}
-
-void writeOutput(char* filename, int n, int relation[n][n]) {
+void writeOutput(char* filename, int n, int** relation) {
     FILE* output = fopen(filename, "w");
     if (output == NULL) {
         printf("Error at opening file");
@@ -35,7 +19,7 @@ void writeOutput(char* filename, int n, int relation[n][n]) {
     fclose(output);
 }
 
-void transitiveClosure(int n, int relation[n][n]) {
+void transitiveClosure(int n, int** relation) {
     for (int k = 0; k < n; k++) {
         for (int i = 0; i < n; i++) {
             for (int j = 0; j < n; j++) {

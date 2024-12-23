@@ -19,6 +19,7 @@ void foundInFile(FILE* file) {
         }
         symbol = fgetc(file);
     }
+    fclose(output);
 }
 
 int main(void) {
@@ -27,4 +28,5 @@ int main(void) {
         return 1;
     }
     foundInFile(file);
+    fclose(file);
 }
