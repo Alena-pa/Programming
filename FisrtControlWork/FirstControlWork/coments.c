@@ -3,6 +3,7 @@
 #include <stdbool.h>
 
 void foundInFile(FILE* file) {
+    FILE* output = fopen("output.txt", "w");
     bool isComment = false;
     int symbol = fgetc(file);
     while (symbol != EOF) {
@@ -10,10 +11,10 @@ void foundInFile(FILE* file) {
             isComment = true;
         }
         if (isComment) {
-            putc(symbol, stdout);
+            putc(symbol, output);
         }
         if (symbol == '\n') {
-            putc('\n', stdout);
+            putc('\n', output);
             isComment = false;
         }
         symbol = fgetc(file);
