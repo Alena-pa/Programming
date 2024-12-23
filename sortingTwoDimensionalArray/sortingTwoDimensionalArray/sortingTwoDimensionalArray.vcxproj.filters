@@ -15,7 +15,7 @@
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="sortingTwoDimensionalArray.cpp">
+    <ClCompile Include="sortingTwoDimensionalArray.c">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>

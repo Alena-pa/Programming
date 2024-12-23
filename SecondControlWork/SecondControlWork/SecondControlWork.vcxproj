@@ -127,7 +127,11 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="SecondControlWork.c" />
+    <ClCompile Include="main.c" />
+    <ClCompile Include="transitiveClosure.c" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="trasitiveClosure.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
