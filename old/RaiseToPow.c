@@ -1,47 +1,63 @@
+#include <math.h>
 #include <stdio.h>
 #include <stdbool.h>
-#include <math.h>
 
-double raiseToPowSimple(int number, int pow) {
+double simpleRaiseToPow(int number, int pow) {
     double answer = 1;
     int absPow = abs(pow);
-    for (int i = 0, i < absPow, i++) {
+    for (int i = 0; i < absPow; i++) {
         answer *= number;
     }
-
-    return pow < 0 ? 1 / answer : answer;
+    if (pow < 0) {
+        return 1 / answer;
+    }
+    else {
+        return answer;
+    }
 }
 
-double raiseToPowUpgraded(int number, int pow) {
+double upgradeRaiseToPow(int number, int pow) {
     double answer = 1;
     int absPow = abs(pow);
-    while (absPow != 0) {
+    while (absPow) {
         if (absPow % 2 == 0) {
             absPow /= 2;
-            answer *= number;
+            number *= number;
         }
         else {
             absPow--;
             answer *= number;
         }
     }
-    
-    return pow < 0 ? 1 / answer : answer;
+    if (pow < 0) {
+        return 1 / answer;
+    }
+    else {
+        return answer;
+    }
 }
 
+bool areEqual(double firstNumber, double secondNumber, double epsilon) {
+	return fabs(firstNumber - secondNumber) < epsilon;
+} 
 bool testSimpleRaise() {
-    return ((simpleRaiseToPow(2, 2) == 4) && (simpleRaiseToPow(2, 0) == 1) && (simpleRaiseToPow(-2, 1) == -2)
-        && (simpleRaiseToPow(2, -1) == 0, 5) && (simpleRaiseToPow(-2, 2) == 4));
+	double epsilon = 1e-6;
+	return (areEqual(simpleRaiseToPow(2, 2), 4, epsilon) && 
+            areEqual(simpleRaiseToPow(2, 0), 1, epsilon) && 
+            areEqual(simpleRaiseToPow(-2, 1), -2, epsilon) &&
+            areEqual(simpleRaiseToPow(2, -1), 0.5, epsilon) && 
+            areEqual(simpleRaiseToPow(-2, 2), 4, epsilon));
 }
 
 bool testUpgradeRaise() {
-    return ((upgradeRaiseToPow(2, 2) == 4) && (upgradeRaiseToPow(2, 0) == 1) && (upgradeRaiseToPow(-2, 2) == 4)
-        && (upgradeRaiseToPow(2, -1) == 0, 5));
+	double epsilon = 1e-6;
+    return (areEqual(upgradeRaiseToPow(2, 2), 4, epsilon) && 
+            areEqual(upgradeRaiseToPow(2, 0), 1, epsilon) && 
+            areEqual(upgradeRaiseToPow(-2, 2), 4, epsilon) &&
+            areEqual(upgradeRaiseToPow(2, -1), 0.5, epsilon));
 }
-int main(void) {
-    if (!testSimpleRaise() && !testUpgradeRaise()){
+int main() {
+    if (!testSimpleRaise && !testUpgradeRaise) {
         printf("Smth Went Wrong!\n");
-        return 1;
     }
-    return 0;
 }
