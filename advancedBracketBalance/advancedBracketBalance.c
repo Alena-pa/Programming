@@ -2,7 +2,7 @@
 #include <stdbool.h>
 #include "Stack.h"
 
-int advancedBracketBalance(char* brackets) {
+bool advancedBracketBalance(const char* brackets) {
     Stack* stack = createStack();
     int bracketsRead = 0;
     while (brackets[bracketsRead] != '\0') {
@@ -11,61 +11,50 @@ int advancedBracketBalance(char* brackets) {
                 push(stack, "(");
                 break;
             case ')':
-                if (top(stack) != 1 && top(stack) == "(") {
+                if (top(stack) != NULL && top(stack) == "(") {
                     pop(stack);
                     break;
                 }
                 else {
                     deleteStack(stack);
-                    return 1;
+                    return false;
                 }
             case '{':
                 push(stack, "{");
                 break;
             case '}':
-                if (top(stack) != 1 && top(stack) == "{") {
+                if (top(stack) != NULL && top(stack) == "{") {
                     pop(stack);
                     break;
                 }
                 else {
                     deleteStack(stack);
-                    return 1;
+                    return false;
                 }
             case '[':
                 push(stack, "[");
                 break;
             case ']':
-                if (top(stack) != 1 && top(stack) == "[") {
+                if (top(stack) != NULL && top(stack) == "[") {
                     pop(stack);
                     break;
                 }
                 else {
                     deleteStack(stack);
-                    return 1;
+                    return false;
                 }
          default:
              break;
         }
         bracketsRead++;
     }
-    if (top(stack) == 1) {
-        deleteStack(stack);
-        return 0;
-    }
+    bool result = top(stack) == NULL;
     deleteStack(stack);
-    return 1;
+    return result;
 }
 
 bool test(void) {
-    char string1 = "{){}";
-    char string2 = "}{";
-    char string3 = "[]{}({})";
-    if (advancedBracketBalance(string1) == 1 && advancedBracketBalance(string2) == 1 && advancedBracketBalance(string3) == 0) {
-        return true;
-    }
-    else {
-        return false;
-    }
+    return (!advancedBracketBalance("{){}") && !advancedBracketBalance("}{") && advancedBracketBalance("[]{}({})"));
 }
 
 int main(void) {
@@ -73,7 +62,4 @@ int main(void) {
         printf("Test Failed!");
         return 1;
     }
-    char stringOfBrackets[100];
-    printf("Enter string of brackets: ");
-    scanf("%s", stringOfBrackets, 100);
 }

@@ -5,8 +5,8 @@ Stack* createStack();
 
 void deleteStack(Stack* stack);
 
-void push(Stack* stack, int value);
+void push(Stack* stack, char* value);
 
 void pop(Stack* stack);
 
-int top(Stack* stack);
+char* top(Stack* stack);

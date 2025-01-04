@@ -4,7 +4,7 @@
 #include "Stack.h"
 
 typedef struct StackElement {
-    int value;
+    char* value;
     struct StackElement* next;
 } StackElement;
 
@@ -31,13 +31,13 @@ void deleteStack(Stack* stack) {
     free(stack);
 }
 
-void push(Stack* stack, int value) {
+void push(Stack* stack, char* value) {
     StackElement* element = malloc(sizeof(StackElement));
     if (!element) {
         printf("Memory Allocation!");
         return;
     }
-    element->value = 1;
+    element->value = value;
     element->next = stack->head;
     stack->head = element;
 }
@@ -52,9 +52,9 @@ void pop(Stack* stack) {
     free(tmp);
 }
 
-int top(Stack* stack) {
+char* top(Stack* stack) {
     if (stack->head == NULL) {
-        return -1;
+        return NULL;
     }
     return stack->head->value;
 }
