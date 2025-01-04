@@ -17,7 +17,6 @@ void randomise(int *arrayOfIntegers, int lengthOfArray) {
     }
 }
 
-
 void printArray(int* arrayOfIntegers, int lengthOfArray) {
     for (int i = 0; i < lengthOfArray; i++) {
         printf("%d ", arrayOfIntegers[i]);
@@ -28,27 +27,19 @@ void printArray(int* arrayOfIntegers, int lengthOfArray) {
 void sortingArrayOfIntegers(int *arrayOfIntegers, int lengthOfArray) {
     int lastChangedIndex = 0;
     int indexOfFirstElement = 0;
-    if (arrayOfIntegers[0] == 0) {
-        return;
-    }
-
     for (int i = 1; i < lengthOfArray; i++) {
         if (arrayOfIntegers[i] < arrayOfIntegers[0]) {
             swap(&arrayOfIntegers[indexOfFirstElement], &arrayOfIntegers[indexOfFirstElement++]);
             swap(&arrayOfIntegers[i], &arrayOfIntegers[lastChangedIndex]);
             lastChangedIndex++;
-            printArray(arrayOfIntegers, lengthOfArray);
         }
     }
 }
 
-
-int main()
-{
+int main()  {
 	int arrayOfIntegers[10] = { 0 };
     randomise(arrayOfIntegers, 10);
     printArray(arrayOfIntegers, 10);
     printf("\n");
     sortingArrayOfIntegers(arrayOfIntegers, 10);
-    //printArray(arrayOfIntegers, 10);
 }

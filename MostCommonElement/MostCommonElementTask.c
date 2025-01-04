@@ -36,8 +36,10 @@ bool Test() {
     return (mostCommonElement(arrayOfIntegers, 5) == 2 && (mostCommonElement(anotherArrayOfIntegers, 5) == 0 || mostCommonElement(anotherArrayOfIntegers, 5) == 3));
 }
 
-int main() {
-    if (!Test()) {
-        printf("Tests failed!");
+int main()
+{
+    if (!Test)
+    {
+        printf("Snth Went Wrong!!!!!!!!!!!");
     }
 }
