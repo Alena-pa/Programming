@@ -2,30 +2,24 @@
 #include <stdlib.h>
 #include <stdbool.h>
 
-int maxArray(int* arrayOfIntegers, int lenghtOfArray)
-{
+int maxArray(int* arrayOfIntegers, int lenghtOfArray) {
     int maxInteger = 0;
-    for (int i = 0; i < lenghtOfArray; i++)
-    {
-        if (arrayOfIntegers[i] > maxInteger)
-        {
+    for (int i = 0; i < lenghtOfArray; i++) {
+        if (arrayOfIntegers[i] > maxInteger) {
             maxInteger = arrayOfIntegers[i];
         }
     }
     return maxInteger;
 }
 
-bool Test()
-{
+bool Test() {
     int arrayOfIntegers[5] = { 1, 2, 2, 3, 4 };
     int anotherArrayOfIntegers[5] = { 0, 0, 2, 3, 3 };
     return (mostCommonElement(arrayOfIntegers, 5) == 2 && (mostCommonElement(anotherArrayOfIntegers, 5) == 0 || mostCommonElement(anotherArrayOfIntegers, 5) == 3));
 }
 
-int main()
-{
-    if (!Test)
-    {
+int main() {
+    if (!Test) {
         printf("Snth Went Wrong!!!!!!!!!!!");
     }
 }
