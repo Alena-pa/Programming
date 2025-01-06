@@ -3,7 +3,7 @@
 #include "stack.c"
 #include <string.h>
 
-#define MAXSIZE 100
+#define MAX_SIZE 100
 
 bool isOperation(char element){
     if (element == '+' || element == '-' || element == '*' || element == '/'){
