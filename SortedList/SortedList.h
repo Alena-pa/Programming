@@ -1,14 +1,11 @@
 #pragma once
 
-typedef struct List {
-    int value;
-    struct List* next;
-} List;
+typedef struct List List;
 
-List* addValueToList(struct List* head, int value);
+List* addValueToList(List* head, int value);
 
-List* deleteFromList(struct List* head, int value);
+List* deleteFromList(List* head, int value);
 
-void printList(struct List* head);
+void printList(List* head);
 
-void freeList(struct List* head);
+void freeList(List* head);

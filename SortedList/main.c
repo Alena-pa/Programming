@@ -4,7 +4,7 @@
 #include "Tests.h"
 
 int main(void) {
-    if (!allTests) {
+    if (!allTests()) {
         printf("Tests failed!\n");
         return 1;
     }
@@ -18,7 +18,7 @@ int main(void) {
 
     int numberOfOperation = -1;
 
-    int value;
+    int value = 0;
     while (numberOfOperation != 0) {
         printf("Enter number of operation: ");
         scanf("%d", &numberOfOperation);
@@ -26,19 +26,32 @@ int main(void) {
         switch (numberOfOperation) {
         case 0:
             freeList(list);
-            printf("This is the end of programm");
+            printf("This is the end of program");
             return 0;
         case 1:
             printf("Enter value to add: ");
             scanf("%d", &value);
             list = addValueToList(list, value);
+            if (!list) {
+                printf("Not enough memory :(");
+                return -1;
+            }
             printf("Value %d added\n", value);
             break;
         case 2:
             if (list != NULL) {
                 printf("Enter value to delete: ");
                 scanf("%d", &value);
-                deleteFromList(list, value);
+                if (!list) {
+                    return -1;
+                }
+                list = deleteFromList(list, value);
+                if (list == NULL) {
+                    printf("Didn`t found value %d at list\n", value);
+                }
+                else {
+                    printf("Value %d deleted\n", value);
+                }
             }
             else {
                 printf("List is empty, press 1 to add smth to list\n");

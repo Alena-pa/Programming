@@ -2,11 +2,15 @@
 #include <stdlib.h>
 #include "SortedList.h"
 
-List* addValueToList(struct List* head, int value) {
+typedef struct List {
+    int value;
+    struct List* next;
+} List;
+
+List* addValueToList(List* head, int value) {
     List* valueToAdd = (List*)malloc(sizeof(List));
-    if (!valueToAdd) {
-        printf("Not enough memory!");
-        return head;
+    if (valueToAdd == NULL) {
+        return NULL;
     }
     valueToAdd->value = value;
     valueToAdd->next = NULL;
@@ -27,22 +31,20 @@ List* addValueToList(struct List* head, int value) {
     return head;
 }
 
-List* deleteFromList(struct List* head, int value) {
+List* deleteFromList(List* head, int value) {
     List* currentElementOfList = head;
     while (currentElementOfList->next && currentElementOfList->next->value != value) {
         currentElementOfList = currentElementOfList->next;
     }
 
     if (currentElementOfList->next == NULL) {
-        printf("Didn`t found value %d at list\n", value);
-        return head;
+        return NULL;
     }
     currentElementOfList->next = currentElementOfList->next->next;
-    printf("Value %d deleted\n", value);
     return head;
 }
 
-void printList(struct List* head) {
+void printList(List* head) {
     List* currentElementOfList = head;
     printf("List:\n");
     while (currentElementOfList) {
@@ -52,7 +54,7 @@ void printList(struct List* head) {
     printf("\n");
 }
 
-void freeList(struct List* head) {
+void freeList(List* head) {
     while (head) {
         List* elementToFree = head;
         head = head->next;

@@ -3,7 +3,12 @@
 #include "Tests.h"
 #include "SortedList.h"
 
-bool testAddValueToList() {
+typedef struct List {
+    int value;
+    struct List* next;
+} List;
+
+bool testAddValueToList(void) {
     List* list = NULL;
     list = addValueToList(list, 1);
     list = addValueToList(list, 2);
@@ -13,7 +18,7 @@ bool testAddValueToList() {
     return result;
 }
 
-bool testDeleteHeadFromList() {
+bool testDeleteHeadFromList(void) {
     List* list = NULL;
     list = addValueToList(list, 1);
     list = addValueToList(list, 2);
@@ -25,7 +30,7 @@ bool testDeleteHeadFromList() {
     return result;
 }
 
-bool testDeleteElementFromList() {
+bool testDeleteElementFromList(void) {
     List* list = NULL;
     list = addValueToList(list, 1);
     list = addValueToList(list, 2);
@@ -37,6 +42,6 @@ bool testDeleteElementFromList() {
     return result;
 }
 
-bool allTests() {
+bool allTests(void) {
     return testAddValueToList && testDeleteElementFromList && testDeleteHeadFromList;
 }
