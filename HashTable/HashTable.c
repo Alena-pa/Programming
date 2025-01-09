@@ -4,25 +4,64 @@
 #include <ctype.h>
 #include "HashTable.h"
 
+typedef struct Node {
+    char* word;
+    int count;
+    struct Node* next;
+} Node;
+
+typedef struct HashTable {
+    Node** segments;
+    int countOfSegments;
+    int countOfElements;
+} HashTable;
+
 HashTable* createTable(int size) {
     HashTable* table = malloc(sizeof(HashTable));
+    if (table == NULL) {
+        return NULL;
+    }
     table->countOfSegments = size;
     table->countOfElements = 0;
     table->segments = malloc(size * sizeof(Node*));
+    if (table->segments == NULL) {
+        return NULL;
+    }
     for (int i = 0; i < size; i++) {
         table->segments[i] = NULL;
     }
     return table;
 }
 
-int hashFunction(char* word, int size) {
-    int hash = 0;
-    while (*word) {
-        hash = (hash * 31 + *word) % size;
-        word++;
+unsigned int hashFunction(char* word, int size) {
+    unsigned int hash = 0;
+    for (int i = 0; word[i] != '\0'; i++) {
+        hash = (hash * 31 + word[i]) % size;
+    }
+    return hash;
+}
+
+void resizeHashTable(HashTable* table) {
+    int oldSegmentCount = table->countOfSegments;
+    Node** oldSegments = table->segments;
+
+    int newSegmentCount = oldSegmentCount * 2;
+    table->segments = calloc(newSegmentCount, sizeof(Node*));
+    table->countOfSegments = newSegmentCount;
+    table->countOfElements = 0;
+
+    for (int i = 0; i < oldSegmentCount; ++i) {
+        Node* current = oldSegments[i];
+        while (current) {
+            addWord(table, current->word);
+            Node* temp = current;
+            current = current->next;
+            free(temp->word);
+            free(temp);
+        }
     }
 
-    return hash;
+    free(oldSegments);
 }
 
 void addWord(HashTable* table, char* word) {
@@ -44,7 +83,10 @@ void addWord(HashTable* table, char* word) {
     table->segments[indexOfWord] = newNode;
 
     table->countOfElements++;
-    return;
+    double loadFactor = table->countOfElements / table->countOfSegments;
+    if (loadFactor > 0.75) {
+        resizeHashTable(table);
+    }
 }
 
 void printTable(HashTable* table) {
@@ -134,7 +176,7 @@ void analyzeFile(HashTable* table, char* filename) {
         return;
     }
 
-    char word[256];
+    char word[256] = {0};
     while (fscanf(file, "%255s", word) == 1) {
         cleanWord(word);
         if (strlen(word) > 0) {

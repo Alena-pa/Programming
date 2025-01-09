@@ -3,6 +3,18 @@
 #include "Tests.h"
 #include "HashTable.h"
 
+typedef struct Node {
+    char* word;
+    int count;
+    struct Node* next;
+} Node;
+
+typedef struct HashTable {
+    Node** segments;
+    int countOfSegments;
+    int countOfElements;
+} HashTable;
+
 bool testHashFunction() {
     int result = hashFunction("test", 10);
     return result >= 0 && result < 10;

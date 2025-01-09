@@ -8,6 +8,10 @@ int main(void) {
         return 1;
     }
     HashTable* table = createTable(100);
+    if (table == NULL) {
+        printf("Memory Allocation!");
+        return -1;
+    }
     analyzeFile(table, "file.txt");
     printTable(table);
     analyzeTable(table);
