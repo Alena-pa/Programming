@@ -3,6 +3,14 @@
 #include <string.h>
 #include "Tree.h"
 
+typedef struct Node {
+    const char* key;
+    const char* value;
+    int height;
+    struct Node* leftChild;
+    struct Node* rightChild;
+} Node;
+
 int getHeight(struct Node* node) {
     if (!node) {
         return 0;
@@ -52,6 +60,13 @@ struct Node* leftRotate(struct Node* node) {
     return newRoot;
 }
 
+int maxValue(int first, int second) {
+    if (first > second) {
+        return first;
+    }
+    return second;
+}
+
 struct Node* balance(struct Node* node) {
     updateHeight(node);
     int balanceFactor = getBalance(node);
@@ -71,18 +86,65 @@ struct Node* balance(struct Node* node) {
 
     return node;
 }
-
-struct Node* insertNode(struct Node* root, const char* key, const char* value) {
-    if (!root) {
+struct Node* insert(struct Node* node, const char* key, const char* value) {
+    if (node == NULL) {
         Node* newNode = (Node*)malloc(sizeof(Node));
-        if (!newNode) {
-            printf("Not enough memory!");
-            return 0;
+        if (newNode == NULL) {
+            return NULL;
         }
+
         newNode->leftChild = NULL;
         newNode->rightChild = NULL;
-        newNode->key = key;
-        newNode->value = value;
+        newNode->key = strdup(key);
+        newNode->value = strdup(value);
+        newNode->height = 1;
+        return newNode;
+    }
+    if (strcmp(key, node->key) < 0) {
+        node->leftChild = insert(node->leftChild, key, value);
+    }
+    else if (strcmp(key, node->key) > 0) {
+        node->rightChild = insert(node->rightChild, key, value);
+    }
+    else {
+        return node;
+    }
+    node->height = 1 + maxValue(getHeight(node->leftChild), getHeight(node->leftChild));
+
+    int balance = getBalance(node);
+
+    if (balance > 1 && strcmp(key, node->leftChild->key) < 0) {
+        return rightRotate(node);
+    }
+
+    if (balance < -1 && strcmp(key, node->rightChild->key) > 0) {
+        return leftRotate(node);
+    }
+
+    if (balance > 1 && strcmp(key, node->leftChild->key) > 0) {
+        node->leftChild = leftRotate(node->leftChild);
+        return rightRotate(node);
+    }
+
+    if (balance < -1 && strcmp(key, node->rightChild->key) < 0) {
+        node->rightChild = rightRotate(node->rightChild);
+        return leftRotate(node);
+    }
+
+    return node;
+}
+
+struct Node* insertNode(struct Node* root, const char* key, const char* value) {
+    if (root == NULL) {
+        Node* newNode = (Node*)malloc(sizeof(Node));
+        if (newNode == NULL) {
+            return NULL;
+        }
+
+        newNode->leftChild = NULL;
+        newNode->rightChild = NULL;
+        newNode->key = strdup(key);
+        newNode->value = strdup(value);
         newNode->height = 1;
         return newNode;
     }
@@ -95,7 +157,7 @@ struct Node* insertNode(struct Node* root, const char* key, const char* value) {
             root->rightChild = insertNode(root->rightChild, key, value);
         }
         else {
-            root->value = value;
+            root->value = strdup(value);
             return root;
         }
     }
@@ -124,52 +186,78 @@ struct Node* getMinNode(struct Node* node) {
 }
 
 struct Node* deleteNode(struct Node* root, const char* key) {
-    if (root == NULL) {
-        return NULL;
-    }
+    if (root == NULL)
+        return root;
 
     if (strcmp(key, root->key) < 0) {
         root->leftChild = deleteNode(root->leftChild, key);
     }
+
     else if (strcmp(key, root->key) > 0) {
         root->rightChild = deleteNode(root->rightChild, key);
     }
-    else {
-        if (root->leftChild == NULL) {
-            struct Node* rightChild = root->rightChild;
-            free(root->key);
-            free(root->value);
-            free(root);
-            return rightChild;
-        }
 
-        struct Node* minNode = getMinNode(root->rightChild);
-        root->key = strdup(minNode->key);
-        root->value = strdup(minNode->value);
-        root->rightChild = deleteNode(root->rightChild, minNode->key);
+    else {
+        if ((root->leftChild == NULL) || (root->rightChild == NULL)) {
+            Node* temp = NULL;
+            if (root->rightChild) {
+                Node* temp = root->leftChild;
+            }
+            else {
+                Node* temp = root->rightChild;
+            }
+            
+            if (temp == NULL) {
+                temp = root;
+                root = NULL;
+            }
+            else {
+                *root = *temp;
+            }
+            free(temp);
+        }
+        else {
+            struct Node* temp = getMinNode(root->rightChild);
+            root->key = temp->key;
+            root->rightChild = deleteNode(root->rightChild, temp->key);
+        }
     }
 
-    return balance(root);
+    if (root == NULL) {
+        return root;
+    }
+    root->height = 1 + maxValue(getHeight(root->leftChild), getHeight(root->rightChild));
+    int balance = getBalance(root);
+
+    if (balance > 1 && getBalance(root->leftChild) >= 0) {
+        return rightRotate(root);
+    }
+    if (balance > 1 && getBalance(root->leftChild) < 0) {
+        root->leftChild = leftRotate(root->leftChild);
+        return rightRotate(root);
+    }
+    if (balance < -1 && getBalance(root->rightChild) <= 0) {
+        return leftRotate(root);
+    }
+    if (balance < -1 && getBalance(root->rightChild) > 0) {
+        root->rightChild = rightRotate(root->rightChild);
+        return leftRotate(root);
+    }
+
+    return root;
 }
 
 const char* getValue(struct Node* root, const char* key) {
     struct Node* node = findNode(root, key);
-    if (node != NULL) {
-        return node->value;
-    }
-    else {
-        return NULL;
-    }
+    return node != NULL ? node->value : NULL;
 }
 
 void freeTree(struct Node* node) {
-    if (!node) {
+    if (node != NULL) {
         freeTree(node->leftChild);
         freeTree(node->rightChild);
         free(node->key);
         free(node->value);
         free(node);
     }
-
-    return;
 }

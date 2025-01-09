@@ -1,14 +1,6 @@
 #pragma once
 
-#pragma once
-
-typedef struct Node {
-    const char* key;
-    const char* value;
-    int height;
-    struct Node* leftChild;
-    struct Node* rightChild;
-} Node;
+typedef struct Node Node;
 
 int getHeight(struct Node* node);
 

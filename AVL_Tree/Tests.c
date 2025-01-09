@@ -5,6 +5,14 @@
 #include "Tree.h"
 #include "Tests.h"
 
+typedef struct Node {
+    const char* key;
+    const char* value;
+    int height;
+    struct Node* leftChild;
+    struct Node* rightChild;
+} Node;
+
 bool testInsertNode() {
     Node* root = NULL;
     root = insertNode(root, "key1", "value1");
@@ -80,5 +88,5 @@ bool testDeleteNodeWithLeftRotation() {
 }
 
 bool allTests() {
-    return (testInsertNode() && testFindNode() && testDeleteNodeWithRightRotation() && testDeleteNodeWithLeftRotation());
+    return testInsertNode() && testFindNode() && testDeleteNodeWithRightRotation() && testDeleteNodeWithLeftRotation();
 }

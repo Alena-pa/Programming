@@ -4,9 +4,8 @@
 #include "Tests.h"
 #include "Tree.h"
 
-
 int main(void) {
-    if (!allTests) {
+    if (!allTests()) {
         return -1;
     }
     Node* root = NULL;
@@ -39,6 +38,10 @@ int main(void) {
                 scanf("%s", value);
 
                 root = insertNode(root, key, value);
+                if (root == NULL) {
+                    printf("Not enough memory!");
+                    return -1;
+                }
                 printf("Added successfully\n");
                 break;
             case 2:
