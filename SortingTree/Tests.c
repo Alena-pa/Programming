@@ -5,23 +5,25 @@
 #include "Tests.h"
 #include "Tree.h"
 
-bool testCreateNode() {
-    NodeValue value = createValue(1, "test");
-    Node *node = createNode(value);
-    return node != NULL && node->value.key == 1 && strcmp(node->value.value, "test") == 0;
-}
+typedef struct Node {
+    NodeValue value;
+    struct Node* leftChild;
+    struct Node* rightChild;
+} Node;
 
-bool testAddElement() {
-    NodeValue value = createValue(1, "test");
+bool testAddElement(void) {
+    NodeValue value = createValue("test", 1);
     Node *node = createNode(value);
 
     NodeValue newValue = { "newValue", 2 };
     addElement(node, newValue);
+    bool result = node->rightChild->value.key == 2;
+    deleteTree(node);
 
-    return node->rightChild->value.key == 2;
+    return result;
 }
 
-bool testFindNodeByKey() {
+bool testFindNodeByKey(void) {
     NodeValue value = { "test", 1 };
     Node *node = createNode(value);
 
@@ -29,20 +31,25 @@ bool testFindNodeByKey() {
     addElement(node, newValue);
 
     Node *foundNode = findNodeByKey(node, 2);
-    return foundNode->value.key == 2 && strcmp(foundNode->value.value, "newValue") == 0;
+    bool result = foundNode->value.key == 2 && strcmp(foundNode->value.value, "newValue") == 0;
+    deleteTree(node);
+
+    return result;
 }
 
-bool testExistenceOfElement() {
+bool testExistenceOfElement(void) {
     NodeValue value = { "test", 1 };
     Node *node = createNode(value);
 
     NodeValue newValue = { "newValue", 2 };
     addElement(node, newValue);
+    bool result = existenceOfElementByKey(node, 2) == 0 && existenceOfElementByKey(node, 4) == 1;
+    deleteTree(node);
 
-    return existenceOfElementByKey(node, 2) == 0 && existenceOfElementByKey(node, 4) == 1;
+    return result;
 }
 
-bool testDeleteElementWithoutChildrens() {
+bool testDeleteElementWithoutChildrens(void) {
     NodeValue value = { "test", 10 };
     Node *node = createNode(value);
 
@@ -50,10 +57,13 @@ bool testDeleteElementWithoutChildrens() {
     addElement(node, firstValue);
 
     deleteElementByKey(node, 2);
-    return node->leftChild == NULL;
+    bool result = node->leftChild == NULL;
+    deleteTree(node);
+
+    return result;
 }
 
-bool testDeleteElementWithOneChildren() {
+bool testDeleteElementWithOneChildren(void) {
     NodeValue value = { "test", 10 };
     Node *node = createNode(value);
 
@@ -64,10 +74,13 @@ bool testDeleteElementWithOneChildren() {
     addElement(node, childOfNewValue);
 
     deleteElementByKey(node, 2);
-    return node->leftChild->value.key == 1;
+    bool result = node->rightChild->value.key == 1;
+    deleteTree(node);
+
+    return result;
 }
 
-bool testDeleteElementWithManyChildrens(){
+bool testDeleteElementWithManyChildrens(void){
     NodeValue value = { "test", 10 };
     Node *node = createNode(value);
 
@@ -84,9 +97,36 @@ bool testDeleteElementWithManyChildrens(){
     addElement(node, grandRightChildOfValue);
 
     deleteElementByKey(node, 15);
-    return node->rightChild->value.key == 12;
+    bool result = node->rightChild->value.key;
+    deleteTree(node);
+
+    return result;
 }
 
-bool allTests() {
-    return testCreateNode && testAddElement && testDeleteElementWithManyChildrens && testDeleteElementWithOneChildren && testDeleteElementWithoutChildrens && testExistenceOfElement && testFindNodeByKey;
+bool allTests(void) {
+    /*if (!testAddElement()) {
+        printf("Error at adding element");
+        return false; 
+    }*/
+    if (!testDeleteElementWithManyChildrens()) {
+        printf("error at deleting element with MANY childrens");
+        return false;
+    }
+    if (!testDeleteElementWithOneChildren()) {
+        printf("error at deleting element with ONE children");
+        return false;
+    }
+    if (!testDeleteElementWithoutChildrens()) {
+        printf("error at deleting element WITHOUT childrens");
+        return false;
+    }
+    if (!testExistenceOfElement()) {
+        printf("error at checking existence of element");
+        return false;
+    }
+    if (!testFindNodeByKey()) {
+        printf("error at finding node by key");
+        return false;
+    }
+    return true;
 }

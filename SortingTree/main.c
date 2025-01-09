@@ -5,8 +5,14 @@
 #include "Tree.h"
 #include "Tests.h"
 
+typedef struct Node {
+    NodeValue value;
+    struct Node* leftChild;
+    struct Node* rightChild;
+} Node;
+
 int main(void) {
-    if (!allTests) {
+    if (!allTests()) {
         printf("Tests failed!");
         return 1;
     }
@@ -21,34 +27,43 @@ int main(void) {
     printf("Remove a given key and its associated value from a dictionary: 4\n");
 
     int operationNumber = 5;
-    int key;
+    int key = 0;
     char value[100];
     while (operationNumber != 0) {
         printf("Enter operation number: ");
-        scanf_s("%d", &operationNumber);
+        scanf("%d", &operationNumber);
 
         switch (operationNumber)
         {
         case 0:
+            deleteTree(root);
             return 0;
         case 1: {
             printf("Enter key: ");
-            scanf_s("%d", &key);
+            scanf("%d", &key);
             printf("Enter value: ");
-            scanf_s("%s", &value, sizeof(value));
+            scanf("%s", &value, sizeof(value));
             NodeValue newValue = createValue(key, value);
+            if (newValue.value == NULL) {
+                printf("Error, can`t create value\n");
+                return -1;
+            }
             if (!root) {
                 root = createNode(newValue);
             }
             else {
-                addElement(root, newValue);
+                bool result = addElement(root, newValue);
+                if (!result) {
+                    printf("Error, can`t add element, try again");
+                    break;
+                }
             }
             printf("Value added\n");
             break;
         }
         case 2: {
             printf("Enter search key: ");
-            scanf_s("%d", &key);
+            scanf("%d", &key);
             if (root) {
                 Node* resultOfSearching = findNodeByKey(root, key);
                 if (resultOfSearching) {
@@ -65,9 +80,9 @@ int main(void) {
         }
         case 3:
             printf("Enter your verification key: ");
-            scanf_s("%d", &key);
+            scanf("%d", &key);
             if (root) {
-                if (existenceOfElementByKey(root, key) == 0) {
+                if (existenceOfElementByKey(root, key)) {
                     printf("Value exists\n");
                 }
                 else {
@@ -80,7 +95,7 @@ int main(void) {
             break;
         case 4:
             printf("Enter the key to delete: ");
-            scanf_s("%d", &key);
+            scanf("%d", &key);
             if (root) {
                 deleteElementByKey(root, key);
                 printf("Value deleted\n");

@@ -1,36 +1,33 @@
 #pragma once
+#include <stdbool.h>
 
-typedef struct NodeValue {
-    char *value;
+typedef struct {
+    char* value;
     int key;
 } NodeValue;
 
-typedef struct Node {
-    NodeValue value;
-    struct Node *leftChild;
-    struct Node *rightChild;
-} Node;
+typedef struct Node Node;
 
-NodeValue createValue(int key, const char* value);
+//create a value
+NodeValue createValue(const char* value, int key);
 
-Node *createNode(NodeValue value);
+// Create a node
+Node* createNode(NodeValue value);
 
-void addLeftChild(Node *node, Node *child);
+//add element to tree
+bool addElement(Node* node, NodeValue value);
 
-void addRightChild(Node *node, Node *child);
-
-void addElement(Node* node, NodeValue value);
-
-Node *getLeftChild(Node *node);
-
-Node *getRightChild(Node *node);
-
+//find element by key
 Node * findNodeByKey(Node* node, int key);
 
-NodeValue getValue(Node *node);
+//Check if an element is present in a tree
+bool existenceOfElementByKey(Node* node, int key);
 
-int existenceOfElementByKey(Node* node, int key);
-
+//delete element by key
 void deleteElementByKey(Node* node, int key);
 
+//find minimal element in a tree
 Node* minElement(Node* node);
+
+//delete tree
+void deleteTree(Node* node);

@@ -1,53 +1,58 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+#include <stdbool.h>
 
 #include "Tree.h"
 
-NodeValue createValue(int key, const char* value) {
+typedef struct Node {
+    NodeValue value;
+    struct Node* leftChild;
+    struct Node* rightChild;
+} Node;
+
+NodeValue createValue(const char* value, int key) {
     char* newValue = malloc(strlen(value) + 1);
-    if (newValue != NULL) {
-        strcpy(newValue, value);
+    if (newValue == NULL) {
+        NodeValue errorValue = { .key = 0, .value = NULL };
+        return errorValue;
     }
+    strcpy(newValue, value);
     NodeValue nodeValue = { .key = key, .value = newValue };
     return nodeValue;
 }
 
 Node *createNode(NodeValue value) {
     Node *node = calloc(1, sizeof(Node));
+    if (node == NULL) {
+        return NULL;
+    }
     node->value = value;
+    node->leftChild = NULL;
+    node->rightChild = NULL;
     return node;
 }
 
-void addLeftChild(Node *node, Node *child) {
-    node->leftChild = child;
-}
-
-void addRightChild(Node *node, Node *child) {
-    node->rightChild = child;
-}
-
-void addElement(Node* node, NodeValue value) {
+bool addElement(Node* node, NodeValue value) {
     if (node->value.key == value.key) {
+        char* tmp = node->value.value;
         node->value = value;
+        free(tmp);
+        return true;
+    }
+    if (node->value.key > value.key && node->leftChild == NULL) {
+        Node* element = createNode(value);
+        node->leftChild = element;
+    }
+    else if (node->value.key < value.key && node->rightChild == NULL) {
+        Node* element = createNode(value);
+        node->rightChild = element;
     }
     else if (node->value.key > value.key) {
-        if (node->leftChild == NULL) {
-            Node* element = createNode(value);
-            addLeftChild(node, element);
-        }
-        else {
-            addElement(node->leftChild, value);
-        }
+        addElement(node->leftChild, value);
     }
     else if (node->value.key < value.key) {
-        if (node->rightChild == NULL) {
-            Node* element = createNode(value);
-            addRightChild(node, element);
-        }
-        else {
-            addElement(node->rightChild, value);
-        }
+        addElement(node->rightChild, value);
     }
 }
 
@@ -79,26 +84,12 @@ Node* findNodeByKey(Node* node, int key) {
 }
 
 
-int existenceOfElementByKey(Node* node, int key) {
-    if (findNodeByKey(node, key) != NULL){
-        return 0;
+bool existenceOfElementByKey(Node* node, int key) {
+    if (findNodeByKey(node, key) != NULL) {
+        return true;
     }
-    return 1;
+    return false;
 }
-
-Node *getLeftChild(Node *node) {
-    return node->leftChild;
-}
-
-Node *getRightChild(Node *node) {
-    return node->rightChild;
-}
-
-NodeValue getValue(Node *node) {
-    return node->value;
-}
-
-
 
 Node *minElement(Node* node) {
     Node* minimalElement = node->rightChild;
@@ -113,47 +104,71 @@ void deleteElementByKey(Node* node, int key) {
     Node* element = result.node;
     Node* parent = result.parent;
 
-    if (element != NULL) {
-        if (element->leftChild == NULL && element->rightChild == NULL) {
+    if (element == NULL) {
+        return;
+    }
+
+    if (element->leftChild == NULL && element->rightChild == NULL) {
+        if (parent != NULL) {
             if (parent->leftChild == element) {
                 parent->leftChild = NULL;
             }
             else if (parent->rightChild == element) {
                 parent->rightChild = NULL;
             }
-            free(element->value.value);
-            free(element);
-        }
-        else if (element->leftChild != NULL && element->rightChild == NULL) {
-            Node* child = element->leftChild;
-            if (parent->leftChild == element) {
-                parent->leftChild = child;
-            }
-            else if (parent->rightChild == element) {
-                parent->rightChild = child;
-            }
-        }
-        else if (element->leftChild == NULL && element->rightChild != NULL) {
-            Node* child = element->rightChild;
-            if (parent->leftChild == element) {
-                parent->leftChild = child;
-            }
-            else if (parent->rightChild == element) {
-                parent->rightChild = child;
-            }
-        }
-        else {
-            Node* child = element->rightChild;
-            Node* minimalChildFromRight = minElement(element);
-            if (child == minimalChildFromRight) {
-                parent->rightChild = minimalChildFromRight;
-            }
-            else {
-                minimalChildFromRight->rightChild = element->rightChild;
-                parent->rightChild = minimalChildFromRight;
-            }
         }
         free(element->value.value);
         free(element);
+        return;
     }
+
+    if (element->leftChild != NULL && element->rightChild == NULL) {
+        if (parent != NULL) {
+            if (parent->leftChild == element) {
+                parent->leftChild = element->leftChild;
+            }
+            else {
+                parent->rightChild = element->leftChild;
+            }
+        }
+        else {
+            node = element->leftChild;
+        }
+        free(element->value.value);
+        free(element);
+        return;
+    }
+
+    if (element->leftChild == NULL && element->rightChild != NULL) {
+        if (parent != NULL) {
+            if (parent->leftChild == element) {
+                parent->leftChild = element->rightChild;
+            }
+            else {
+                parent->rightChild = element->rightChild;
+            }
+        }
+        else {
+            node = element->rightChild;
+        }
+        free(element->value.value);
+        free(element);
+        return;
+    }
+
+    Node* minimalChildFromRight = minElement(element);
+    element->value = minimalChildFromRight->value;
+    deleteElementByKey(element->rightChild, minimalChildFromRight->value.key);
+}
+
+
+void deleteTree(Node* node) {
+    if (node == NULL) {
+        return;
+    }
+    deleteTree(node->leftChild);
+    deleteTree(node->rightChild);
+    char* textValue = node->value.value;
+    free(textValue);
+    free(node);
 }

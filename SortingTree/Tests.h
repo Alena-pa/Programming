@@ -1,6 +1,5 @@
 #pragma once
-
-bool testCreateNode();
+#include <stdbool.h>
 
 bool testAddElement();
 
