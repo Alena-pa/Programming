@@ -21,9 +21,10 @@
   <PropertyGroup Label="Globals">
     <VCProjectVersion>17.0</VCProjectVersion>
     <Keyword>Win32Proj</Keyword>
-    <ProjectGuid>{291b5a8b-7ae7-4354-8287-1d0a824b4de1}</ProjectGuid>
-    <RootNamespace>MostCommonElement</RootNamespace>
+    <ProjectGuid>{67c6ad39-92fd-47bf-b43f-9aaca93eb7c7}</ProjectGuid>
+    <RootNamespace>ClearMostCommonElement</RootNamespace>
     <WindowsTargetPlatformVersion>10.0</WindowsTargetPlatformVersion>
+    <ProjectName>MostCommonElement</ProjectName>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
@@ -101,7 +102,7 @@
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <ClCompile>
       <WarningLevel>Level3</WarningLevel>
-      <SDLCheck>true</SDLCheck>
+      <SDLCheck>false</SDLCheck>
       <PreprocessorDefinitions>_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
     </ClCompile>
@@ -127,13 +128,14 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="MostCommonElementFunction.c" />
-    <ClCompile Include="MostCommonElementTask.c">
-      <PreprocessorDefinitions Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">_CRT_SECURE_NO_WARNINGS</PreprocessorDefinitions>
-    </ClCompile>
+    <ClCompile Include="main.c" />
+    <ClCompile Include="MostCommonElement.c" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="MostCommonElement.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <Text Include="inputFile.txt" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

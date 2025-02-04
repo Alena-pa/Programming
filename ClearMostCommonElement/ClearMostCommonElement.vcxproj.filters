@@ -15,10 +15,10 @@
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="MostCommonElementTask.c">
+    <ClCompile Include="MostCommonElement.c">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="MostCommonElementFunction.c">
+    <ClCompile Include="main.c">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
@@ -26,5 +26,8 @@
     <ClInclude Include="MostCommonElement.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <Text Include="inputFile.txt" />
   </ItemGroup>
 </Project>
