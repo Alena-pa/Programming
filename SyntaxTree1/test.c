@@ -4,25 +4,25 @@
 #include "syntaxTree.h"
 #include "test.h"
 
-typedef struct Node {
-    const char* value;
-    Node* leftChild;
-    Node* rightChild;
-} Node;
-
-
-bool testBuildSyntaxTree() {
-    const char* expression = "(1+2)*(3-4)";
+bool testBuildSyntaxTree(void) {
+    const char* expression = "(1 + 2) * (3 - 4)";
     int index = 0;
     Node* tree = buildSyntaxTree(expression, &index);
 
     if (tree == NULL) {
-        printf("Test 1 failed\n");
+        printf("Test 1 failed: tree is empty\n");
         return false;
     }
 
-    if (strcmp(tree->value, "*") != 0 || strcmp(tree->leftChild->value, "+") != 0 || strcmp(tree->rightChild->value, "-") != 0) {
-        printf("Test 1 failed\n");
+    char* value = getNodeValue(tree);
+    Node* leftChild = getLeftChild(tree);
+    Node* rightChild = getRightChild(tree);
+
+    char* leftValue = getNodeValue(leftChild);
+    char* rightValue = getNodeValue(rightChild);
+
+    if (strcmp(value, "*") != 0 || strcmp(leftValue, "+") != 0 || strcmp(rightValue, "-") != 0) {
+        printf("Test 1 failed: incorrect result\n");
         freeTree(tree);
         return false;
     }
@@ -31,14 +31,14 @@ bool testBuildSyntaxTree() {
     return true;
 }
 
-bool testCalculation() {
-    const char* expression = "(1+2)*(3-4)";
+bool testCalculation(void) {
+    const char* expression = "(1 + 2) * (3 - 4)";
     int index = 0;
     Node* tree = buildSyntaxTree(expression, &index);
 
     int result = calculation(tree);
     if (result != -3) {
-        printf("Test 2 failed");
+        printf("Test 2 failed\n");
         freeTree(tree);
         return false;
     }
@@ -47,14 +47,14 @@ bool testCalculation() {
     return true;
 }
 
-bool testNegativeNumbers() {
-    const char* expression = "(-1+2)*(-3-4)";
+bool testNegativeNumbers(void) {
+    const char* expression = "(-1 + 2)*(- 3 - 4)";
     int index = 0;
     Node* tree = buildSyntaxTree(expression, &index);
 
     int result = calculation(tree);
     if (result != 35) {
-        printf("Test 3 failed");
+        printf("Test 3 failed\n");
         freeTree(tree);
         return false;
     }
@@ -63,13 +63,13 @@ bool testNegativeNumbers() {
     return true;
 }
 
-bool testInvalidExpression() {
-    const char* expression = "1+*2";
+bool testInvalidExpression(void) {
+    const char* expression = "1 + * 2";
     int index = 0;
     Node* tree = buildSyntaxTree(expression, &index);
 
     if (tree != NULL) {
-        printf("Test 4 failed");
+        printf("Test 4 failed\n");
         freeTree(tree);
         return false;
     }
@@ -77,6 +77,6 @@ bool testInvalidExpression() {
     return true;
 }
 
-bool allTests() {
+bool allTests(void) {
     return (testBuildSyntaxTree() && testCalculation() && testNegativeNumbers() && testInvalidExpression());
 }

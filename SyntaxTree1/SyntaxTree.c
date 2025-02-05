@@ -17,7 +17,31 @@ Node* createNode(char* value) {
         return NULL;
     }
     node->value = strdup(value);
+    if (node->value == NULL) {
+        return NULL;
+    }
     return node;
+}
+
+char* getNodeValue(Node* node) {
+    if (node == NULL) {
+        return NULL;
+    }
+    return node->value;
+}
+
+Node* getLeftChild(Node* node) {
+    if (node == NULL) {
+        return NULL;
+    }
+    return node->leftChild;
+}
+
+Node* getRightChild(Node* node) {
+    if (node == NULL) {
+        return NULL;
+    }
+    return node->rightChild;
 }
 
 void skipWhitespaceAndBrackets(const char* string, int* index) {
@@ -28,10 +52,16 @@ void skipWhitespaceAndBrackets(const char* string, int* index) {
 
 char* readNumber(const char* string, int* indexOfString) {
     char* number = malloc(20 * sizeof(char));
-    if (!number) {
+    if (number == NULL) {
         return NULL;
     }
     int indexOfNumber = 0;
+
+    if (string[*indexOfString] == '-') {
+        number[indexOfNumber] = string[*indexOfString];
+        (*indexOfString)++;
+    }
+
     while (isdigit(string[*indexOfString])) {
         number[indexOfNumber] = string[*indexOfString];
         (*indexOfString)++;
