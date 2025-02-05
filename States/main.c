@@ -4,7 +4,7 @@
 #include "Tests.h"
 
 int main(void) {
-    if (!allTests()) {
+    if (!testGraph()) {
         return -1;
     }
     FILE* file = fopen("input.txt", "r");
@@ -13,17 +13,18 @@ int main(void) {
         return 1;
     }
 
-    int numberOfCapitals;
-    int* capitals;
+    int numberOfCapitals = 0;
+    int* capitals = NULL;
 
     Graph* graph = readFromFile(file, &numberOfCapitals, &capitals);
     if (graph == NULL) {
+        printf("Memory allocation!");
         return 2;
     }
     fclose(file);
 
-    distributeCities(graph, capitals, numberOfCapitals);
-    if (!distributeCities) {
+    bool result = distributeCities(graph, capitals, numberOfCapitals);
+    if (!result) {
         return 2;
     }
 

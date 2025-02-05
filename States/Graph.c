@@ -23,7 +23,9 @@ typedef struct Graph {
 
 ListNode* newListNode(int city, int distance) {
     ListNode* newNode = (ListNode*)malloc(sizeof(ListNode));
-
+    if (newNode == NULL) {
+        return NULL;
+    }
     newNode->distance = distance;
     newNode->city = city;
     newNode->capital = -1;
@@ -35,21 +37,21 @@ ListNode* newListNode(int city, int distance) {
 Graph* createGraph(int numberOfCities) {
     Graph* graph = (Graph*)malloc(sizeof(Graph));
     if (graph == NULL) {
-        printf("Memory allocation!");
-        return graph;
+        return NULL;
     }
 
     graph->numberOfCities = numberOfCities;
     graph->cities = (List*)malloc(numberOfCities * sizeof(List));
     if (graph->cities == NULL) {
-        printf("Memory allocation!");
-        return graph->cities;
+        free(graph);
+        return NULL;
     }
 
     graph->ownership = (int*)malloc(graph->numberOfCities * sizeof(int));
     if (graph->ownership == NULL) {
-        printf("Memory allocation!");
-        return graph->ownership;
+        free(graph->cities);
+        free(graph);
+        return NULL;
     }
     for (int i = 0; i < graph->numberOfCities; i++) {
         graph->ownership[i] = -1;
@@ -62,12 +64,18 @@ Graph* createGraph(int numberOfCities) {
     return graph;
 }
 
-void addEdge(Graph* graph, int from, int to, int distance) {
+int addEdge(Graph* graph, int from, int to, int distance) {
     ListNode* newEdgeTo = newListNode(to, distance);
+    if (newEdgeTo == NULL) {
+        return NULL;
+    }
     newEdgeTo->next = graph->cities[from].head;
     graph->cities[from].head = newEdgeTo;
 
     ListNode* newEdgeFrom = newListNode(from, distance);
+    if (newEdgeFrom == NULL) {
+        return NULL;
+    }
     newEdgeFrom->next = graph->cities[to].head;
     graph->cities[to].head = newEdgeFrom;
 }
@@ -141,7 +149,7 @@ int nearestCity(Graph* graph, int indexOfCapital) {
     return nearestCity;
 }
 
-void addingACityToAState(Graph* graph, int indexOfCapital) {
+void addACityToAState(Graph* graph, int indexOfCapital) {
     int nearest = nearestCity(graph, indexOfCapital);
     if (nearest == -2) {
         return;
@@ -158,7 +166,6 @@ bool distributeCities(Graph* graph, int* cities, int numberOfCapitals) {
     }
 
     for (int i = 0; i < numberOfCapitals; i++) {
-        
         if (cities[i] < 0 || cities[i] >= graph->numberOfCities) {
             printf("Incorrect index!\n");
             return false;
@@ -166,9 +173,9 @@ bool distributeCities(Graph* graph, int* cities, int numberOfCapitals) {
         graph->ownership[cities[i]] = cities[i];
     }
 
-    int remainingCitites = graph->numberOfCities - numberOfCapitals;
+    int remainingCities = graph->numberOfCities - numberOfCapitals;
 
-    while (remainingCitites > 0) {
+    while (remainingCities > 0) {
         for (int i = 0; i < numberOfCapitals; i++) {
             int capital = cities[i];
             int city = nearestCity(graph, capital);
@@ -177,7 +184,7 @@ bool distributeCities(Graph* graph, int* cities, int numberOfCapitals) {
             }
             if (city != -1) {
                 graph->ownership[city] = capital;
-                remainingCitites--;
+                remainingCities--;
             }
         }
     }
@@ -186,18 +193,22 @@ bool distributeCities(Graph* graph, int* cities, int numberOfCapitals) {
 }
 
 Graph* readFromFile(FILE* fileName, int** cities, int* numberOfCapitals) {
-    int numberOfCities, numberOfRoads;
+    int numberOfCities = 0;
+    int numberOfRoads = 0;
     fscanf(fileName, "%d %d", &numberOfCities, &numberOfRoads);
 
     Graph* graph = createGraph(numberOfCities);
     if (graph == NULL) {
-        return graph;
+        return NULL;
     }
 
     for (int i = 0; i < numberOfRoads; i++) {
         int from, to, distance;
         fscanf(fileName, "%d %d %d", &from, &to, &distance);
-        addEdge(graph, from, to, distance);
+        int edge = addEdge(graph, from, to, distance);
+        if (edge == NULL) {
+            return NULL;
+        }
     }
 
     fscanf(fileName, "%d", numberOfCapitals);
