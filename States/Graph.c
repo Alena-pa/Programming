@@ -23,7 +23,7 @@ typedef struct Graph {
 
 ListNode* newListNode(int city, int distance) {
     ListNode* newNode = (ListNode*)malloc(sizeof(ListNode));
-    if (newNode == NULL) {
+    if (newNode == NULL){
         return NULL;
     }
     newNode->distance = distance;
