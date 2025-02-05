@@ -41,15 +41,15 @@ Graph* createGraph(int numberOfCities) {
     }
 
     graph->numberOfCities = numberOfCities;
-    graph->cities = (List*)malloc(numberOfCities * sizeof(List));
-    if (graph->cities == NULL) {
+    graph->capitals = (List*)malloc(numberOfCities * sizeof(List));
+    if (graph->capitals == NULL) {
         free(graph);
         return NULL;
     }
 
     graph->ownership = (int*)malloc(graph->numberOfCities * sizeof(int));
     if (graph->ownership == NULL) {
-        free(graph->cities);
+        free(graph->capitals);
         free(graph);
         return NULL;
     }
@@ -69,15 +69,15 @@ int addEdge(Graph* graph, int from, int to, int distance) {
     if (newEdgeTo == NULL) {
         return NULL;
     }
-    newEdgeTo->next = graph->cities[from].head;
-    graph->cities[from].head = newEdgeTo;
+    newEdgeTo->next = graph->capitals[from] .head;
+    graph->capitals[from].head = newEdgeTo;
 
     ListNode* newEdgeFrom = newListNode(from, distance);
     if (newEdgeFrom == NULL) {
         return NULL;
     }
-    newEdgeFrom->next = graph->cities[to].head;
-    graph->cities[to].head = newEdgeFrom;
+    newEdgeFrom->next = graph->capitals[to].head;
+    graph->capitals[to].head = newEdgeFrom;
 }
 
 void deleteGraph(Graph* graph) {
@@ -175,7 +175,7 @@ bool distributeCities(Graph* graph, int* capitals, int numberOfCapitals) {
     }
 
     for (int i = 0; i < numberOfCapitals; i++) {
-        if (cities[i] < 0 || cities[i] >= graph->numberOfCities) {
+        if (capitals[i] < 0 || capitals[i] >= graph->numberOfCities) {
             printf("Incorrect index!\n");
             return false;
         }
@@ -201,7 +201,7 @@ bool distributeCities(Graph* graph, int* capitals, int numberOfCapitals) {
     return true;
 }
 
-Graph* readFromFile(FILE* fileName, int** cities, int* numberOfCapitals) {
+Graph* readFromFile(FILE* fileName, int** capitals, int* numberOfCapitals) {
     int numberOfCities = 0;
     int numberOfRoads = 0;
     fscanf(fileName, "%d %d", &numberOfCities, &numberOfRoads);
