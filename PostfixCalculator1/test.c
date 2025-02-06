@@ -6,8 +6,8 @@ bool test() {
     char firstString[] = { "1 2 + 3 -" };
     char secondString[] = { "+ 1 2 - 3 +" };
     char thirdString[] = { "1 2 + 3 4" };
-    if (postfixCalculator(firstString) == 0 && postfixCalculator(secondString) == 1 && postfixCalculator(thirdString) == 1) {
-        return true;
-    }
-    return false;
+    int errorCode = 0;
+    bool result = calculatePostfix(firstString, &errorCode) == 0 && calculatePostfix(secondString, &errorCode) == 1 && calculatePostfix(thirdString, &errorCode) == 1;
+    printf("%d\n", errorCode);
+    return result;
 }

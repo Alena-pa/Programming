@@ -15,7 +15,7 @@
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="PostfixCalculator1.c">
+    <ClCompile Include="PostfixCalculator.c">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="stack.c">

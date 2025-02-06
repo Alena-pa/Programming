@@ -31,10 +31,10 @@ void deleteStack(Stack* stack) {
     free(stack);
 }
 
-void push(Stack* stack, int value) {
+void push(Stack* stack, int value, int* errorCode) {
     StackElement* element = malloc(sizeof(StackElement));
     if (!element) {
-        printf("Memory Allocation!");
+        *errorCode = -1;
         return;
     }
     element->value = value;
@@ -42,18 +42,19 @@ void push(Stack* stack, int value) {
     stack->head = element;
 }
 
-void pop(Stack* stack) {
+void pop(Stack* stack, int* errorCode) {
     StackElement* tmp = stack->head;
-    if (!tmp) {
-        printf("Error: stack->head is NULL");
+    if (tmp == NULL) {
+        *errorCode = -2;
         return;
     }
     stack->head = stack->head->next;
     free(tmp);
 }
 
-int top(Stack* stack) {
+int top(Stack* stack, int* errorCode) {
     if (stack->head == NULL) {
+        *errorCode = -2;
         return NULL;
     }
     return stack->head->value;

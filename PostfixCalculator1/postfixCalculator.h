@@ -2,10 +2,5 @@
 #include <stdbool.h>
 #include "stack.h"
 
-bool isOperation(char element);
-
-bool isDigit(char element);
-
-void takeLastTwoElementsFromTheStack(Stack* stack, int* firstNumber, int* secondNumber);
-
-int postfixCalculator(char* string);
+// calculating an arithmetic expression in postfix form
+int calculatePostfix(const char* string, int* errorCode);
