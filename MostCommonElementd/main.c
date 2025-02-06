@@ -1,10 +1,11 @@
 #include "MostCommonElement.h"
+#include "test.h"
 #include <stdio.h>
 #include <stdlib.h>
 
 int main() {
     if (!test()) {
-        printf("Snth Went Wrong!!!!!!!!!!!");
+        printf("test failed");
         return -1;
     }
 
@@ -27,5 +28,10 @@ int main() {
 
     fclose(file);
     int element = mostCommonElement(array, lengthOfArray);
+    if (element == NULL) {
+        printf("Memory allocation!");
+        return -1;
+    }
+    fclose(file);
     printf("mostCommonElement: %d\n", element);
 }
