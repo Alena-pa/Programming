@@ -2,34 +2,35 @@
 
 typedef struct Node Node;
 
-typedef struct NodeValue NodeValue;
+// Create a node
+Node* createNode(char* value, int* errorCode);
 
-// Creates a node value
-NodeValue createValue(const char* value);
+// Add left child
+void addLeftChild(Node* node, Node* child);
 
-// Returns the value of the node
-char* getNodeValue(Node* node);
+// Add right child
+void addRightChild(Node* node, Node* child);
 
-// Returns the left child of the node
+// Get left child
 Node* getLeftChild(Node* node);
 
-// Returns the right child of the node
+// Get right child
 Node* getRightChild(Node* node);
 
-// Creates a new node with the given value
-Node* createNode(char* value);
+// Get value from node
+const char* getValue(Node* node);
 
-// Skips whitespace and brackets in the string
-void skipWhitespaceAndBrackets(const char* string, int* index);
+// Add values ??to node
+void setValue(Node* node, char* value);
 
-// Builds a syntax tree from the given expression
-Node* buildSyntaxTree(const char* value, int* index);
+// Remove tree
+void deleteTree(Node* node);
 
-// Prints the syntax tree
+// Fill a parse tree with an arithmetic expression
+Node* splitArithmeticExpression(char* string, int* index, int* errorCode);
+
+// Print tree
 void printTree(Node* node);
 
-// Calculates the result based on the syntax tree
-int calculation(Node* node);
-
-// Frees memory allocated for the syntax tree
-void freeTree(Node* node);
+// Calculate the value of an expression by traversing a tree
+int calculateTheValueOfTheTree(Node* node, int* errorCode);

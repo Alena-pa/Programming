@@ -7,27 +7,22 @@
 bool testBuildSyntaxTree(void) {
     const char* expression = "(1 + 2) * (3 - 4)";
     int index = 0;
-    Node* tree = buildSyntaxTree(expression, &index);
 
+    Node* tree = buildSyntaxTree(expression, &index);
     if (tree == NULL) {
-        printf("Test 1 failed: tree is empty\n");
+        printf("Test failed: tree is empty\n");
         return false;
     }
 
-    char* value = getNodeValue(tree);
-    Node* leftChild = getLeftChild(tree);
-    Node* rightChild = getRightChild(tree);
-
-    char* leftValue = getNodeValue(leftChild);
-    char* rightValue = getNodeValue(rightChild);
-
-    if (strcmp(value, "*") != 0 || strcmp(leftValue, "+") != 0 || strcmp(rightValue, "-") != 0) {
-        printf("Test 1 failed: incorrect result\n");
+    int result = calculation(tree);
+    if (result != -3) {
+        printf("Test failed: incorrect calculation result, expected -3 but got %d\n", result);
         freeTree(tree);
         return false;
     }
 
     freeTree(tree);
+    printf("Test passed successfully!\n");
     return true;
 }
 

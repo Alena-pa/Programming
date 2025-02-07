@@ -23,7 +23,7 @@ Node* createNode(char* value) {
     return node;
 }
 
-char* getNodeValue(Node* node) {
+const char* getNodeValue(Node* node) {
     if (node == NULL) {
         return NULL;
     }
@@ -44,56 +44,42 @@ Node* getRightChild(Node* node) {
     return node->rightChild;
 }
 
-void skipWhitespaceAndBrackets(const char* string, int* index) {
-    while (string[*index] == '(' || string[*index] == ')' || string[*index] == ' ') {
-        (*index)++;
-    }
-}
-
-char* readNumber(const char* string, int* indexOfString) {
-    char* number = malloc(20 * sizeof(char));
-    if (number == NULL) {
-        return NULL;
-    }
-    int indexOfNumber = 0;
-
-    if (string[*indexOfString] == '-') {
-        number[indexOfNumber] = string[*indexOfString];
-        (*indexOfString)++;
-    }
-
-    while (isdigit(string[*indexOfString])) {
-        number[indexOfNumber] = string[*indexOfString];
-        (*indexOfString)++;
-    }
-    number[indexOfNumber] = '\0';
-    return number;
-}
-
 Node* buildSyntaxTree(const char* string, int* indexOfString) {
     if (string[*indexOfString] == '\0') {
         return NULL;
     }
 
-    skipWhitespaceAndBrackets(string, indexOfString);
-
-    if (isdigit(string[*indexOfString])) {
-        char* number = readNumber(string, indexOfString);
-        if (number == NULL) {
-            return NULL;
-        }
-        return createNode(number);
+    while (string[*indexOfString] == '(' || string[*indexOfString] == ')' || string[*indexOfString] == ' ') {
+        (*indexOfString)++;
     }
 
-    if (string[*indexOfString] == '+' || string[*indexOfString] == '-' || string[*indexOfString] == '*' || string[*indexOfString] == '/') {
-        char operationToCount = string[*indexOfString];
-        Node* node = createNode(operationToCount);
-        indexOfString++;
+    char* value = calloc(30, sizeof(char));
+    if (value == NULL) {
+        return NULL;
+    }
+
+    int i = 0;
+    while (48 <= string[*indexOfString] && string[*indexOfString] <= 57) {
+        value[i] = string[*indexOfString];
+        i++;
+        (*indexOfString)++;
+    }
+
+    if (i > 0) {
+        return createNode(value);
+    }
+
+    else if (string[*indexOfString] == '+' || string[*indexOfString] == '-' || string[*indexOfString] == '*' || string[*indexOfString] == '/') {
+        char operator[2] = {string[*indexOfString], '\0'};
+        Node* node = createNode(operator);
+        (*indexOfString)++;
+
+        printf("Operator: %s\n", operator);
         node->leftChild = buildSyntaxTree(string, indexOfString);
         node->rightChild = buildSyntaxTree(string, indexOfString);
         return node;
     }
-
+    
     return NULL;
 }
 
