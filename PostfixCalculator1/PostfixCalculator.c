@@ -3,6 +3,15 @@
 #include "stack.h"
 #include "postfixCalculator.h"
 
+typedef struct StackElement {
+    int value;
+    struct StackElement* next;
+} StackElement;
+
+typedef struct Stack {
+    StackElement* head;
+} Stack;
+
 bool isOperation(char element) {
     return element == '+' || element == '-' || element == '*' || element == '/';
 }
@@ -12,18 +21,18 @@ bool isDigit(char element) {
 }
 
 void takeLastTwoElementsFromTheStack(Stack* stack, int* firstNumber, int* secondNumber, int* errorCode) {
-    *firstNumber = top(stack, &errorCode);
-    if (firstNumber == NULL && errorCode == -2) {
+    *firstNumber = top(stack, errorCode);
+    if (*errorCode == -2) {
         *errorCode = 1;
         return;
     }
-    pop(stack);
-    *secondNumber = top(stack, &errorCode);
-    if (secondNumber == NULL && errorCode == -2) {
+    pop(stack, errorCode);
+    *secondNumber = top(stack, errorCode);
+    if (*errorCode == -2) {
         *errorCode = 1;
         return;
     }
-    pop(stack);
+    pop(stack, errorCode);
 }
 
 int calculatePostfix(const char* string, int* errorCode) {
@@ -37,27 +46,30 @@ int calculatePostfix(const char* string, int* errorCode) {
             *errorCode = 2;
             return 2;
         }
-        else if (isOperation(string[elementsRead]) && elementsRead < 2) {
-            *errorCode = 3;
-            return 3;
+        else if (isOperation(string[elementsRead])) {
+            if (stack->head == NULL || stack->head->next == NULL) {
+                *errorCode = 3;
+                deleteStack(stack);
+                return 3;
+            }
         }
         else if (isDigit(string[elementsRead])) {
-            push(stack, string[elementsRead], &errorCode);
+            push(stack, string[elementsRead] - '0', errorCode);
             elementsRead++;
         }
         else if (isOperation(string[elementsRead])) {
             int firstNumber = 0;
             int secondNumber = 0;
-            takeLastTwoElementsFromTheStack(stack, &firstNumber, &secondNumber, &errorCode);
+            takeLastTwoElementsFromTheStack(stack, &firstNumber, &secondNumber, errorCode);
             switch (string[elementsRead]) {
             case '+':
-                push(stack, firstNumber + secondNumber, &errorCode);
+                push(stack, firstNumber + secondNumber, errorCode);
                 break;
             case '-':
-                push(stack, firstNumber - secondNumber, &errorCode);
+                push(stack, firstNumber - secondNumber, errorCode);
                 break;
             case '*':
-                push(stack, firstNumber * secondNumber, &errorCode);
+                push(stack, firstNumber * secondNumber, errorCode);
                 break;
             case '/':
                 if (firstNumber == 0) {
@@ -65,7 +77,7 @@ int calculatePostfix(const char* string, int* errorCode) {
                     deleteStack(stack);
                     return 5;
                 }
-                push(stack, firstNumber / secondNumber, &errorCode);
+                push(stack, firstNumber / secondNumber, errorCode);
                 break;
             default:
                 break;
@@ -73,12 +85,12 @@ int calculatePostfix(const char* string, int* errorCode) {
             elementsRead++;
         }
     }
-    if (top(stack, &errorCode) == NULL && errorCode == -2) {
+    if (*errorCode != 0 || stack->head == NULL) {
         deleteStack(stack);
         *errorCode = 4;
         return 4;
     }
-    int result = top(stack, &errorCode);
+    int result = top(stack, errorCode);
     deleteStack(stack);
     return result;
 }

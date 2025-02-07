@@ -32,8 +32,9 @@ void deleteStack(Stack* stack) {
 }
 
 void push(Stack* stack, int value, int* errorCode) {
-    StackElement* element = malloc(sizeof(StackElement));
-    if (!element) {
+    printf("Pushing: %d\n", value);
+    StackElement* element = (StackElement*)calloc(1, sizeof(StackElement));
+    if (element == NULL) {
         *errorCode = -1;
         return;
     }
@@ -55,7 +56,8 @@ void pop(Stack* stack, int* errorCode) {
 int top(Stack* stack, int* errorCode) {
     if (stack->head == NULL) {
         *errorCode = -2;
-        return NULL;
+        return 0;
     }
+    printf("Top value: %d\n", stack->head->value);
     return stack->head->value;
-}
+} 

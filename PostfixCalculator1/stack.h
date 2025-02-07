@@ -13,7 +13,7 @@ void deleteStack(Stack* stack);
 void push(Stack* stack, int value, int* errorCode);
 
 // Removes the top element from the stack
-void pop(Stack* stack);
+void pop(Stack* stack, int* errorCode);
 
 // Returns the top element of the stack without removing it
 int top(Stack* stack, int* errorCode);
