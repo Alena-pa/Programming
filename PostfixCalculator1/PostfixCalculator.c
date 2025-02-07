@@ -46,18 +46,16 @@ int calculatePostfix(const char* string, int* errorCode) {
             *errorCode = 2;
             return 2;
         }
+        else if (isDigit(string[elementsRead])) {
+            push(stack, string[elementsRead] - '0', errorCode);
+            elementsRead++;
+        }
         else if (isOperation(string[elementsRead])) {
             if (stack->head == NULL || stack->head->next == NULL) {
                 *errorCode = 3;
                 deleteStack(stack);
                 return 3;
             }
-        }
-        else if (isDigit(string[elementsRead])) {
-            push(stack, string[elementsRead] - '0', errorCode);
-            elementsRead++;
-        }
-        else if (isOperation(string[elementsRead])) {
             int firstNumber = 0;
             int secondNumber = 0;
             takeLastTwoElementsFromTheStack(stack, &firstNumber, &secondNumber, errorCode);
