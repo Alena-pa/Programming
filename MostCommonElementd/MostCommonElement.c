@@ -4,8 +4,8 @@
 #include "MostCommonElement.h"
 
 void swap(int* left, int* right) {
-    int temp = *right;
     if (left != right) {
+        int temp = *right;
         *right = *left;
         *left = temp;
     }

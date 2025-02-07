@@ -2,4 +2,4 @@
 #include <stdbool.h>
 
 // test
-bool test();
+bool test(void);

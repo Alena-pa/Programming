@@ -32,6 +32,6 @@ int main() {
         printf("Memory allocation!");
         return -1;
     }
-    fclose(file);
+    free(array);
     printf("mostCommonElement: %d\n", element);
 }
