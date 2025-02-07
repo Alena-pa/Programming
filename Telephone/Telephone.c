@@ -48,7 +48,6 @@ void printAllRecords(Record *records, int numberOfRecords) {
     for (int i = 0; i < numberOfRecords; i++) {
         printf("Name: %s Phone: %s\n", records[i].name, records[i].phone);
     }
-    return;
 }
 
 void writeToRecord(Record* records, int *numberOfRecords) {
@@ -113,7 +112,7 @@ void printInstructionToProgram() {
 }
 
 int main() {
-	int operationNumber = -1;
+    int operationNumber = -1;
     Record records[MAX_NUM_OF_RECORDS];
     int numberOfRecords = readFromFile(records);
     if (numberOfRecords == -1) {
