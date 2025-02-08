@@ -4,30 +4,30 @@
 #include <time.h>
 
 void swap(int* left, int* right) {
-    int justVar = *right;
+    int temp = *right;
     if (left != right) {
         *right = *left;
-        *left = justVar;
+        *left = temp;
     }
 }
 
-void bubbleSort(int *arrayOfIntegers, int lenghtOfArray) {
-    for (int i = 0; i < lenghtOfArray - 1; i++) {
+void bubbleSort(int *arrayOfIntegers, int lengthOfArray) {
+    for (int i = 0; i < lengthOfArray - 1; i++) {
         bool isSorted = true;
-        for (int j = 0; j < lenghtOfArray - i - 1; j++)  {
+        for (int j = 0; j < lengthOfArray - i - 1; j++)  {
             if (arrayOfIntegers[j] > arrayOfIntegers[j + 1]) {
                 swap(&arrayOfIntegers[j], &arrayOfIntegers[j + 1]);
                 isSorted = false;
             }
         }
-        if (isSorted == true) {
+        if (isSorted) {
             break;
         }
     }
 }
 
 int maxArray(int * arrayOfIntegers, int lengthOfArray) {
-    int maxInteger = 0;
+    int maxInteger = arrayOfIntegers[0];
     for (int i = 0; i < lengthOfArray; i++) {
         if (arrayOfIntegers[i] > maxInteger) {
             maxInteger = arrayOfIntegers[i];
@@ -37,7 +37,7 @@ int maxArray(int * arrayOfIntegers, int lengthOfArray) {
 }
 
 int minArray(int *arrayOfIntegers, int lengthOfArray) {
-    int minInteger = 10000;
+    int minInteger = arrayOfIntegers[0];
     for (int i = 0; i < lengthOfArray; i++ ) {
         if (arrayOfIntegers[i] < minInteger) {
             minInteger = arrayOfIntegers[i];
@@ -51,7 +51,7 @@ bool countSort(int *arrayOfIntegers, int lengthOfArray) {
 
     int countArraySize = maxInteger * 2 + 1;
     int* countArray = (int*)calloc(countArraySize, sizeof(int));
-    if(!countArray) {
+    if (countArray == NULL) {
         printf("Memory allocation!");
         return false;
     }
@@ -59,7 +59,6 @@ bool countSort(int *arrayOfIntegers, int lengthOfArray) {
     for (int i = 0; i < lengthOfArray; i++) {
         countArray[arrayOfIntegers[i] + maxInteger]++;
     }
-    
 
     int i = 0;
     for (int j = 0; j < countArraySize; j++) {
@@ -116,10 +115,10 @@ bool testBubbleSort(void) {
     return true;
 }
     
-
 int main() {
     if (!(testCountSort() && testBubbleSort())) {
         printf("Tests failed!\n");
+        return -1;
     }
 
     int unsortedArrayForCountSort[4] = {2, 3, -1, 6};
