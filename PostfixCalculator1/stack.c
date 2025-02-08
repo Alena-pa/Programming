@@ -1,7 +1,7 @@
+#include "Stack.h"
 #include <stdio.h>
 #include <stdlib.h>
-
-#include "Stack.h"
+#include <stdbool.h>
 
 typedef struct StackElement {
     int value;
@@ -59,3 +59,7 @@ int top(Stack* stack, int* errorCode) {
     }
     return stack->head->value;
 } 
+
+bool isEmpty(Stack* stack) {
+    return NULL == stack->head;
+}

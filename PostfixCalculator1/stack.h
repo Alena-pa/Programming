@@ -1,5 +1,6 @@
 #pragma once
 
+#include <stdbool.h>
 // Defines a structure for a stack
 typedef struct Stack Stack;
 
@@ -17,3 +18,6 @@ void pop(Stack* stack, int* errorCode);
 
 // Returns the top element of the stack without removing it
 int top(Stack* stack, int* errorCode);
+
+// Check if stack is emty
+bool isEmpty(Stack* stack);
