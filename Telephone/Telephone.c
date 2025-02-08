@@ -76,7 +76,7 @@ int SaveNameAndPhone(Record *records, int numberOfRecords) {
 }
 
 void findPhoneByName(Record *records, int numerOfRecords) {
-    char nameToFind[80];
+    char nameToFind[80] = { 0 };
     printf("Enter the name whose phone number you want to find: ");
     scanf_s("%s", nameToFind, 80);
     for (int i = 0; i < numerOfRecords; i++) {
@@ -89,7 +89,7 @@ void findPhoneByName(Record *records, int numerOfRecords) {
 }
 
 char* findNameByPhone(Record *records, int numberOfRecords) {
-    char phoneToFind[20];
+    char phoneToFind[20] = { 0 };
     printf("Enter the phone number by which you want to find the name: ");
     scanf_s("%s", phoneToFind, 20);
     for (int i = 0; i < numberOfRecords; i++) {
