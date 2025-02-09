@@ -1,7 +1,7 @@
+#include "Stack.h"
 #include <stdio.h>
 #include <stdlib.h>
-
-#include "Stack.h"
+#include <stdbool.h>
 
 typedef struct StackElement {
     int value;
@@ -31,10 +31,10 @@ void deleteStack(Stack* stack) {
     free(stack);
 }
 
-void push(Stack* stack, int value) {
-    StackElement* element = malloc(sizeof(StackElement));
-    if (!element) {
-        printf("Memory Allocation!");
+void push(Stack* stack, int value, int* errorCode) {
+    StackElement* element = (StackElement*)calloc(1, sizeof(StackElement));
+    if (element == NULL) {
+        *errorCode = -1;
         return;
     }
     element->value = value;
@@ -42,23 +42,24 @@ void push(Stack* stack, int value) {
     stack->head = element;
 }
 
-void pop(Stack* stack) {
+void pop(Stack* stack, int* errorCode) {
     StackElement* tmp = stack->head;
-    if (!tmp) {
-        printf("Error: stack->head is NULL");
+    if (tmp == NULL) {
+        *errorCode = -2;
         return;
     }
     stack->head = stack->head->next;
     free(tmp);
 }
 
-int top(Stack* stack) {
+int top(Stack* stack, int* errorCode) {
     if (stack->head == NULL) {
-        return NULL;
+        *errorCode = -2;
+        return 0;
     }
     return stack->head->value;
 }
 
-int isEmpty(Stack* stack) {
-    return stack->head == NULL;
+bool isEmpty(Stack* stack) {
+    return NULL == stack->head;
 }
