@@ -78,7 +78,7 @@ int SaveNameAndPhone(Record *records, int numberOfRecords) {
 void findPhoneByName(Record *records, int numerOfRecords) {
     char nameToFind[80] = { 0 };
     printf("Enter the name whose phone number you want to find: ");
-    scanf_s("%s", nameToFind, 80);
+    scanf("%s", nameToFind, 80);
     for (int i = 0; i < numerOfRecords; i++) {
         if (!strcmp(nameToFind, records[i].name)) {
             printf("Phone: %s\n", records[i].phone);
@@ -91,7 +91,7 @@ void findPhoneByName(Record *records, int numerOfRecords) {
 char* findNameByPhone(Record *records, int numberOfRecords) {
     char phoneToFind[20] = { 0 };
     printf("Enter the phone number by which you want to find the name: ");
-    scanf_s("%s", phoneToFind, 20);
+    scanf("%s", phoneToFind, 20);
     for (int i = 0; i < numberOfRecords; i++) {
         if (!strcmp(phoneToFind, records[i].phone)) {
             printf("Name: %s\n", records[i].name);
@@ -121,7 +121,7 @@ int main() {
     printInstructionToProgram();
     while (operationNumber != 0) {
         printf("Print number of operation: ");
-        scanf_s("%d", &operationNumber, 1);
+        scanf("%d", &operationNumber, 1);
         switch (operationNumber) {
         case 0: 
             printf("This is the end of the programm!\n");
