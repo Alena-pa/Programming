@@ -16,9 +16,9 @@ bool test(void) {
         return false;
     }
 
-    const char* expectedResultOfFirstString = { "12+3*" };
+    const char* expectedResultOfFirstString = { "1 2 + 3 * " };
     if (strcmp(firstOutputString, expectedResultOfFirstString) != 0) {
-        printf("first test failed! Expected output string 12+3* , but actual output string %s\n", firstOutputString);
+        printf("first test failed! Expected output string 1 2 + 3 * , but actual output string %s\n", firstOutputString);
         return false;
     }
 
@@ -30,9 +30,9 @@ bool test(void) {
         return false;
     }
 
-    const char* expectedResultOfSecondString = { "123*+" };
+    const char* expectedResultOfSecondString = { "1 2 3 * + " };
     if (strcmp(secondOutputString, expectedResultOfSecondString) != 0) {
-        printf("second test failed! Expected output string 23*1+ , but actual output string %s\n", secondOutputString);
+        printf("second test failed! Expected output string 1 2 3 * + , but actual output string %s\n", secondOutputString);
         return false;
     }
 

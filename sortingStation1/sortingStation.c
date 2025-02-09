@@ -28,16 +28,25 @@ void convertStringFromInfixToPostfixNotation(const char* stringToConvert, char* 
     while (stringToConvert[elementsRead] != '\0') {
         if (stringToConvert[elementsRead] != ' ' && !isDigit(stringToConvert[elementsRead]) && !isOperation(stringToConvert[elementsRead]) && stringToConvert[elementsRead] != '(' && stringToConvert[elementsRead] != ')') {
             *errorCode = 1;
+            deleteStack(stack);
             return;
         }
         if (isDigit(stringToConvert[elementsRead])) {
             outputString[indexOfOutputString] = stringToConvert[elementsRead];
             indexOfOutputString++;
+
+            if (!isDigit(stringToConvert[elementsRead + 1])) {
+                outputString[indexOfOutputString] = ' ';
+                indexOfOutputString++;
+            }
         }
         else if (isOperation(stringToConvert[elementsRead])) {
             while (!isEmpty(stack) && precedence(stringToConvert[elementsRead]) <= precedence(top(stack, errorCode))) {
                 outputString[indexOfOutputString] = top(stack, errorCode);
                 pop(stack, errorCode);
+                indexOfOutputString++;
+
+                outputString[indexOfOutputString] = ' ';
                 indexOfOutputString++;
             }
             push(stack, stringToConvert[elementsRead], errorCode);
@@ -51,6 +60,9 @@ void convertStringFromInfixToPostfixNotation(const char* stringToConvert, char* 
                 outputString[indexOfOutputString] = top(stack, errorCode);
                 pop(stack, errorCode);
                 indexOfOutputString++;
+
+                outputString[indexOfOutputString] = ' ';
+                indexOfOutputString++;
             }
             pop(stack, errorCode);
             break;
@@ -60,6 +72,9 @@ void convertStringFromInfixToPostfixNotation(const char* stringToConvert, char* 
     while (!isEmpty(stack)) {
         outputString[indexOfOutputString] = top(stack, errorCode);
         pop(stack, errorCode);
+        indexOfOutputString++;
+
+        outputString[indexOfOutputString] = ' ';
         indexOfOutputString++;
     }
     outputString[indexOfOutputString] = '\0';
