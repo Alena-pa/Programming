@@ -1,7 +1,7 @@
+#include "MostCommonElement.h"
 #include <stdio.h>
 #include <stdlib.h>
 #include <stdbool.h>
-#include "MostCommonElement.h"
 
 void swap(int* left, int* right) {
     if (left != right) {
@@ -52,25 +52,25 @@ int mostCommonElement(int* arrayOfIntegers, int lengthOfArray) {
     quickSort(arrayOfIntegers, 0, lengthOfArray - 1);
     int lastMostCommonElement = arrayOfIntegers[0];
     int countOfCurrentMostCommonElement = 1;
-    int previoustElement = arrayOfIntegers[0];
+    int previousElement = arrayOfIntegers[0];
     int countOfCurrentElement = 1;
     for (int i = 1; i < lengthOfArray; i++) {
-        if (arrayOfIntegers[i] == previoustElement) {
+        if (arrayOfIntegers[i] == previousElement) {
             countOfCurrentElement++;
         }
         else {
             if (countOfCurrentElement > countOfCurrentMostCommonElement) {
                 countOfCurrentMostCommonElement = countOfCurrentElement;
-                lastMostCommonElement = previoustElement;
+                lastMostCommonElement = previousElement;
             }
-            previoustElement = arrayOfIntegers[i];
+            previousElement = arrayOfIntegers[i];
             countOfCurrentElement = 1;
         }
     }
 
     if (countOfCurrentMostCommonElement < countOfCurrentElement) {
         countOfCurrentMostCommonElement = countOfCurrentElement;
-        lastMostCommonElement = previoustElement;
+        lastMostCommonElement = previousElement;
     }
 
     return lastMostCommonElement;

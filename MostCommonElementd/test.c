@@ -1,7 +1,7 @@
-#include <stdio.h>
-#include <stdbool.h>
 #include "test.h"
 #include "MostCommonElement.h"
+#include <stdio.h>
+#include <stdbool.h>
 
 bool test(void) {
     int arrayOfIntegers[5] = { 1, 2, 2, 3, 4 };

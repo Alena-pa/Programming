@@ -15,6 +15,7 @@ int main() {
         return -1;
     }
 
+    fclose(file);
     int* array = malloc(sizeof(int) * 100);
     if (array == NULL) {
         printf("Memory allocation!");
@@ -26,12 +27,12 @@ int main() {
         lengthOfArray++;
     }
 
-    fclose(file);
-    int element = mostCommonElement(array, lengthOfArray);
-    if (element == NULL) {
-        printf("Memory allocation!");
+    if (lengthOfArray <= 0) {
+        printf("array is empty");
         return -1;
     }
+    int element = mostCommonElement(array, lengthOfArray);
+
     free(array);
     printf("mostCommonElement: %d\n", element);
 }
