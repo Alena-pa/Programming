@@ -51,13 +51,13 @@ void skipWhitespaceAndBrackets(const char* string, int* index) {
 }
 
 char* readNumber(const char* string, int* indexOfString) {
-    char* number = malloc(20 * sizeof(char));
+    char* number = calloc(30, sizeof(char));
     if (number == NULL) {
         return NULL;
     }
     int indexOfNumber = 0;
 
-    if (string[*indexOfString] == '-') {
+    if (string[*indexOfString - 1] == '-') {
         number[indexOfNumber] = string[*indexOfString];
         (*indexOfString)++;
     }
@@ -65,7 +65,7 @@ char* readNumber(const char* string, int* indexOfString) {
     while (isdigit(string[*indexOfString])) {
         number[indexOfNumber] = string[*indexOfString];
         (*indexOfString)++;
-    }
+    } 
     number[indexOfNumber] = '\0';
     return number;
 }
@@ -88,7 +88,7 @@ Node* buildSyntaxTree(const char* string, int* indexOfString) {
     if (string[*indexOfString] == '+' || string[*indexOfString] == '-' || string[*indexOfString] == '*' || string[*indexOfString] == '/') {
         char operationToCount = string[*indexOfString];
         Node* node = createNode(operationToCount);
-        indexOfString++;
+        (*indexOfString)++;
         node->leftChild = buildSyntaxTree(string, indexOfString);
         node->rightChild = buildSyntaxTree(string, indexOfString);
         return node;

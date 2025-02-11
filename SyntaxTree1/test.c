@@ -20,9 +20,9 @@ bool testBuildSyntaxTree(void) {
 
     char* leftValue = getNodeValue(leftChild);
     char* rightValue = getNodeValue(rightChild);
-
+ 
     if (strcmp(value, "*") != 0 || strcmp(leftValue, "+") != 0 || strcmp(rightValue, "-") != 0) {
-        printf("Test 1 failed: incorrect result\n");
+        printf("Test 1 failed: incorrect result: root %s, left %s, right %s\n", value, leftValue, rightValue);
         freeTree(tree);
         return false;
     }
