@@ -1,145 +1,131 @@
 #include <stdio.h>
+#include <stdbool.h>
 #include <stdlib.h>
 #include <time.h>
 
-void swap(int* left, int* right)
-{
-    int justVar = *right;
-    if (left != right)
-    {
+void swap(int* left, int* right) {
+    int temp = *right;
+    if (left != right) {
         *right = *left;
-        *left = justVar;
+        *left = temp;
     }
 }
 
-void bubbleSort(int *arrayOfIntegers, int lenghtOfArray)
-{
-    for (int i = 0; i < lenghtOfArray; i++)
-    {
-        int thisVarShowedIfArraySortedOrNot = 0;
-        for (int j = 0; j < lenghtOfArray - 1; j++) 
-        {
-            if (arrayOfIntegers[j] > arrayOfIntegers[j + 1])
-            {
+void bubbleSort(int *arrayOfIntegers, int lengthOfArray) {
+    for (int i = 0; i < lengthOfArray - 1; i++) {
+        bool isSorted = true;
+        for (int j = 0; j < lengthOfArray - i - 1; j++)  {
+            if (arrayOfIntegers[j] > arrayOfIntegers[j + 1]) {
                 swap(&arrayOfIntegers[j], &arrayOfIntegers[j + 1]);
-                thisVarShowedIfArraySortedOrNot = 1;
+                isSorted = false;
             }
         }
-        if (thisVarShowedIfArraySortedOrNot == 0)
-        {
+        if (isSorted) {
             break;
         }
     }
 }
 
-int maxArray(int * arrayOfIntegers, int lenghtOfArray)
-{
-    int maxInteger = 0;
-    for (int i = 0; i < lenghtOfArray; i++)
-    {
-        if (arrayOfIntegers[i] > maxInteger)
-        {
+int maxArray(int * arrayOfIntegers, int lengthOfArray) {
+    int maxInteger = arrayOfIntegers[0];
+    for (int i = 0; i < lengthOfArray; i++) {
+        if (arrayOfIntegers[i] > maxInteger) {
             maxInteger = arrayOfIntegers[i];
         }
     }
     return maxInteger;
 }
 
-void countSort(int *arrayOfIntegers, int lenghtOfArray)
-{
-    int maxInteger = maxArray(arrayOfIntegers, lenghtOfArray);
-    int* countArray = (int*)calloc(maxInteger + 1, sizeof(int));
-    for (int i = 0; i < lenghtOfArray; i++) 
-    {
-        countArray[arrayOfIntegers[i]]++;
+int minArray(int *arrayOfIntegers, int lengthOfArray) {
+    int minInteger = arrayOfIntegers[0];
+    for (int i = 0; i < lengthOfArray; i++ ) {
+        if (arrayOfIntegers[i] < minInteger) {
+            minInteger = arrayOfIntegers[i];
+        }
     }
-
-    for (int i = 1; i <= maxInteger; i++)
-    {
-        countArray[i] += countArray[i - 1];
-    }
-    int* outputArray = (int*)malloc(lenghtOfArray * sizeof(int));
-    for (int i = lenghtOfArray - 1; i >= 0; i--)
-    {
-        outputArray[countArray[arrayOfIntegers[i]] - 1] = arrayOfIntegers[i];
-        countArray[arrayOfIntegers[i]]--;
-    }
-
-    for (int i = 0; i < lenghtOfArray; i++)
-    {
-        arrayOfIntegers[i] = outputArray[i];
-    }
-    free(countArray);
-    free(outputArray);
+    return minInteger;
 }
 
-void printArray(int* arrayOfIntegers, int lenghtOfArray)
-{
-    for (int i = 0; i < lenghtOfArray; i++)
+bool countSort(int *arrayOfIntegers, int lengthOfArray) {
+    int maxInteger = maxArray(arrayOfIntegers, lengthOfArray);
+
+    int countArraySize = maxInteger * 2 + 1;
+    int* countArray = (int*)calloc(countArraySize, sizeof(int));
+    if (countArray == NULL) {
+        printf("Memory allocation!");
+        return false;
+    }
+
+    for (int i = 0; i < lengthOfArray; i++) {
+        countArray[arrayOfIntegers[i] + maxInteger]++;
+    }
+
+    int i = 0;
+    for (int j = 0; j < countArraySize; j++) {
+        while (countArray[j] > 0) {
+            arrayOfIntegers[i] = j - maxInteger;
+            countArray[j]--;
+            i++;
+        }
+    }
+
+    free(countArray);
+    return true;
+}
+
+void printArray(int* arrayOfIntegers, int lengthOfArray) {
+    for (int i = 0; i < lengthOfArray; i++)
         printf("%d ", arrayOfIntegers[i]);
     printf("\n");
 }
 
-int check(int *firstArray, int *secondArray, int lenghtOfArrays)
-{
-    int checkingVar = 0;
-    for (int i = 0; i < lenghtOfArrays; i++)
-    {
-        if (firstArray[i] != secondArray[i])
-        {
-            checkingVar++;
+bool areEqual(int *firstArray, int *secondArray, int lengthOfArray) {
+    for (int i = 0; i < lengthOfArray; i++) {
+        if (firstArray[i] != secondArray[i]) {
+            return false;
         }
     }
-    return checkingVar;
+    return true;
 }
 
-void Test1()
-{   
-    int sortedArrayOfIntegers[5] = { 0, 1, 2, 3, 5 };
-    int arrayOfIntegesSortedByCountSort[5] = { 0, 1, 5, 2, 3 };
-    countSort(arrayOfIntegesSortedByCountSort, 5);
-    int justCheckingVar = check(arrayOfIntegesSortedByCountSort, sortedArrayOfIntegers, 5);
-    if (justCheckingVar != 0)
-    {
-        printf("Smth Went Wrong =(\n");
-        printArray(arrayOfIntegesSortedByCountSort, 5);
+bool testCountSort(void) {
+    int unsortedArray[5] = { 3, -2, 5, 0, -1};
+    int expectedArray[5] = { -2, -1, 0, 3, 5 };
+    countSort(unsortedArray, 5);
+    if (!countSort(unsortedArray, 5)) {
+        return false;
     }
-    printf("time of the CountSort = % ld\n", clock());
-    int arrayOfIntegesSortedByBubbleSort[5] = { 0, 1, 5, 2, 3 };
-    bubbleSort(arrayOfIntegesSortedByBubbleSort, 5);
-    int justAnotherCheckingVar = check(arrayOfIntegesSortedByBubbleSort, sortedArrayOfIntegers, 5);
-    if (justAnotherCheckingVar != 0)
-    {
-        printf("Smth Went Wrong\n");
-        printArray(arrayOfIntegesSortedByBubbleSort, 5);
+    if (!areEqual(unsortedArray, expectedArray, 5)) {
+        printf("Smth Went Wrong at count sort =(\n");
+        printArray(unsortedArray, 5);
+        return false;
     }
-    printf("time of the BubbleSort = % ld\n", clock());
+    return true;
 }
 
-void Test2()
-{
-    int sortedArrayOfIntegers[5] = { 0, 1, 3, 2, 5 };
-    int arrayOfIntegesSortedByCountSort[5] = { 0, 1, 5, 2, 3 };
-    countSort(arrayOfIntegesSortedByCountSort, 5);
-    int justCheckingVar = check(arrayOfIntegesSortedByCountSort, sortedArrayOfIntegers, 5);
-    if (justCheckingVar != 0)
-    {
-        printf("All Good =)\n");
-        printArray(arrayOfIntegesSortedByCountSort, 5);
+bool testBubbleSort(void) {
+    int unsortedArray[5] = { 3, -2, 5, 0, -1 };
+    int expectedArray[5] = { -2, -1, 0, 3, 5 };
+    bubbleSort(unsortedArray, 5);
+    if (!areEqual(unsortedArray, expectedArray, 5)) {
+        printf("Smth Went Wrong at bubble sort\n");
+        printArray(unsortedArray, 5);
+        return false;
     }
-    printf("time of the CountSort = % ld\n", clock());
-    int arrayOfIntegesSortedByBubbleSort[5] = { 0, 1, 5, 2, 3 };
-    bubbleSort(arrayOfIntegesSortedByBubbleSort, 5);
-    int justAnotherCheckingVar = check(arrayOfIntegesSortedByBubbleSort, sortedArrayOfIntegers, 5);
-    if (justAnotherCheckingVar != 0)
-    {
-        printf("All Good =)\n");
-        printArray(arrayOfIntegesSortedByBubbleSort, 5);
-    }
-    printf("time of the BubbleSort = % ld\n", clock());
+    return true;
 }
-int main()
-{
-    Test1();
-    Test2();
+    
+int main() {
+    if (!(testCountSort() && testBubbleSort())) {
+        printf("Tests failed!\n");
+        return -1;
+    }
+
+    int unsortedArrayForCountSort[4] = {2, 3, -1, 6};
+    int unsortedArrayForBubbleSort[4] = {2, 3, -1, 6};
+
+    countSort(unsortedArrayForCountSort, 4);
+    printf("time of the CountSort = % ld\n", clock());
+    bubbleSort(unsortedArrayForBubbleSort, 4);
+    printf("time of the BubbleSort = % ld\n", clock());
 }
