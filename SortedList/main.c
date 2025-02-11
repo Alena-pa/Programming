@@ -1,7 +1,8 @@
-#include <stdio.h>
-#include <stdlib.h>
 #include "SortedList.h"
 #include "Tests.h"
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
 
 int main(void) {
     if (!allTests()) {
@@ -26,16 +27,19 @@ int main(void) {
         switch (numberOfOperation) {
         case 0:
             freeList(list);
-            printf("This is the end of program");
+            printf("This is the end of programm");
             return 0;
         case 1:
             printf("Enter value to add: ");
             scanf("%d", &value);
-            list = addValueToList(list, value);
-            if (!list) {
+
+            List* newList = strdup(list);
+            newList = addValueToList(list, value);
+            if (!newList) {
                 printf("Not enough memory :(");
                 return -1;
             }
+            list = newList;
             printf("Value %d added\n", value);
             break;
         case 2:
