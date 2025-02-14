@@ -1,7 +1,7 @@
+#include "Stack.h"
 #include <stdio.h>
 #include <stdlib.h>
-
-#include "stack.h"
+#include <stdbool.h>
 
 typedef struct StackElement {
     int value;
@@ -12,33 +12,54 @@ struct Stack {
     StackElement* head;
 };
 
-void push(Stack* stack, int value) {
-    StackElement* element = (StackElement*)malloc(sizeof(StackElement));
-    element->value = 1;
-    element->next = stack->head;
-    stack->head = element;
-}
-
-
-void pop(Stack* stack) {
-    StackElement* tmp = stack->head;
-    stack->head = stack->head->next;
-    free(tmp);
-}
-
 Stack* createStack() {
     return (Stack*)calloc(1, sizeof(Stack));
 }
 
-int isEmpty(Stack* stack){
-    return stack->head == NULL;
+void deleteStack(Stack* stack) {
+    if (!stack) {
+        return;
+    }
+
+    StackElement* current = stack->head;
+    while (current != NULL) {
+        StackElement* tmp = current;
+        current = current->next;
+        free(tmp);
+    }
+
+    free(stack);
 }
 
-int theLastElementOfStack(Stack* stack)
-{
-    if (!isEmpty(stack))
-    {
-        return 1;
+void push(Stack* stack, int value, int* errorCode) {
+    StackElement* element = (StackElement*)calloc(1, sizeof(StackElement));
+    if (element == NULL) {
+        *errorCode = -1;
+        return;
+    }
+    element->value = value;
+    element->next = stack->head;
+    stack->head = element;
+}
+
+void pop(Stack* stack, int* errorCode) {
+    StackElement* tmp = stack->head;
+    if (tmp == NULL) {
+        *errorCode = -2;
+        return;
+    }
+    stack->head = stack->head->next;
+    free(tmp);
+}
+
+int top(Stack* stack, int* errorCode) {
+    if (stack->head == NULL) {
+        *errorCode = -2;
+        return 0;
     }
     return stack->head->value;
+}
+
+bool isEmpty(Stack* stack) {
+    return NULL == stack->head;
 }
