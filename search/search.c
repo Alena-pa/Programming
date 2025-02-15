@@ -9,16 +9,16 @@ void randomNumbersAtArray(int* array, int lengthOfArray) {
 }
 
 void swap(int* left, int* right) {
-    int justVar = *right;
+    int temp = *right;
     if (left != right) {
         *right = *left;
-        *left = justVar;
+        *left = temp;
     }
 }
 
 int partition(int arrayOfIntegers[], int firstIndex, int lastIndex) {
     int pivot = arrayOfIntegers[lastIndex];
-    int i = (firstIndex - 1);
+    int i = firstIndex - 1;
     for (int j = firstIndex; j <= lastIndex - 1; j++) {
         if (arrayOfIntegers[j] <= pivot) {
             i++;
@@ -26,7 +26,7 @@ int partition(int arrayOfIntegers[], int firstIndex, int lastIndex) {
         }
     }
     swap(&arrayOfIntegers[i + 1], &arrayOfIntegers[lastIndex]);
-    return (i + 1);
+    return i + 1;
 }
 
 void quickSort(int arrayOfIntegers[], int firstIndex, int lastIndex) {
