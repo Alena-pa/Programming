@@ -15,7 +15,7 @@ List* addValueToList(List* head, int value) {
     valueToAdd->value = value;
     valueToAdd->next = NULL;
 
-    if (!head || head->value >= value) {
+    if (head == NULL || head->value >= value) {
         valueToAdd->next = head;
         return valueToAdd;
     }
@@ -32,13 +32,17 @@ List* addValueToList(List* head, int value) {
 }
 
 List* deleteFromList(List* head, int value) {
+    if (head == NULL) {
+        return NULL;
+    }
     List* currentElementOfList = head;
+
     while (currentElementOfList->next && currentElementOfList->next->value != value) {
         currentElementOfList = currentElementOfList->next;
     }
 
     if (currentElementOfList->next == NULL) {
-        return NULL;
+        return head;
     }
     currentElementOfList->next = currentElementOfList->next->next;
     return head;
@@ -60,4 +64,12 @@ void freeList(List* head) {
         head = head->next;
         free(elementToFree);
     }
+}
+
+int getValueFromList(List* head) {
+    return head->value;
+}
+
+int switchValueToNext(List* head) {
+    return head->next->value;
 }
