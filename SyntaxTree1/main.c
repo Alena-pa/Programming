@@ -3,18 +3,13 @@
 #include "test.h"
 
 int main(void) {
-    if (!allTests()) {
-        printf("Tests Failed!");
-        return 1;
-    }
     FILE* file = fopen("FileForTree.txt", "r");
     if (!file) {
         printf("Failed to open file!");
         return 1;
     }
 
-    int index = 0;
-    Node* root = buildSyntaxTree(file, index);
+    Node* root = splitArithmeticExpression(file);
     fclose(file);
 
     printf("Tree: ");

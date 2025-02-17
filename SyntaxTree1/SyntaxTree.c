@@ -6,28 +6,20 @@
 #include "syntaxTree.h"
 
 typedef struct Node {
-    const char* value;
+    char operation;
+    int number;
     Node* leftChild;
     Node* rightChild;
 } Node;
 
-Node* createNode(char* value) {
+Node* createNode(char operation, int number) {
     Node* node = calloc(1, sizeof(Node));
     if (node == NULL) {
         return NULL;
     }
-    node->value = strdup(value);
-    if (node->value == NULL) {
-        return NULL;
-    }
+    node->operation = operation;
+    node->number = number;
     return node;
-}
-
-const char* getNodeValue(Node* node) {
-    if (node == NULL) {
-        return NULL;
-    }
-    return node->value;
 }
 
 Node* getLeftChild(Node* node) {
@@ -44,66 +36,67 @@ Node* getRightChild(Node* node) {
     return node->rightChild;
 }
 
-Node* buildSyntaxTree(const char* string, int* indexOfString) {
-    if (string[*indexOfString] == '\0') {
-        return NULL;
-    }
 
-    while (string[*indexOfString] == ' ') {
-        (*indexOfString)++;
-    }
+bool isOperation(char value) {
+    return value == '+' || value == '*' || value == '/' || value == '-';
+}
 
-    char* value = calloc(30, sizeof(char));
-    if (value == NULL) {
-        return NULL;
+Node* parseOperand(FILE* file) {
+    int ch = getc(file);
+    ch = getc(file);
+    int number = 0;
+    if (ch == '(') {
+        return splitArithmeticExpression(file);
     }
-
-    int i = 0;
-    while (isdigit(string[*indexOfString])) {
-        value[i] = string[*indexOfString];
-        i++;
-        (*indexOfString)++;
-    }
-
-    if (i > 0) {
-        return createNode(value);
-    }
-
-    else if (string[*indexOfString] == '+' || string[*indexOfString] == '-' || string[*indexOfString] == '*' || string[*indexOfString] == '/') {
-        char operator[2] = {string[*indexOfString], '\0'};
-        Node* node = createNode(operator);
-        (*indexOfString)++;
-
-        printf("Operator: %s\n", operator);
-        node->leftChild = buildSyntaxTree(string, indexOfString);
-        node->rightChild = buildSyntaxTree(string, indexOfString);
-        return node;
-    }
-    
     else {
-        buildSyntaxTree(string, *indexOfString)
+        ungetc(ch, file);
+        fscanf(file, "%d", &number);
+        return createNode(NULL, number);
     }
-    return NULL;
+}
+
+Node* splitArithmeticExpression(FILE* file) {
+    int ch = getc(file);
+    if (ch != '(') {
+        return NULL;
+    }
+    ch = getc(file);
+    if (!isOperation(ch)) {
+        return NULL;
+    }
+    Node* root = createNode(ch, NULL);
+    root->leftChild = parseOperand(file);
+    root->rightChild = parseOperand(file);
+
+    ch = getc(file);
+    ch = getc(file);
+    if (ch != ')') {
+        return NULL;
+    }
+    return root;
 }
 
 void printTree(Node* node) {
     if (node == NULL) {
         return;
     }
-    printf("%s ", node->value);
+    printf("%s ", node->operation);
     printTree(node->leftChild);
     printTree(node->rightChild);
 }
 
 int calculation(Node* node) {
+    if (node == NULL) {
+        return NULL;
+    }
     if (node->leftChild == NULL && node->rightChild == NULL) {
-        return atoi(node->value);
+        return node->number;
     }
 
     int leftValue = calculation(node->leftChild);
     int rightValue = calculation(node->rightChild);
 
-    switch (node->value[0]) {
+    switch (node->operation) {
     case '+':
         return leftValue + rightValue;
     case '-':
@@ -113,7 +106,7 @@ int calculation(Node* node) {
     case '/':
         return leftValue / rightValue;
     default:
-        printf("Unknown operation: %s\n", node->value);
+        printf("Unknown operation: %s\n", node->operation);
     }
 }
 
@@ -123,6 +116,7 @@ void freeTree(Node* node) {
     }
     freeTree(node->leftChild);
     freeTree(node->rightChild);
-    free(node->value);
+    free(node->operation);
+    free(node->number);
     free(node);
 }
