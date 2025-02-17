@@ -21,8 +21,8 @@
   <PropertyGroup Label="Globals">
     <VCProjectVersion>17.0</VCProjectVersion>
     <Keyword>Win32Proj</Keyword>
-    <ProjectGuid>{00001634-4e06-43bf-8825-e61bfa6712b2}</ProjectGuid>
-    <RootNamespace>SyntaxTree</RootNamespace>
+    <ProjectGuid>{cd74ec98-3b02-42f8-bbf2-89037aae2ebb}</ProjectGuid>
+    <RootNamespace>SyntaxTree1</RootNamespace>
     <WindowsTargetPlatformVersion>10.0</WindowsTargetPlatformVersion>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
@@ -101,8 +101,8 @@
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <ClCompile>
       <WarningLevel>Level3</WarningLevel>
-      <SDLCheck>true</SDLCheck>
-      <PreprocessorDefinitions>_CRT_SECURE_NO_WARNINGS</PreprocessorDefinitions>
+      <SDLCheck>false</SDLCheck>
+      <PreprocessorDefinitions>_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
     </ClCompile>
     <Link>
@@ -127,17 +127,24 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+<<<<<<<< HEAD:MostCommonElement/MostCommonElement.vcxproj
+    <ClCompile Include="MostCommonElement.c">
+      <PreprocessorDefinitions Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">_CRT_SECURE_NO_WARNINGS</PreprocessorDefinitions>
+    </ClCompile>
+  </ItemGroup>
+========
     <ClCompile Include="main.c" />
     <ClCompile Include="SyntaxTree.c" />
-    <ClCompile Include="Tests.c" />
+    <ClCompile Include="test.c" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="SyntaxTree.h" />
-    <ClInclude Include="Tests.h" />
+    <ClInclude Include="syntaxTree.h" />
+    <ClInclude Include="test.h" />
   </ItemGroup>
   <ItemGroup>
-    <Text Include="FileForTree.txt" />
+    <Text Include="fileForTree.txt" />
   </ItemGroup>
+>>>>>>>> 4ffa0656b3fd002892792d9acdd5b6cf9c6cc7d5:SyntaxTree/SyntaxTree.vcxproj
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
   </ImportGroup>

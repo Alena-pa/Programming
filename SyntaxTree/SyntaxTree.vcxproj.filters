@@ -15,25 +15,31 @@
     </Filter>
   </ItemGroup>
   <ItemGroup>
+<<<<<<<< HEAD:MostCommonElement/MostCommonElement.vcxproj.filters
+    <ClCompile Include="MostCommonElement.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+========
     <ClCompile Include="SyntaxTree.c">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="main.c">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Tests.c">
+    <ClCompile Include="test.c">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="SyntaxTree.h">
+    <ClInclude Include="test.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Tests.h">
+    <ClInclude Include="syntaxTree.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+>>>>>>>> 4ffa0656b3fd002892792d9acdd5b6cf9c6cc7d5:SyntaxTree/SyntaxTree.vcxproj.filters
   </ItemGroup>
   <ItemGroup>
-    <Text Include="FileForTree.txt" />
+    <Text Include="fileForTree.txt" />
   </ItemGroup>
 </Project>
