@@ -1,25 +1,22 @@
 #pragma once
+#include <stdio.h>
 
-typedef struct NodeValue {
-    const char* value;
-} NodeValue;
+typedef struct Node Node;
 
-typedef struct Node {
-    NodeValue value;
-    struct Node* leftChild;
-    struct Node* rightChild;
-} Node;
+// Get left child
+Node* getLeftChild(Node* node);
 
-NodeValue createValue(const char* value);
+// Get right child
+Node* getRightChild(Node* node);
 
-Node* createNode(NodeValue value);
+// Remove tree
+void freeTree(Node* node);
 
-void skipWhitespaceAndBrackets(const char* string, int* index);
+// Fill a parse tree with an arithmetic expression
+Node* splitArithmeticExpression(FILE *file);
 
-Node* modifyString(const char* value, int* index);
-
+// Print tree
 void printTree(Node* node);
 
+// Calculate the value of an expression by traversing a tree
 int calculation(Node* node);
-
-void freeTree(Node* node);
