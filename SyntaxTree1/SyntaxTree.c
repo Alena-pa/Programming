@@ -49,7 +49,7 @@ Node* buildSyntaxTree(const char* string, int* indexOfString) {
         return NULL;
     }
 
-    while (string[*indexOfString] == '(' || string[*indexOfString] == ')' || string[*indexOfString] == ' ') {
+    while (string[*indexOfString] == ' ') {
         (*indexOfString)++;
     }
 
@@ -59,7 +59,7 @@ Node* buildSyntaxTree(const char* string, int* indexOfString) {
     }
 
     int i = 0;
-    while (48 <= string[*indexOfString] && string[*indexOfString] <= 57) {
+    while (isdigit(string[*indexOfString])) {
         value[i] = string[*indexOfString];
         i++;
         (*indexOfString)++;
@@ -80,6 +80,9 @@ Node* buildSyntaxTree(const char* string, int* indexOfString) {
         return node;
     }
     
+    else {
+        buildSyntaxTree(string, *indexOfString)
+    }
     return NULL;
 }
 
