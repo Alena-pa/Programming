@@ -18,10 +18,10 @@ int main() {
     int* array = malloc(sizeof(int) * 100);
     if (array == NULL) {
         printf("Memory allocation!");
+        fclose(file);
         return -1;
     }
     int lengthOfArray = 0;
-
     while (lengthOfArray < 100 && fscanf(file, "%d", &array[lengthOfArray]) == 1) {
         lengthOfArray++;
     }
