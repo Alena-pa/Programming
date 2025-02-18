@@ -1,12 +1,7 @@
 #pragma once
 #include <stdbool.h>
 
-bool testBuildSyntaxTree();
+bool incorrectTest();
 
-bool testCalculation();
+bool correctTest();
 
-bool testNegativeNumbers();
-
-bool testInvalidExpression();
-
-bool allTests();

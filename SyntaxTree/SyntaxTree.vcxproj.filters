@@ -35,5 +35,7 @@
   </ItemGroup>
   <ItemGroup>
     <Text Include="fileForTree.txt" />
+    <Text Include="fileForFirstTest.txt" />
+    <Text Include="fileForSecondTest.txt" />
   </ItemGroup>
 </Project>

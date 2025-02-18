@@ -3,3 +3,51 @@
 #include <string.h>
 #include "syntaxTree.h"
 #include "test.h"
+
+bool correctTest() {
+    FILE* file = fopen("fileForFirstTest.txt", "r");
+    if (file == NULL) {
+        printf("unable to open test file");
+        return false;
+    }
+    int correctAnswer = 4;
+
+    Node* root = splitArithmeticExpression(file);
+    fclose(file);
+
+    printf("test tree: ");
+    printTree(root);
+    printf("\n");
+
+    int errorCode = 0;
+    int resulOfCalculation = calculation(root, errorCode);
+    if (errorCode == -1) {
+        printf("node is empty!");
+        freeTree(root);
+        return false;
+    }
+    if (resulOfCalculation != correctAnswer) {
+        printf("incorrect resul of calculation: %d", resulOfCalculation);
+        freeTree(root);
+        return false;
+    }
+    
+    freeTree(root);
+    return true;
+}
+
+bool incorrectTest() {
+    FILE* file = fopen("fileForSecondTest.txt", "r");
+    if (file == NULL) {
+        printf("unable to open test file");
+        return false;
+    }
+
+    Node* root = splitArithmeticExpression(file);
+    fclose(file);
+
+    if (root != NULL) {
+        return false;
+    }
+    return true;
+}

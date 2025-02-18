@@ -3,6 +3,10 @@
 #include "test.h"
 
 int main(void) {
+    if (!(incorrectTest() && correctTest())) {
+        printf("tests failed!");
+        return -1;
+    }
     FILE* file = fopen("FileForTree.txt", "r");
     if (!file) {
         printf("Failed to open file!");

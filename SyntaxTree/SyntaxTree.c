@@ -82,7 +82,12 @@ void printTree(Node* node) {
     if (node == NULL) {
         return;
     }
-    printf("%c ", node->operation);
+    if (node->operation == '\0') {
+        printf("%d ", node->number);
+    }
+    else {
+        printf("%c ", node->operation);
+    }
     printTree(node->leftChild);
     printTree(node->rightChild);
 }
@@ -96,8 +101,14 @@ int calculation(Node* node, int* errorCode) {
         return node->number;
     }
 
-    int leftValue = calculation(node->leftChild, *errorCode);
-    int rightValue = calculation(node->rightChild, *errorCode);
+    int leftValue = calculation(node->leftChild, errorCode);
+    if (errorCode == -1) {
+        return -1;
+    }
+    int rightValue = calculation(node->rightChild, errorCode);
+    if (errorCode == -1) {
+        return -1;
+    }
 
     switch (node->operation) {
     case '+':
