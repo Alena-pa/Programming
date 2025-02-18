@@ -15,7 +15,6 @@ int main() {
         return -1;
     }
 
-    fclose(file);
     int* array = malloc(sizeof(int) * 100);
     if (array == NULL) {
         printf("Memory allocation!");
@@ -27,6 +26,7 @@ int main() {
         lengthOfArray++;
     }
 
+    fclose(file);
     if (lengthOfArray <= 0) {
         free(array);
         printf("array is empty");
