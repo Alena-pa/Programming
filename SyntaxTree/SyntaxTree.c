@@ -42,14 +42,15 @@ bool isOperation(char value) {
 }
 
 Node* parseOperand(FILE* file) {
-    int ch = getc(file);
-    ch = getc(file);
+    int ch;
+    while (isspace(ch = getc(file))) {}
+
     int number = 0;
+    ungetc(ch, file);
     if (ch == '(') {
         return splitArithmeticExpression(file);
     }
     else {
-        ungetc(ch, file);
         fscanf(file, "%d", &number);
         return createNode(NULL, number);
     }
@@ -68,7 +69,6 @@ Node* splitArithmeticExpression(FILE* file) {
     root->leftChild = parseOperand(file);
     root->rightChild = parseOperand(file);
 
-    ch = getc(file);
     ch = getc(file);
     if (ch != ')') {
         return NULL;
