@@ -28,6 +28,7 @@ int main() {
     }
 
     if (lengthOfArray <= 0) {
+        free(array);
         printf("array is empty");
         return -1;
     }
