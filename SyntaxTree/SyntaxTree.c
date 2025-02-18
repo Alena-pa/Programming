@@ -42,8 +42,10 @@ bool isOperation(char value) {
 }
 
 Node* parseOperand(FILE* file) {
-    int ch;
-    while (isspace(ch = getc(file))) {}
+    int ch = getc(file);
+    while (ch == ' ') { 
+        ch = getc(file);
+    }
 
     int number = 0;
     ungetc(ch, file);
