@@ -19,4 +19,4 @@ Node* splitArithmeticExpression(FILE *file);
 void printTree(Node* node);
 
 // Calculate the value of an expression by traversing a tree
-int calculation(Node* node);
+int calculation(Node* node, int* errorCode);
