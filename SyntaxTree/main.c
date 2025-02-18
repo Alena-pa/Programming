@@ -16,7 +16,12 @@ int main(void) {
     printTree(root);
     printf("\n");
 
-    int resulOfCalculation = calculation(root);
+    int errorCode = 0;
+    int resulOfCalculation = calculation(root, errorCode);
+    if (errorCode == -1) {
+        printf("node is empty!");
+        return -1;
+    }
     printf("resulOfCalculation: %d", resulOfCalculation);
 
     freeTree(root);

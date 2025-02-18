@@ -52,7 +52,7 @@ Node* parseOperand(FILE* file) {
     }
     else {
         fscanf(file, "%d", &number);
-        return createNode(NULL, number);
+        return createNode('\0', number);
     }
 }
 
@@ -65,7 +65,7 @@ Node* splitArithmeticExpression(FILE* file) {
     if (!isOperation(ch)) {
         return NULL;
     }
-    Node* root = createNode(ch, NULL);
+    Node* root = createNode(ch, 0);
     root->leftChild = parseOperand(file);
     root->rightChild = parseOperand(file);
 
@@ -80,21 +80,22 @@ void printTree(Node* node) {
     if (node == NULL) {
         return;
     }
-    printf("%s ", node->operation);
+    printf("%c ", node->operation);
     printTree(node->leftChild);
     printTree(node->rightChild);
 }
 
-int calculation(Node* node) {
+int calculation(Node* node, int* errorCode) {
     if (node == NULL) {
-        return NULL;
+        *errorCode = -1;
+        return -1;
     }
     if (node->leftChild == NULL && node->rightChild == NULL) {
         return node->number;
     }
 
-    int leftValue = calculation(node->leftChild);
-    int rightValue = calculation(node->rightChild);
+    int leftValue = calculation(node->leftChild, *errorCode);
+    int rightValue = calculation(node->rightChild, *errorCode);
 
     switch (node->operation) {
     case '+':
@@ -116,7 +117,5 @@ void freeTree(Node* node) {
     }
     freeTree(node->leftChild);
     freeTree(node->rightChild);
-    free(node->operation);
-    free(node->number);
     free(node);
 }
