@@ -7,7 +7,7 @@ int main(void) {
         printf("tests failed!");
         return -1;
     }
-    FILE* file = fopen("FileForTree.txt", "r");
+    FILE* file = fopen("file.txt", "r");
     if (!file) {
         printf("Failed to open file!");
         return 1;
