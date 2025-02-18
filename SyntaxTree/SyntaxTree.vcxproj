@@ -139,7 +139,6 @@
   <ItemGroup>
     <Text Include="fileForFirstTest.txt" />
     <Text Include="fileForSecondTest.txt" />
-    <Text Include="fileForTree.txt" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
