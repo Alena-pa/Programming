@@ -34,8 +34,8 @@
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
-    <Text Include="fileForFirstTest.txt" />
     <Text Include="fileForSecondTest.txt" />
     <Text Include="file.txt" />
+    <Text Include="fileForFirstTest.txt" />
   </ItemGroup>
 </Project>
