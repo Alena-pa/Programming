@@ -6,15 +6,23 @@
 
 bool correctTest(void) {
     int correctAnswer = 4;
+    int errorCode = 0;
 
-    Node* root = parseFile("fileForFirstTest.txt");
+    Node* root = parseFile("fileForFirstTest.txt", &errorCode);
+    if (errorCode == -2) {
+        printf("unable to open test file\n");
+        return false;
+    }
+    if (root == NULL) {
+        printf("root is empty");
+        return false;
+    }
 
     printf("test tree: ");
     printTree(root);
     printf("\n");
 
-    int errorCode = 0;
-    int resulOfCalculation = calculate(root, errorCode);
+    int resulOfCalculation = calculate(root, &errorCode);
     if (errorCode == -1) {
         printf("node is empty!");
         freeTree(root);
@@ -31,7 +39,12 @@ bool correctTest(void) {
 }
 
 bool incorrectTest(void) {
-    Node* root = parseFile("fileForSecondTest.txt");
+    int errorCode = 0;
+    Node* root = parseFile("fileForSecondTest.txt", &errorCode);
+    if (errorCode == -2) {
+        printf("unable to open test file\n");
+        return false;
+    }
 
     if (root != NULL) {
         return false;

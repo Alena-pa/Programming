@@ -41,7 +41,7 @@ bool isOperation(char value) {
     return value == '+' || value == '*' || value == '/' || value == '-';
 }
 
-Node* parseOperand(FILE* file) {
+Node* parseOperand(FILE* file, int* errorCode) {
     int ch = getc(file);
     while (ch == ' ') { 
         ch = getc(file);
@@ -50,7 +50,7 @@ Node* parseOperand(FILE* file) {
     int number = 0;
     ungetc(ch, file);
     if (ch == '(') {
-        return parseFile(file);
+        return parseFile(file, errorCode);
     }
     else {
         fscanf(file, "%d", &number);
@@ -58,9 +58,11 @@ Node* parseOperand(FILE* file) {
     }
 }
 
-Node* parseFile(char* nameOfFile) {
+Node* parseFile(char* nameOfFile, int* errorCode) {
+    printf("Trying to open file: %s\n", nameOfFile);
     FILE* file = fopen(nameOfFile, "r");
     if (!file) {
+        *errorCode = -2;
         return NULL;
     }
     int ch = getc(file);
@@ -77,14 +79,14 @@ Node* parseFile(char* nameOfFile) {
     }
 
     Node* root = createNode(ch, 0);
-    root->leftChild = parseOperand(file);
+    root->leftChild = parseOperand(file, errorCode);
 
     if (root->leftChild == NULL) {
         fclose(file);
         return NULL;
     }
 
-    root->rightChild = parseOperand(file);
+    root->rightChild = parseOperand(file, errorCode);
 
     if (root->rightChild == NULL) {
         fclose(file);
@@ -125,11 +127,11 @@ int calculate(Node* node, int* errorCode) {
         return node->number;
     }
 
-    int leftValue = calculation(node->leftChild, errorCode);
+    int leftValue = calculate(node->leftChild, errorCode);
     if (errorCode == -1) {
         return -1;
     }
-    int rightValue = calculation(node->rightChild, errorCode);
+    int rightValue = calculate(node->rightChild, errorCode);
     if (errorCode == -1) {
         return -1;
     }

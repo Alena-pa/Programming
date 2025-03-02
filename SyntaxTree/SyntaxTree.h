@@ -6,7 +6,7 @@ typedef struct Node Node;
 void freeTree(Node* node);
 
 // Fill a parse tree with an arithmetic expression
-Node* parseFile(char* nameOfFile);
+Node* parseFile(char* nameOfFile, int* errorCode);
 
 // Print tree
 void printTree(Node* node);

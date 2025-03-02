@@ -7,7 +7,11 @@ int main(void) {
         printf("tests failed!");
         return -1;
     }
-    Node* root = parseFile("file.txt");
+    int errorCode = 0;
+    Node* root = parseFile("file.txt", &errorCode);
+    if (errorCode == -2) {
+        printf("unable to open main file\n");
+    }
     if (root == NULL) {
         return -1;
     }
@@ -16,8 +20,7 @@ int main(void) {
     printTree(root);
     printf("\n");
 
-    int errorCode = 0;
-    int resulOfCalculation = calculate(root, errorCode);
+    int resulOfCalculation = calculate(root, &errorCode);
     if (errorCode == -1) {
         freeTree(root);
         printf("node is empty!");
