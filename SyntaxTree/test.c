@@ -4,23 +4,17 @@
 #include "syntaxTree.h"
 #include "test.h"
 
-bool correctTest() {
-    FILE* file = fopen("fileForFirstTest.txt", "r");
-    if (file == NULL) {
-        printf("unable to open test file");
-        return false;
-    }
+bool correctTest(void) {
     int correctAnswer = 4;
 
-    Node* root = splitArithmeticExpression(file);
-    fclose(file);
+    Node* root = parseFile("fileForFirstTest.txt");
 
     printf("test tree: ");
     printTree(root);
     printf("\n");
 
     int errorCode = 0;
-    int resulOfCalculation = calculation(root, errorCode);
+    int resulOfCalculation = calculate(root, errorCode);
     if (errorCode == -1) {
         printf("node is empty!");
         freeTree(root);
@@ -36,15 +30,8 @@ bool correctTest() {
     return true;
 }
 
-bool incorrectTest() {
-    FILE* file = fopen("fileForSecondTest.txt", "r");
-    if (file == NULL) {
-        printf("unable to open test file");
-        return false;
-    }
-
-    Node* root = splitArithmeticExpression(file);
-    fclose(file);
+bool incorrectTest(void) {
+    Node* root = parseFile("fileForSecondTest.txt");
 
     if (root != NULL) {
         return false;

@@ -50,7 +50,7 @@ Node* parseOperand(FILE* file) {
     int number = 0;
     ungetc(ch, file);
     if (ch == '(') {
-        return splitArithmeticExpression(file);
+        return parseFile(file);
     }
     else {
         fscanf(file, "%d", &number);
@@ -58,23 +58,47 @@ Node* parseOperand(FILE* file) {
     }
 }
 
-Node* splitArithmeticExpression(FILE* file) {
+Node* parseFile(char* nameOfFile) {
+    FILE* file = fopen(nameOfFile, "r");
+    if (!file) {
+        return NULL;
+    }
     int ch = getc(file);
+
     if (ch != '(') {
+        fclose(file);
         return NULL;
     }
-    ch = getc(file);
-    if (!isOperation(ch)) {
-        return NULL;
-    }
-    Node* root = createNode(ch, 0);
-    root->leftChild = parseOperand(file);
-    root->rightChild = parseOperand(file);
 
     ch = getc(file);
-    if (ch != ')') {
+    if (!isOperation(ch)) {
+        fclose(file);
         return NULL;
     }
+
+    Node* root = createNode(ch, 0);
+    root->leftChild = parseOperand(file);
+
+    if (root->leftChild == NULL) {
+        fclose(file);
+        return NULL;
+    }
+
+    root->rightChild = parseOperand(file);
+
+    if (root->rightChild == NULL) {
+        fclose(file);
+        return NULL;
+    }
+
+    ch = getc(file);
+
+    if (ch != ')') {
+        fclose(file);
+        return NULL;
+    }
+
+    fclose(file);
     return root;
 }
 
@@ -92,7 +116,7 @@ void printTree(Node* node) {
     printTree(node->rightChild);
 }
 
-int calculation(Node* node, int* errorCode) {
+int calculate(Node* node, int* errorCode) {
     if (node == NULL) {
         *errorCode = -1;
         return -1;

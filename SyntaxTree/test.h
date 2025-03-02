@@ -1,7 +1,9 @@
 #pragma once
 #include <stdbool.h>
 
-bool incorrectTest();
+// test with incorrect file 
+bool incorrectTest(void);
 
-bool correctTest();
+// test with correct file
+bool correctTest(void);
 

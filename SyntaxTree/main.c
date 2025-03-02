@@ -7,22 +7,19 @@ int main(void) {
         printf("tests failed!");
         return -1;
     }
-    FILE* file = fopen("file.txt", "r");
-    if (!file) {
-        printf("Failed to open file!");
-        return 1;
+    Node* root = parseFile("file.txt");
+    if (root == NULL) {
+        return -1;
     }
-
-    Node* root = splitArithmeticExpression(file);
-    fclose(file);
 
     printf("Tree: ");
     printTree(root);
     printf("\n");
 
     int errorCode = 0;
-    int resulOfCalculation = calculation(root, errorCode);
+    int resulOfCalculation = calculate(root, errorCode);
     if (errorCode == -1) {
+        freeTree(root);
         printf("node is empty!");
         return -1;
     }
