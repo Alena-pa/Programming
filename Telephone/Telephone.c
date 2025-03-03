@@ -62,43 +62,37 @@ void writeToRecord(Record* records, int *numberOfRecords) {
     (*numberOfRecords)++;
 }
 
-int SaveNameAndPhone(Record *records, int numberOfRecords) {
+bool SaveNameAndPhone(Record *records, int numberOfRecords, int* errorCode) {
     FILE* database = fopen("database.txt", "w");
     if (database == NULL) {
-        printf("File not found!\n");
-        return 1;
+        int* errorCode = -1;
+        return false;
     }
     for (int i = 0; i < numberOfRecords; i++) {
         fprintf(database, "%s %s\n", records[i].name, records[i].phone);
     }
     fclose(database);
-    return 0;
+    return true;
 }
 
-void findPhoneByName(Record *records, int numerOfRecords) {
-    char nameToFind[80] = { 0 };
-    printf("Enter the name whose phone number you want to find: ");
-    scanf("%s", nameToFind, 80);
+bool findPhoneByName(Record *records, int numerOfRecords, char* nameToFound) {
     for (int i = 0; i < numerOfRecords; i++) {
-        if (!strcmp(nameToFind, records[i].name)) {
+        if (!strcmp(nameToFound, records[i].name)) {
             printf("Phone: %s\n", records[i].phone);
-            return;
+            return true;
         }
     }
-    printf("Can`t find phone\n");
+    return false;
 }
 
-char* findNameByPhone(Record *records, int numberOfRecords) {
-    char phoneToFind[20] = { 0 };
-    printf("Enter the phone number by which you want to find the name: ");
-    scanf("%s", phoneToFind, 20);
+bool findNameByPhone(Record *records, int numberOfRecords, char* phoneToFound) {
     for (int i = 0; i < numberOfRecords; i++) {
-        if (!strcmp(phoneToFind, records[i].phone)) {
+        if (!strcmp(phoneToFound, records[i].phone)) {
             printf("Name: %s\n", records[i].name);
-            return;
+            return true;
         }
     }
-    printf("Can`t find name\n");
+    return false;
 }
 
 void printInstructionToProgram() {
@@ -109,46 +103,4 @@ void printInstructionToProgram() {
     printf("4 - find name by phone\n");
     printf("5 - save\n");
     printf("Enjoy!\n");
-}
-
-int main() {
-    int operationNumber = -1;
-    Record records[MAX_NUM_OF_RECORDS];
-    int numberOfRecords = readFromFile(records);
-    if (numberOfRecords == -1) {
-        return 1;
-    }
-    printInstructionToProgram();
-    while (operationNumber != 0) {
-        printf("Print number of operation: ");
-        scanf("%d", &operationNumber, 1);
-        switch (operationNumber) {
-        case 0: 
-            printf("This is the end of the programm!\n");
-            break;
-        case 1:
-            writeToRecord(records, &numberOfRecords);
-            break;
-        case 2:
-            printAllRecords(records, numberOfRecords);
-            break;
-        case 3:
-            findPhoneByName(records, numberOfRecords);
-            break;
-        case 4:
-            findNameByPhone(records, numberOfRecords);
-            break;
-        case 5:
-            if (!SaveNameAndPhone(records, numberOfRecords)) {
-                printf("Data saved\n");
-            }
-            else {
-                printf("First you need to add some data\n");
-            }
-            break;
-        default:
-            printf("Incorrect number of operation =(\nenter number from 0 to 5 =)\n");
-        }
-    }
-    return 0;
 }
