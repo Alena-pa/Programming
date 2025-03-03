@@ -8,7 +8,8 @@ int main(void) {
         return -1;
     }
     int errorCode = 0;
-    Node* root = parseFile("file.txt", &errorCode);
+    FILE* file = fopen("file.txt", "r");
+    Node* root = parseFile(file);
     if (errorCode == -2) {
         printf("unable to open main file\n");
     }
