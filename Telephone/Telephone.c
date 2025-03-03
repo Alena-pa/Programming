@@ -68,6 +68,9 @@ bool SaveNameAndPhone(Record *records, int numberOfRecords, int* errorCode) {
         int* errorCode = -1;
         return false;
     }
+    if (records[0].name == NULL || records[0].phone == NULL) {
+        return false;
+    }
     for (int i = 0; i < numberOfRecords; i++) {
         fprintf(database, "%s %s\n", records[i].name, records[i].phone);
     }
@@ -95,7 +98,7 @@ bool findNameByPhone(Record *records, int numberOfRecords, char* phoneToFound) {
     return false;
 }
 
-void printInstructionToProgram() {
+void printInstructionToProgram(void) {
     printf("0 - end the programm\n");
     printf("1 - add name and phone to database\n");
     printf("2 - printf all records\n");

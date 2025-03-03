@@ -22,4 +22,4 @@ bool findPhoneByName(Record* records, int numberOfRecords, char* nameToFound);
 bool findNameByPhone(Record* records, int numberOfRecords, char* phoneToFound);
 
 // Function to display instructions to the user
-void printInstructionToProgram();
+void printInstructionToProgram(void);
