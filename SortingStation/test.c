@@ -1,8 +1,10 @@
-#include <stdbool.h>
 #include "stack.h"
 #include "sortingStation.h"
+#include "test.h"
 #include <stdio.h>
 #include <string.h>
+#include <stdbool.h>
+
 #define MAX_SIZE 100
 
 bool test(void) {
