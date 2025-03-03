@@ -23,12 +23,12 @@ int readFromFile(Record* records) {
     char phone[MAX_SIZE_OF_PHONE] = {0};
     int numRecords = 0;
     for (int line = 0; line < MAX_NUM_OF_RECORDS; line++) {
-        //Read name
+        // Read name
         int wordsRead = fscanf(database, "%80s", name);
         if (wordsRead == EOF) {
             break;
         }
-        //Read phone
+        // Read phone
         wordsRead = fscanf(database, "%20s", phone);
         if (wordsRead == EOF) {
             break;
