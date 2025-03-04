@@ -3,13 +3,12 @@
 #include "test.h"
 
 int main(void) {
-    if (!(incorrectTest() && correctTest())) {
+    if (!incorrectTest() && !correctTest()) {
         printf("tests failed!");
         return -1;
     }
     int errorCode = 0;
-    FILE* file = fopen("file.txt", "r");
-    Node* root = parseFile(file);
+    Node* root = parseFileName("file.txt", errorCode);
     if (errorCode == -2) {
         printf("unable to open main file\n");
     }
@@ -25,6 +24,11 @@ int main(void) {
     if (errorCode == -1) {
         freeTree(root);
         printf("node is empty!");
+        return -1;
+    }
+    if (errorCode == -3) {
+        freeTree(root);
+        printf("Unknown operation in file");
         return -1;
     }
     printf("resulOfCalculation: %d", resulOfCalculation);

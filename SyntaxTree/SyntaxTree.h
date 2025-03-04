@@ -5,8 +5,8 @@ typedef struct Node Node;
 // Remove tree
 void freeTree(Node* node);
 
-// Fill a parse tree with an arithmetic expression
-Node* parseFile(char* nameOfFile);
+// open file and parse it
+Node* parseFileName(const char* fileName, int* errorCode);
 
 // Print tree
 void printTree(Node* node);

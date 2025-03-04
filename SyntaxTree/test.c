@@ -8,16 +8,13 @@ bool correctTest(void) {
     int correctAnswer = 4;
     int errorCode = 0;
     
-    FILE* file = fopen("fileForFirstTest.txt", "r");
-    if (!file) {
-        printf("Unable to open test file");
-        return false;
+    Node* root = parseFileName("fileCorrectTest.txt", &errorCode);
+    if (errorCode == -2) {
+        printf("unable to open main file\n");
     }
-    Node* root = parseFile(file);
-    
+
     if (root == NULL) {
         printf("root is empty\n");
-        fclose(file);
         return false;
     }
 
@@ -29,34 +26,34 @@ bool correctTest(void) {
     if (errorCode == -1) {
         printf("node is empty!");
         freeTree(root);
-        fclose(file);
+        return false;
+    }
+    if (errorCode == -3) {
+        printf("Unknown operation in file");
+        freeTree(root);
         return false;
     }
     if (resulOfCalculation != correctAnswer) {
         printf("incorrect resul of calculation: %d", resulOfCalculation);
         freeTree(root);
-        fclose(file);
         return false;
     }
     
     freeTree(root);
-    fclose(file);
     return true;
 }
 
 bool incorrectTest(void) {
-    FILE* file = fopen("fileForSecondTest.txt", "r");
-    if (!file) {
-        printf("Unable to open test file");
-        return false;
+    int* errorCode = 0;
+    Node* root = parseFileName("fileCorrectTest.txt", &errorCode);
+
+    if (errorCode == -2) {
+        printf("unable to open main file\n");
     }
-    Node* root = parseFile(file);
 
     if (root != NULL) {
-        fclose(file);
         return false;
     }
 
-    fclose(file);
     return true;
 }

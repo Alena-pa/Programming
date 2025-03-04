@@ -41,6 +41,8 @@ bool isOperation(char value) {
     return value == '+' || value == '*' || value == '/' || value == '-';
 }
 
+Node* parseFile(FILE* file);
+
 Node* parseOperand(FILE* file) {
     int ch = getc(file);
     while (ch == ' ') { 
@@ -92,6 +94,17 @@ Node* parseFile(FILE* file) {
     return root;
 }
 
+Node* parseFileName(const char* fileName, int* errorCode) {
+    FILE* file = fopen(fileName, "r");
+    if (file == NULL) {
+        *errorCode = -2;
+        return NULL;
+    }
+    Node* root = parseFile(file);
+    fclose(file);
+    return root;
+}
+
 void printTree(Node* node) {
     if (node == NULL) {
         return;
@@ -116,11 +129,11 @@ int calculate(Node* node, int* errorCode) {
     }
 
     int leftValue = calculate(node->leftChild, errorCode);
-    if (errorCode == -1) {
+    if (*errorCode == -1) {
         return -1;
     }
     int rightValue = calculate(node->rightChild, errorCode);
-    if (errorCode == -1) {
+    if (*errorCode == -1) {
         return -1;
     }
 
@@ -134,7 +147,8 @@ int calculate(Node* node, int* errorCode) {
     case '/':
         return leftValue / rightValue;
     default:
-        printf("Unknown operation: %s\n", node->operation);
+        *errorCode = -3;
+        return -1;
     }
 }
 

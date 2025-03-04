@@ -138,8 +138,8 @@
   </ItemGroup>
   <ItemGroup>
     <Text Include="file.txt" />
-    <Text Include="fileForFirstTest.txt" />
-    <Text Include="fileForSecondTest.txt" />
+    <Text Include="fileCorrectTest.txt" />
+    <Text Include="fileIncorrectTest.txt" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
