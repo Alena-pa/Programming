@@ -38,11 +38,11 @@ bool testSaveNameAndPhone(void) {
         {"Bob", "67890"}
     };
     int errorCode = 0;
-    if (SaveNameAndPhone(records, 2, &errorCode)) {
+    if (saveNameAndPhone(records, 2, &errorCode)) {
         return true;
     }
     else {
-        printf("Error at function SaveNameAndPhone\n");
+        printf("Error at function saveNameAndPhone\n");
     }
 }
 

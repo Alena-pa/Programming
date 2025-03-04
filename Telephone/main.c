@@ -42,19 +42,27 @@ int main() {
         case 3:
             printf("Enter the name whose phone number you want to find: ");
             scanf("%s", nameToFind, 80);
-            if (!findPhoneByName(records, numberOfRecords, nameToFind)) {
-                printf("Can`t find phone\n");
+            char* phone = findPhoneByName(records, numberOfRecords, nameToFind);
+            if (phone == NULL) {
+                printf("Can`t find name\n");
+            }
+            else {
+                printf("Phone: %s\n", phone);
             }
             break;
         case 4:
             printf("Enter the phone number by which you want to find the name: ");
             scanf("%s", phoneToFind, 20);
-            if (!findNameByPhone(records, numberOfRecords, phoneToFind)) {
+            char* name = findNameByPhone(records, numberOfRecords, phoneToFind);
+            if (name == NULL) {
                 printf("Can`t find name\n");
+            }
+            else {
+                printf("Name: %s\n", name);
             }
             break;
         case 5:
-            if (SaveNameAndPhone(records, numberOfRecords, &errorCode)) {
+            if (saveNameAndPhone(records, numberOfRecords, &errorCode)) {
                 printf("Data saved\n");
             }
             else {

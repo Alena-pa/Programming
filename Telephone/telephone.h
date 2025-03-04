@@ -13,13 +13,13 @@ void printAllRecords(Record* records, int numberOfRecords);
 void writeToRecord(Record* records, int* numberOfRecords, char* name, char* phone);
 
 // Function to save records to a file
-bool SaveNameAndPhone(Record* records, int numberOfRecords, int* errorCode);
+bool saveNameAndPhone(Record* records, int numberOfRecords, int* errorCode);
 
 // Function to find a phone number by name
-bool findPhoneByName(Record* records, int numberOfRecords, char* nameToFound);
+char* findPhoneByName(Record* records, int numberOfRecords, char* nameToFind);
 
 // Function to find a name by phone number
-bool findNameByPhone(Record* records, int numberOfRecords, char* phoneToFound);
+char* findNameByPhone(Record* records, int numberOfRecords, char* phoneToFind);
 
 // Function to display instructions to the user
 void printInstructionToProgram(void);

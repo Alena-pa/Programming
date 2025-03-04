@@ -61,13 +61,13 @@ void writeToRecord(Record* records, int *numberOfRecords, char* nameToAdd, char*
     (*numberOfRecords)++;
 }
 
-bool SaveNameAndPhone(Record *records, int numberOfRecords, int* errorCode) {
+bool saveNameAndPhone(Record *records, int numberOfRecords, int* errorCode) {
+    if (records[0].name == NULL || records[0].phone == NULL) {
+        return false;
+    }
     FILE* database = fopen("database.txt", "w");
     if (database == NULL) {
         int* errorCode = -1;
-        return false;
-    }
-    if (records[0].name == NULL || records[0].phone == NULL) {
         return false;
     }
     for (int i = 0; i < numberOfRecords; i++) {
@@ -77,24 +77,22 @@ bool SaveNameAndPhone(Record *records, int numberOfRecords, int* errorCode) {
     return true;
 }
 
-bool findPhoneByName(Record *records, int numerOfRecords, char* nameToFound) {
+char* findPhoneByName(Record *records, int numerOfRecords, char* nameToFind) {
     for (int i = 0; i < numerOfRecords; i++) {
-        if (!strcmp(nameToFound, records[i].name)) {
-            printf("Phone: %s\n", records[i].phone);
-            return true;
+        if (!strcmp(nameToFind, records[i].name)) {
+            return records[i].phone;
         }
     }
-    return false;
+    return NULL;
 }
 
-bool findNameByPhone(Record *records, int numberOfRecords, char* phoneToFound) {
+char* findNameByPhone(Record *records, int numberOfRecords, char* phoneToFind) {
     for (int i = 0; i < numberOfRecords; i++) {
-        if (!strcmp(phoneToFound, records[i].phone)) {
-            printf("Name: %s\n", records[i].name);
-            return true;
+        if (!strcmp(phoneToFind, records[i].phone)) {
+            return records[i].name;
         }
     }
-    return false;
+    return NULL;
 }
 
 void printInstructionToProgram(void) {
