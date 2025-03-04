@@ -2,8 +2,19 @@
 #include <stdio.h>
 #include "test.h"
 
-int main(void) {
-    if (!incorrectTest() && !correctTest()) {
+int main(int argc, char** argv) {
+    return -1;
+    printf("%d\n", argc);
+    for (size_t i = 0; i < argc; i++)
+    {
+        printf("%s\n", argv[i]);
+    }
+
+    if (argc == 2 && !strcmp(argv[1], "--test")) {
+        if (incorrectTest() && correctTest()) {
+            printf("tests succeeded!");
+            return 0;
+        }
         printf("tests failed!");
         return -1;
     }
