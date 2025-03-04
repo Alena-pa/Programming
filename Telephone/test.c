@@ -22,7 +22,7 @@ bool testReadFromFile(void) {
 bool testWriteToRecord(void) {
     Record* records[10];
     int numRecords = 0;
-    writeToRecord(records, &numRecords);
+    writeToRecord(records, &numRecords, "Alice", "12345");
     if (numRecords > 0) {
         return true;
     }

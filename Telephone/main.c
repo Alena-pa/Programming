@@ -5,13 +5,17 @@
 int main() {
     if (!allTests()) {
         printf("Tests failed!");
-        return - 1;
+        return -1;
     }
     int operationNumber = -1;
-    Record* records[100] = {NULL};
+    Record* records[100] = { NULL };
     int numberOfRecords = readFromFile(records);
-    char nameToFind[80] = { 0 };
-    char phoneToFind[20] = { 0 };
+    char* nameToFind[80] = { 0 };
+    char* phoneToFind[20] = { 0 };
+
+    char* name[80] = { 0 };
+    char* phone[20] = { 0 };
+
     int errorCode = 0;
     if (numberOfRecords == -1) {
         return 1;
@@ -25,7 +29,12 @@ int main() {
             printf("This is the end of the programm!\n");
             break;
         case 1:
-            writeToRecord(records, &numberOfRecords);
+
+            printf("Enter name: ");
+            scanf("%80s", name);
+            printf("Enter phone number: ");
+            scanf("%20s", phone);
+            writeToRecord(records, &numberOfRecords, name, phone);
             break;
         case 2:
             printAllRecords(records, numberOfRecords);

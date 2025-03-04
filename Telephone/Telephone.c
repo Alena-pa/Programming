@@ -50,15 +50,14 @@ void printAllRecords(Record *records, int numberOfRecords) {
     }
 }
 
-void writeToRecord(Record* records, int *numberOfRecords) {
+void writeToRecord(Record* records, int *numberOfRecords, char* nameToAdd, char* phoneToAdd) {
     if (*numberOfRecords >= 100) {
         printf("Too many names and numbers\n");
         return;
     }
-    printf("Enter name: ");
-    scanf("%80s", records[*numberOfRecords].name);
-    printf("Enter phone number: ");
-    scanf("%20s", records[*numberOfRecords].phone);
+
+    strcpy(records[*numberOfRecords].name, nameToAdd);
+    strcpy(records[*numberOfRecords].phone, phoneToAdd);
     (*numberOfRecords)++;
 }
 

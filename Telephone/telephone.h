@@ -10,7 +10,7 @@ int readFromFile(Record* records);
 void printAllRecords(Record* records, int numberOfRecords);
 
 // Function to add a new record
-void writeToRecord(Record* records, int* numberOfRecords);
+void writeToRecord(Record* records, int* numberOfRecords, char* name, char* phone);
 
 // Function to save records to a file
 bool SaveNameAndPhone(Record* records, int numberOfRecords, int* errorCode);
