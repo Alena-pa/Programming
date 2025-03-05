@@ -45,7 +45,7 @@ bool correctTest(void) {
 
 bool incorrectTest(void) {
     int* errorCode = 0;
-    Node* root = parseFileName("fileCorrectTest.txt", &errorCode);
+    Node* root = parseFileName("fileIncorrectTest.txt", &errorCode);
 
     if (errorCode == -2) {
         printf("unable to open main file\n");

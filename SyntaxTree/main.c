@@ -14,7 +14,7 @@ int main(int argc, char** argv) {
             printf("Incorrect test failed!");
             return -1;
         }
-        if (correctTest()) {
+        if (!correctTest()) {
             printf("Correct test failed!");
             return -1;
         }
