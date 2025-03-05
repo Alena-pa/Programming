@@ -3,7 +3,6 @@
 #include "test.h"
 
 int main(int argc, char** argv) {
-    return -1;
     printf("%d\n", argc);
     for (size_t i = 0; i < argc; i++)
     {
@@ -11,12 +10,16 @@ int main(int argc, char** argv) {
     }
 
     if (argc == 2 && !strcmp(argv[1], "--test")) {
-        if (incorrectTest() && correctTest()) {
-            printf("tests succeeded!");
-            return 0;
+        if (!incorrectTest()) {
+            printf("Incorrect test failed!");
+            return -1;
         }
-        printf("tests failed!");
-        return -1;
+        if (correctTest()) {
+            printf("Correct test failed!");
+            return -1;
+        }
+        printf("tests succeded");
+        return 0;
     }
     int errorCode = 0;
     Node* root = parseFileName("file.txt", errorCode);
