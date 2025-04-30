@@ -1,0 +1,4 @@
+This is a simple example. This example is used to test the hash table. 
+The hash table stores words and counts how many times each word appears. 
+A hash table can be very efficient for counting words in large texts.
+Efficiency matters when analyzing texts with many words. This is an example of such a task.
